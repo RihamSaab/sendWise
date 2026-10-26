@@ -103,7 +103,7 @@ const StyledSidebar = styled.aside`
   top: 0;
   display: flex;
   flex-direction: column;
-  width: 250px;
+  min-width: 250px;
   height: 100vh;
   padding: 28px 18px 20px;
   flex-shrink: 0;
