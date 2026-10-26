@@ -263,7 +263,7 @@ export default function Savings({ defaultValues, onSuccess }: SavingsProps) {
               <EmptyTitle>No goals added yet</EmptyTitle>
               <EmptyDescription>
                 Add a goal to keep track of how much you need and how much
-                you've already saved.
+                you&apos;ve already saved.
               </EmptyDescription>
             </EmptyState>
           ) : (

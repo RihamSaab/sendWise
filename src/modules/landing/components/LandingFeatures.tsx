@@ -38,7 +38,7 @@ export default function LandingFeatures() {
         <SectionTitle>
           Everything you need.
           <br />
-          <SectionTitleAccent>Nothing you don't.</SectionTitleAccent>
+          <SectionTitleAccent>Nothing you don&apos;t.</SectionTitleAccent>
         </SectionTitle>
 
         <SectionDescription>
