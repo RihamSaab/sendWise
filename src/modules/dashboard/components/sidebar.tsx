@@ -6,7 +6,9 @@ import {
   ArrowLeftRight,
   Wallet,
   Settings,
-  CircleHelp,
+  TrendingUp,
+  Receipt,
+  Target,
   UserRound,
 } from "lucide-react";
 
@@ -25,9 +27,19 @@ const navigationItems = [
     icon: ArrowLeftRight,
   },
   {
-    label: "Budgets",
-    href: "/dashboard/budgets",
-    icon: Wallet,
+    label: "Income",
+    href: "/dashboard/income",
+    icon: TrendingUp,
+  },
+  {
+    label: "Expenses",
+    href: "/dashboard/expenses",
+    icon: Receipt,
+  },
+  {
+    label: "Goals",
+    href: "/dashboard/goals",
+    icon: Target,
   },
   {
     label: "Settings",
@@ -75,11 +87,6 @@ export default function Sidebar() {
       </StyledSidebar_Navigation>
 
       <StyledSidebar_Bottom>
-        <StyledSidebar_HelpLink href="/dashboard/help">
-          <CircleHelp size={18} strokeWidth={1.8} />
-          Help & Support
-        </StyledSidebar_HelpLink>
-
         <StyledSidebar_Profile>
           <StyledSidebar_Avatar>
             <UserRound size={19} strokeWidth={1.8} />
@@ -220,23 +227,6 @@ const StyledSidebar_Bottom = styled.div`
 
   @media (max-width: 640px) {
     display: none;
-  }
-`;
-
-const StyledSidebar_HelpLink = styled(Link)`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-height: 42px;
-  padding: 0 12px;
-  border-radius: 10px;
-  color: var(--color-text-secondary);
-  font-size: 13px;
-  transition: background 180ms ease;
-
-  &:hover {
-    background: var(--color-background);
-    color: var(--color-primary);
   }
 `;
 

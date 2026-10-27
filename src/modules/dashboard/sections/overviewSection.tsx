@@ -1,7 +1,22 @@
-import BalanceCard from "../components/balanceCard";
+"use client";
+
+import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 
+import { transactionQueries } from "@/api/transactions";
+
+import BalanceCard from "../components/balanceCard";
+
 export default function OverviewSection() {
+  const { data: settings } = useQuery(transactionQueries.settings());
+  const { data: summary } = useQuery(transactionQueries.summary());
+
+  const currency = settings?.currency ?? "USD";
+  const startingBalance = Number(settings?.starting_balance ?? 0);
+  const income = summary?.income ?? 0;
+  const expenses = summary?.expenses ?? 0;
+  const balance = startingBalance + income - expenses;
+
   return (
     <StyledOverviewSection>
       <StyledOverviewSection_Heading>
@@ -9,9 +24,9 @@ export default function OverviewSection() {
       </StyledOverviewSection_Heading>
 
       <StyledOverviewSection_Cards>
-        <BalanceCard title="Total Balance" amount={5250} />
-        <BalanceCard title="Income" amount={3200} />
-        <BalanceCard title="Expenses" amount={1450} />
+        <BalanceCard title="Total Balance" amount={balance} currency={currency} />
+        <BalanceCard title="Income" amount={income} currency={currency} />
+        <BalanceCard title="Expenses" amount={expenses} currency={currency} />
       </StyledOverviewSection_Cards>
     </StyledOverviewSection>
   );

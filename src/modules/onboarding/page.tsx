@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 
@@ -31,6 +32,8 @@ import Review from "./components/review";
 const today = new Date().toLocaleDateString("en-CA");
 
 export default function OnboardingPage() {
+  const router = useRouter();
+
   const onboardingQuery = useQuery({
     queryKey: ["onboarding"],
     queryFn: getOnboardingData,
@@ -41,6 +44,13 @@ export default function OnboardingPage() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const savedSettings = onboardingQuery.data?.settings;
+
+  // Users who already completed onboarding go straight to the dashboard.
+  useEffect(() => {
+    if (savedSettings?.onboarding_completed) {
+      router.replace("/dashboard");
+    }
+  }, [savedSettings?.onboarding_completed, router]);
 
   const incomeValues: Array<IncomeDraft> = (
     onboardingQuery.data?.incomeSources ?? []
@@ -78,8 +88,9 @@ export default function OnboardingPage() {
   const finishMutation = useMutation({
     mutationFn: completeOnboarding,
     onSuccess: async () => {
-      await onboardingQuery.refetch();
       setErrorMessage("");
+      await onboardingQuery.refetch();
+      router.replace("/dashboard");
     },
     onError: () => {
       setErrorMessage("We couldn't finish your setup. Please try again.");
@@ -189,12 +200,6 @@ export default function OnboardingPage() {
       {errorMessage ? (
         <ErrorMessage role="alert">{errorMessage}</ErrorMessage>
       ) : null}
-
-      {currentStep === ONBOARDING_STEP.REVIEW && finishMutation.isSuccess ? (
-        <SuccessMessage role="status">
-          Your onboarding setup is complete!
-        </SuccessMessage>
-      ) : null}
     </OnboardingLayout>
   );
 }
@@ -214,10 +219,4 @@ const ErrorMessage = styled.p`
   color: #b42318;
   font-size: 0.875rem;
   line-height: 1.5;
-`;
-
-const SuccessMessage = styled.p`
-  margin-top: 20px;
-  color: #244b3b;
-  font-weight: 600;
 `;

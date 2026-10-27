@@ -5,6 +5,9 @@ import { pool } from "./database.js";
 import transactionsRouter from "./routes/transactions.js";
 import categoriesRouter from "./routes/categories.js";
 import settingsRouter from "./routes/settings.js";
+import incomeSourcesRouter from "./routes/incomeSources.js";
+import fixedExpensesRouter from "./routes/fixedExpenses.js";
+import financialGoalsRouter from "./routes/financialGoals.js";
 
 dotenv.config();
 
@@ -16,6 +19,9 @@ app.use(express.json());
 app.use("/api/transactions", transactionsRouter);
 app.use("/api/categories", categoriesRouter);
 app.use("/api/settings", settingsRouter);
+app.use("/api/income-sources", incomeSourcesRouter);
+app.use("/api/fixed-expenses", fixedExpensesRouter);
+app.use("/api/financial-goals", financialGoalsRouter);
 
 app.get("/api/health/database", async (_req, res) => {
   try {

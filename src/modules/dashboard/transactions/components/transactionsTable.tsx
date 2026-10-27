@@ -1,18 +1,26 @@
 "use client";
 
 import styled from "styled-components";
+
 import type { ApiTransaction } from "@/api/transactions";
+import { formatCurrency } from "@/shared/formatCurrency";
 
 type TransactionsTableProps = {
   transactions: Array<ApiTransaction>;
+  currency: string;
   isPending: boolean;
   error: Error | null;
+  onEdit: (transaction: ApiTransaction) => void;
+  onDelete: (transaction: ApiTransaction) => void;
 };
 
 export default function TransactionsTable({
   transactions,
+  currency,
   isPending,
   error,
+  onEdit,
+  onDelete,
 }: TransactionsTableProps) {
   return (
     <StyledTransactionsPage_TableCard>
@@ -24,6 +32,9 @@ export default function TransactionsTable({
               <th>Category</th>
               <th>Date</th>
               <th>Amount</th>
+              <StyledTransactionsPage_ActionsHeader scope="col">
+                <span className="visually-hidden">Actions</span>
+              </StyledTransactionsPage_ActionsHeader>
             </tr>
           </thead>
 
@@ -50,12 +61,28 @@ export default function TransactionsTable({
                     $income={transaction.type === "income"}
                   >
                     {transaction.type === "income" ? "+" : "−"}
-                    {Number(transaction.amount).toLocaleString("en-US", {
-                      style: "currency",
-                      currency: "USD",
-                    })}
+                    {formatCurrency(transaction.amount, currency)}
                   </StyledTransactionsPage_Amount>
                 </td>
+
+                <StyledTransactionsPage_ActionsCell>
+                  <StyledTransactionsPage_RowButton
+                    type="button"
+                    onClick={() => onEdit(transaction)}
+                    aria-label={`Edit ${transaction.title}`}
+                  >
+                    Edit
+                  </StyledTransactionsPage_RowButton>
+
+                  <StyledTransactionsPage_RowButton
+                    type="button"
+                    $danger
+                    onClick={() => onDelete(transaction)}
+                    aria-label={`Delete ${transaction.title}`}
+                  >
+                    Delete
+                  </StyledTransactionsPage_RowButton>
+                </StyledTransactionsPage_ActionsCell>
               </tr>
             ))}
           </tbody>
@@ -149,4 +176,50 @@ const StyledTransactionsPage_Empty = styled.p`
   margin: 0;
   color: var(--color-text-secondary);
   text-align: center;
+`;
+
+const StyledTransactionsPage_ActionsHeader = styled.th`
+  width: 1%;
+  text-align: right;
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+`;
+
+const StyledTransactionsPage_ActionsCell = styled.td`
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  white-space: nowrap;
+`;
+
+const StyledTransactionsPage_RowButton = styled.button<{ $danger?: boolean }>`
+  min-height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-surface);
+  color: ${({ $danger }) =>
+    $danger ? "var(--color-error)" : "var(--color-text)"};
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--color-background);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
 `;

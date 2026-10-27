@@ -59,3 +59,9 @@ credentials.json
 *.sql
 *.dump
 *.backup
+
+# IDE
+.idea/
+
+# Local Claude Code workspace
+.claude/

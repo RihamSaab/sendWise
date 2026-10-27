@@ -8,7 +8,13 @@ const router = Router();
 router.get("/", async (_req, res) => {
   try {
     const result = await pool.query(`
-      SELECT currency
+      SELECT
+        currency,
+        starting_balance,
+        TO_CHAR(tracking_start_date, 'YYYY-MM-DD') AS tracking_start_date,
+        savings_percentage,
+        savings_basis,
+        onboarding_completed
       FROM settings
       WHERE id = 1
     `);
@@ -111,6 +117,113 @@ router.get("/onboarding", async (_req, res) => {
     res.status(500).json({
       message: "Failed to fetch onboarding data",
     });
+  }
+});
+
+// PUT /api/settings
+// Update settings post-onboarding.
+router.put("/", async (req, res) => {
+  const {
+    currency,
+    starting_balance,
+    tracking_start_date,
+    savings_percentage,
+    savings_basis,
+  } = req.body;
+
+  if (typeof currency !== "string" || !/^[A-Z]{3}$/.test(currency)) {
+    res.status(400).json({
+      message: "Currency must be a valid three-letter uppercase code.",
+    });
+    return;
+  }
+
+  if (
+    starting_balance === undefined ||
+    starting_balance === null ||
+    (typeof starting_balance !== "number" &&
+      typeof starting_balance !== "string") ||
+    String(starting_balance).trim() === "" ||
+    !/^\d+(\.\d{1,2})?$/.test(String(starting_balance).trim()) ||
+    !Number.isFinite(Number(starting_balance)) ||
+    Number(starting_balance) < 0 ||
+    Number(starting_balance) > 9999999999.99
+  ) {
+    res.status(400).json({
+      message:
+        "Starting balance must be non-negative with up to two decimal places.",
+    });
+    return;
+  }
+
+  if (
+    typeof tracking_start_date !== "string" ||
+    !/^\d{4}-\d{2}-\d{2}$/.test(tracking_start_date) ||
+    !isValidDate(tracking_start_date)
+  ) {
+    res.status(400).json({
+      message: "Tracking start date must be a valid YYYY-MM-DD date.",
+    });
+    return;
+  }
+
+  if (
+    (typeof savings_percentage !== "number" &&
+      typeof savings_percentage !== "string") ||
+    String(savings_percentage).trim() === "" ||
+    !/^\d+(\.\d{1,2})?$/.test(String(savings_percentage).trim()) ||
+    !Number.isFinite(Number(savings_percentage)) ||
+    Number(savings_percentage) < 0 ||
+    Number(savings_percentage) > 100
+  ) {
+    res.status(400).json({
+      message: "Savings percentage must be between 0 and 100.",
+    });
+    return;
+  }
+
+  if (!["income", "current_savings"].includes(savings_basis)) {
+    res.status(400).json({
+      message: "Savings basis must be income or current_savings.",
+    });
+    return;
+  }
+
+  try {
+    const result = await pool.query(
+      `UPDATE settings
+       SET
+         currency = $1,
+         starting_balance = $2,
+         tracking_start_date = $3::date,
+         savings_percentage = $4,
+         savings_basis = $5
+       WHERE id = 1
+       RETURNING
+         currency,
+         starting_balance,
+         TO_CHAR(tracking_start_date, 'YYYY-MM-DD') AS tracking_start_date,
+         savings_percentage,
+         savings_basis,
+         onboarding_completed`,
+      [
+        currency,
+        String(starting_balance).trim(),
+        tracking_start_date,
+        String(savings_percentage).trim(),
+        savings_basis,
+      ],
+    );
+
+    if (result.rows.length === 0) {
+      res.status(404).json({ message: "Settings not found." });
+      return;
+    }
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error("Failed to update settings:", error);
+    res.status(500).json({ message: "Failed to update settings." });
   }
 });
 

@@ -1,5 +1,9 @@
+"use client";
+
+import { useQuery } from "@tanstack/react-query";
 import styled, { keyframes } from "styled-components";
 
+import { transactionQueries } from "@/api/transactions";
 import theme from "@/styles/theme";
 
 const previewBars = [
@@ -13,6 +17,15 @@ const previewBars = [
 ];
 
 export default function LandingHero() {
+  const { data: settings } = useQuery({
+    ...transactionQueries.settings(),
+    retry: false,
+  });
+
+  const hasPlan = settings?.onboarding_completed === true;
+  const ctaHref = hasPlan ? "/dashboard" : "/onboarding";
+  const ctaLabel = hasPlan ? "Open my dashboard" : "Create my financial plan";
+
   return (
     <Hero>
       <HeroContent>
@@ -31,8 +44,8 @@ export default function LandingHero() {
         </HeroDescription>
 
         <HeroActions>
-          <PrimaryButton href="/onboarding">
-            Create my financial plan
+          <PrimaryButton href={ctaHref}>
+            {ctaLabel}
             <ButtonArrow aria-hidden="true">↗</ButtonArrow>
           </PrimaryButton>
 

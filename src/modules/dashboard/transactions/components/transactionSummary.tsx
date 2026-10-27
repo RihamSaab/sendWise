@@ -2,24 +2,22 @@
 
 import styled from "styled-components";
 
+import { formatCurrency } from "@/shared/formatCurrency";
+
 type TransactionSummaryProps = {
   income: number;
   expenses: number;
   net: number;
+  currency: string;
   isPending: boolean;
   error: Error | null;
 };
-
-const formatCurrency = (amount: number) =>
-  amount.toLocaleString("en-US", {
-    style: "currency",
-    currency: "USD",
-  });
 
 export default function TransactionSummary({
   income,
   expenses,
   net,
+  currency,
   isPending,
   error,
 }: TransactionSummaryProps) {
@@ -29,21 +27,21 @@ export default function TransactionSummary({
         <StyledSummary_Card>
           <StyledSummary_Label>Total income</StyledSummary_Label>
           <StyledSummary_Amount>
-            {isPending ? "Loading..." : formatCurrency(income)}
+            {isPending ? "Loading..." : formatCurrency(income, currency)}
           </StyledSummary_Amount>
         </StyledSummary_Card>
 
         <StyledSummary_Card>
           <StyledSummary_Label>Total expenses</StyledSummary_Label>
           <StyledSummary_Amount>
-            {isPending ? "Loading..." : formatCurrency(expenses)}
+            {isPending ? "Loading..." : formatCurrency(expenses, currency)}
           </StyledSummary_Amount>
         </StyledSummary_Card>
 
         <StyledSummary_Card>
           <StyledSummary_Label>Net total</StyledSummary_Label>
           <StyledSummary_Amount>
-            {isPending ? "Loading..." : formatCurrency(net)}
+            {isPending ? "Loading..." : formatCurrency(net, currency)}
           </StyledSummary_Amount>
         </StyledSummary_Card>
       </StyledSummary>

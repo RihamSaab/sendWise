@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import { formatCurrency } from "@/shared/formatCurrency";
+
 type BalanceCardProps = {
   title: string;
   amount: number;
@@ -11,16 +13,11 @@ export default function BalanceCard({
   amount,
   currency = "USD",
 }: BalanceCardProps) {
-  const formattedAmount = amount.toLocaleString("en-US", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-
   return (
     <StyledBalanceCard>
       <StyledBalanceCard_Title>{title}</StyledBalanceCard_Title>
       <StyledBalanceCard_Amount>
-        {currency} {formattedAmount}
+        {formatCurrency(amount, currency)}
       </StyledBalanceCard_Amount>
     </StyledBalanceCard>
   );
@@ -41,7 +38,6 @@ const StyledBalanceCard = styled.article`
     transform: translateY(-2px);
     box-shadow: 0 6px 18px rgb(37 41 35 / 6%);
   }
-  
 `;
 
 const StyledBalanceCard_Title = styled.h3`

@@ -6,7 +6,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import styled from "styled-components";
 
-import { transactionQueries, useCreateTransaction } from "@/api/transactions";
+import {
+  transactionQueries,
+  useCreateTransaction,
+  useUpdateTransaction,
+  type ApiTransaction,
+} from "@/api/transactions";
 import Select from "@/designSystem/select";
 
 import {
@@ -30,13 +35,41 @@ function getLocalDate(): string {
   return `${year}-${month}-${day}`;
 }
 
+function buildDefaultValues(
+  transaction: ApiTransaction | null,
+): TransactionFormValues {
+  if (!transaction) {
+    return {
+      title: "",
+      amount: undefined as unknown as number,
+      type: "expense",
+      category_id: 0,
+      transaction_date: getLocalDate(),
+      notes: "",
+    };
+  }
+
+  return {
+    title: transaction.title,
+    amount: Number(transaction.amount),
+    type: transaction.type,
+    category_id: transaction.category_id,
+    transaction_date: transaction.transaction_date,
+    notes: transaction.notes ?? "",
+  };
+}
+
 type AddTransactionModalProps = {
   onClose: () => void;
+  transaction?: ApiTransaction | null;
 };
 
 export default function AddTransactionModal({
   onClose,
+  transaction = null,
 }: AddTransactionModalProps) {
+  const isEditing = transaction !== null;
+
   const {
     register,
     handleSubmit,
@@ -47,18 +80,13 @@ export default function AddTransactionModal({
   } = useForm<TransactionFormValues>({
     resolver: zodResolver(transactionSchema),
     mode: "onTouched",
-    defaultValues: {
-      title: "",
-      amount: undefined,
-      type: "expense",
-      category_id: 0,
-      transaction_date: getLocalDate(),
-      notes: "",
-    },
+    defaultValues: buildDefaultValues(transaction),
   });
 
-  const createTransactionMutation = useCreateTransaction();
-  const saving = createTransactionMutation.isPending;
+  const createMutation = useCreateTransaction();
+  const updateMutation = useUpdateTransaction();
+  const activeMutation = isEditing ? updateMutation : createMutation;
+  const saving = activeMutation.isPending;
 
   const {
     data: categories = [],
@@ -88,7 +116,7 @@ export default function AddTransactionModal({
     document.documentElement.style.overflow = "hidden";
 
     function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape" && !createTransactionMutation.isPending) {
+      if (event.key === "Escape" && !activeMutation.isPending) {
         onClose();
       }
     }
@@ -100,7 +128,7 @@ export default function AddTransactionModal({
       document.documentElement.style.overflow = previousHtmlOverflow;
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [onClose, createTransactionMutation.isPending]);
+  }, [onClose, activeMutation.isPending]);
 
   function handleTypeChange(value: string) {
     const nextType = value as TransactionType;
@@ -127,30 +155,29 @@ export default function AddTransactionModal({
   }
 
   function onSubmit(values: TransactionFormValues) {
-    createTransactionMutation.mutate(
-      {
-        title: values.title.trim(),
-        amount: values.amount,
-        type: values.type,
-        category_id: values.category_id,
-        transaction_date: values.transaction_date,
-        notes: values.notes.trim() || null,
-      },
-      {
-        onSuccess: () => {
-          reset({
-            title: "",
-            amount: undefined,
-            type: "expense",
-            category_id: 0,
-            transaction_date: getLocalDate(),
-            notes: "",
-          });
+    const payload = {
+      title: values.title.trim(),
+      amount: values.amount,
+      type: values.type,
+      category_id: values.category_id,
+      transaction_date: values.transaction_date,
+      notes: values.notes.trim() || null,
+    };
 
-          onClose();
-        },
-      },
-    );
+    const handleSuccess = () => {
+      reset(buildDefaultValues(null));
+      onClose();
+    };
+
+    if (isEditing && transaction) {
+      updateMutation.mutate(
+        { id: transaction.id, input: payload },
+        { onSuccess: handleSuccess },
+      );
+      return;
+    }
+
+    createMutation.mutate(payload, { onSuccess: handleSuccess });
   }
 
   return (
@@ -170,11 +197,13 @@ export default function AddTransactionModal({
         <StyledTransactionsPage_ModalHeader>
           <div>
             <StyledTransactionsPage_ModalTitle id="add-transaction-title">
-              Add transaction
+              {isEditing ? "Edit transaction" : "Add transaction"}
             </StyledTransactionsPage_ModalTitle>
 
             <StyledTransactionsPage_ModalDescription>
-              Record money coming in or going out.
+              {isEditing
+                ? "Update the details and save your changes."
+                : "Record money coming in or going out."}
             </StyledTransactionsPage_ModalDescription>
           </div>
 
@@ -225,7 +254,7 @@ export default function AddTransactionModal({
           <StyledTransactionsPage_FormRow>
             <StyledTransactionsPage_FormField>
               <StyledTransactionsPage_FormLabel htmlFor="transaction-amount">
-                Amount ($){" "}
+                Amount{" "}
                 <StyledTransactionsPage_Required>
                   *
                 </StyledTransactionsPage_Required>
@@ -358,10 +387,10 @@ export default function AddTransactionModal({
             />
           </StyledTransactionsPage_FormField>
 
-          {createTransactionMutation.error && (
+          {activeMutation.error && (
             <StyledTransactionsPage_FormError role="alert">
-              {createTransactionMutation.error instanceof Error
-                ? createTransactionMutation.error.message
+              {activeMutation.error instanceof Error
+                ? activeMutation.error.message
                 : "Something went wrong while saving your transaction."}
             </StyledTransactionsPage_FormError>
           )}
@@ -381,7 +410,11 @@ export default function AddTransactionModal({
                 saving || areCategoriesPending || categories.length === 0
               }
             >
-              {saving ? "Saving..." : "Save transaction"}
+              {saving
+                ? "Saving..."
+                : isEditing
+                  ? "Save changes"
+                  : "Save transaction"}
             </StyledTransactionsPage_SubmitButton>
           </StyledTransactionsPage_FormActions>
         </StyledTransactionsPage_Form>
@@ -473,7 +506,7 @@ const StyledTransactionsPage_RequiredNote = styled.p`
 `;
 
 const StyledTransactionsPage_Required = styled.span`
-  color: #b54747;
+  color: var(--color-error);
 `;
 
 const StyledTransactionsPage_Optional = styled.span`
@@ -510,7 +543,8 @@ const StyledTransactionsPage_FormInput = styled.input<{
   height: 44px;
   padding: 0 12px;
   border: 1px solid
-    ${({ $hasError }) => ($hasError ? "#b54747" : "var(--color-border)")};
+    ${({ $hasError }) =>
+      $hasError ? "var(--color-error)" : "var(--color-border)"};
   border-radius: 10px;
   outline: none;
   background: var(--color-background);
@@ -520,7 +554,7 @@ const StyledTransactionsPage_FormInput = styled.input<{
 
   &:focus {
     border-color: ${({ $hasError }) =>
-      $hasError ? "#b54747" : "var(--color-primary)"};
+      $hasError ? "var(--color-error)" : "var(--color-primary)"};
     box-shadow: 0 0 0 3px rgb(36 75 59 / 8%);
   }
 `;
@@ -558,7 +592,7 @@ const StyledTransactionsPage_FormRow = styled.div`
 
 const StyledTransactionsPage_FormError = styled.p`
   margin: 0;
-  color: #b54747;
+  color: var(--color-error);
   font-size: 12px;
   line-height: 1.5;
 `;

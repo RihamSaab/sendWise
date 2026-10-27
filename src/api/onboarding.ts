@@ -1,11 +1,4 @@
-import axios from "axios";
-
-const axiosInstance = axios.create({
-  baseURL: "http://localhost:4000/api",
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
+import { apiClient } from "./client";
 
 // Types
 
@@ -88,7 +81,7 @@ export type SaveSavingsInput = {
 // Read saved onboarding data
 
 export async function getOnboardingData(): Promise<OnboardingData> {
-  const response = await axiosInstance.get<OnboardingData>(
+  const response = await apiClient.get<OnboardingData>(
     "/settings/onboarding",
   );
 
@@ -100,11 +93,12 @@ export async function getOnboardingData(): Promise<OnboardingData> {
 export async function saveStartingPoint(
   input: StartingPointInput,
 ): Promise<OnboardingSettings> {
-  const response = await axiosInstance.put<{
-    settings: OnboardingSettings;
-  }>("/settings/onboarding/starting-point", input);
+  const response = await apiClient.put<OnboardingSettings>(
+    "/settings/onboarding/starting-point",
+    input,
+  );
 
-  return response.data.settings;
+  return response.data;
 }
 
 // Step 2: Income sources
@@ -112,7 +106,7 @@ export async function saveStartingPoint(
 export async function saveIncomeSources(
   input: SaveIncomeInput,
 ): Promise<unknown> {
-  const response = await axiosInstance.put(
+  const response = await apiClient.put(
     "/settings/onboarding/income",
     input,
   );
@@ -125,7 +119,7 @@ export async function saveIncomeSources(
 export async function saveFixedExpenses(
   input: SaveFixedExpensesInput,
 ): Promise<unknown> {
-  const response = await axiosInstance.put(
+  const response = await apiClient.put(
     "/settings/onboarding/fixed-expenses",
     input,
   );
@@ -136,7 +130,7 @@ export async function saveFixedExpenses(
 // Step 4: Savings and goals
 
 export async function saveSavings(input: SaveSavingsInput): Promise<unknown> {
-  const response = await axiosInstance.put(
+  const response = await apiClient.put(
     "/settings/onboarding/savings",
     input,
   );
@@ -150,7 +144,7 @@ export async function completeOnboarding(): Promise<{
   onboarding_step: number;
   onboarding_completed: boolean;
 }> {
-  const response = await axiosInstance.put<{
+  const response = await apiClient.put<{
     onboarding_step: number;
     onboarding_completed: boolean;
   }>("/settings/onboarding/complete");

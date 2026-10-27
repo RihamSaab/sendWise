@@ -10,21 +10,20 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-
+import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 
-const monthlyData = [
-  { month: "May", income: 3200, expenses: 1800 },
-  { month: "Jun", income: 3500, expenses: 2100 },
-  { month: "Jul", income: 3100, expenses: 1900 },
-  { month: "Aug", income: 3800, expenses: 2300 },
-  { month: "Sep", income: 3400, expenses: 2000 },
-  { month: "Oct", income: 4000, expenses: 2200 },
-];
-
-const formatCurrency = (amount: number) => `$${amount.toLocaleString("en-US")}`;
+import { transactionQueries } from "@/api/transactions";
+import { formatCurrency } from "@/shared/formatCurrency";
 
 export default function IncomeExpensesSection() {
+  const { data: monthly, isPending, isError } = useQuery(
+    transactionQueries.monthly(),
+  );
+  const { data: settings } = useQuery(transactionQueries.settings());
+
+  const currency = settings?.currency ?? "USD";
+
   return (
     <StyledIncomeExpensesSection>
       <StyledIncomeExpensesSection_Header>
@@ -40,85 +39,98 @@ export default function IncomeExpensesSection() {
       </StyledIncomeExpensesSection_Header>
 
       <StyledIncomeExpensesSection_Chart>
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            data={monthlyData}
-            margin={{ top: 12, right: 8, left: 8, bottom: 0 }}
-            barGap={8}
-          >
-            <CartesianGrid
-              stroke="var(--color-border)"
-              strokeDasharray="3 3"
-              vertical={false}
-            />
+        {isPending ? (
+          <StyledIncomeExpensesSection_Message>
+            Loading chart...
+          </StyledIncomeExpensesSection_Message>
+        ) : isError ? (
+          <StyledIncomeExpensesSection_Message>
+            Could not load monthly totals.
+          </StyledIncomeExpensesSection_Message>
+        ) : monthly && monthly.length > 0 ? (
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={monthly}
+              margin={{ top: 12, right: 8, left: 8, bottom: 0 }}
+              barGap={8}
+            >
+              <CartesianGrid
+                stroke="var(--color-border)"
+                strokeDasharray="3 3"
+                vertical={false}
+              />
 
-            <XAxis
-              dataKey="month"
-              axisLine={false}
-              tickLine={false}
-              tick={{ fill: "var(--color-text-secondary)", fontSize: 12 }}
-              dy={10}
-            />
+              <XAxis
+                dataKey="label"
+                axisLine={false}
+                tickLine={false}
+                tick={{ fill: "var(--color-text-secondary)", fontSize: 12 }}
+                dy={10}
+              />
 
-            <YAxis
-              axisLine={false}
-              tickLine={false}
-              tick={{ fill: "var(--color-text-secondary)", fontSize: 12 }}
-              tickFormatter={(value: number) => `$${value / 1000}k`}
-              width={48}
-            />
+              <YAxis
+                axisLine={false}
+                tickLine={false}
+                tick={{ fill: "var(--color-text-secondary)", fontSize: 12 }}
+                tickFormatter={(value: number) => `${value / 1000}k`}
+                width={48}
+              />
 
-            <Tooltip
-              formatter={(value) => formatCurrency(Number(value))}
-              contentStyle={{
-                backgroundColor: "#FFFFFF",
-                border: "1px solid var(--color-border)",
-                borderRadius: "12px",
-                boxShadow: "0 6px 20px rgb(37 41 35 / 8%)",
-                padding: "12px 14px",
-              }}
-              labelStyle={{
-                color: "var(--color-text)",
-                fontWeight: 600,
-                marginBottom: 6,
-              }}
-              cursor={{ fill: "rgba(36, 75, 59, 0.05)" }}
-            />
+              <Tooltip
+                formatter={(value) => formatCurrency(Number(value), currency)}
+                contentStyle={{
+                  backgroundColor: "#FFFFFF",
+                  border: "1px solid var(--color-border)",
+                  borderRadius: "12px",
+                  boxShadow: "0 6px 20px rgb(37 41 35 / 8%)",
+                  padding: "12px 14px",
+                }}
+                labelStyle={{
+                  color: "var(--color-text)",
+                  fontWeight: 600,
+                  marginBottom: 6,
+                }}
+                cursor={{ fill: "rgba(36, 75, 59, 0.05)" }}
+              />
 
-            <Legend
-              verticalAlign="top"
-              align="right"
-              iconType="circle"
-              iconSize={8}
-              wrapperStyle={{
-                paddingBottom: 24,
-                fontSize: 12,
-                color: "var(--color-text-secondary)",
-              }}
-            />
+              <Legend
+                verticalAlign="top"
+                align="right"
+                iconType="circle"
+                iconSize={8}
+                wrapperStyle={{
+                  paddingBottom: 24,
+                  fontSize: 12,
+                  color: "var(--color-text-secondary)",
+                }}
+              />
 
-            <Bar
-              dataKey="income"
-              name="Income"
-              fill="#244B3B"
-              radius={[5, 5, 0, 0]}
-              maxBarSize={24}
-            />
+              <Bar
+                dataKey="income"
+                name="Income"
+                fill="#244B3B"
+                radius={[5, 5, 0, 0]}
+                maxBarSize={24}
+              />
 
-            <Bar
-              dataKey="expenses"
-              name="Expenses"
-              fill="#D9A477"
-              radius={[5, 5, 0, 0]}
-              maxBarSize={24}
-            />
-          </BarChart>
-        </ResponsiveContainer>
+              <Bar
+                dataKey="expenses"
+                name="Expenses"
+                fill="#D9A477"
+                radius={[5, 5, 0, 0]}
+                maxBarSize={24}
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        ) : (
+          <StyledIncomeExpensesSection_Message>
+            No transactions in the last six months.
+          </StyledIncomeExpensesSection_Message>
+        )}
       </StyledIncomeExpensesSection_Chart>
     </StyledIncomeExpensesSection>
   );
 }
-
 
 const StyledIncomeExpensesSection = styled.section`
   display: flex;
@@ -150,6 +162,8 @@ const StyledIncomeExpensesSection_Description = styled.p`
 `;
 
 const StyledIncomeExpensesSection_Chart = styled.div`
+  display: grid;
+  place-items: center;
   width: 100%;
   height: 340px;
   min-width: 0;
@@ -163,4 +177,11 @@ const StyledIncomeExpensesSection_Chart = styled.div`
     height: 300px;
     padding: 20px 8px 12px;
   }
+`;
+
+const StyledIncomeExpensesSection_Message = styled.p`
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  text-align: center;
 `;

@@ -4,13 +4,16 @@ import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
 
-import { transactionQueries } from "@/api/transactions";
-import type { ApiTransaction } from "@/api/transactions";
+import {
+  transactionQueries,
+  type ApiTransaction,
+} from "@/api/transactions";
 import Pagination from "@/designSystem/pagination";
 import { useTransactionsStore } from "@/stores/transactionsStore";
 
 import useTransactionPagination from "../hooks/useTransactionPagination";
 import AddTransactionModal from "./addTransactionModal";
+import DeleteTransactionDialog from "./deleteTransactionDialog";
 import TransactionsHeader from "./transactionsHeader";
 import TransactionFilters from "./transactionFilters";
 import TransactionsTable from "./transactionsTable";
@@ -18,6 +21,10 @@ import TransactionSummary from "./transactionSummary";
 
 export default function TransactionsList() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingTransaction, setEditingTransaction] =
+    useState<ApiTransaction | null>(null);
+  const [deletingTransaction, setDeletingTransaction] =
+    useState<ApiTransaction | null>(null);
 
   const filters = useTransactionsStore((state) => state.filters);
   const previousFilters = useRef(filters);
@@ -61,31 +68,47 @@ export default function TransactionsList() {
     error: summaryError,
   } = useQuery(transactionQueries.summary());
 
-  function openModal() {
+  const { data: settings } = useQuery(transactionQueries.settings());
+  const currency = settings?.currency ?? "USD";
+
+  function openAddModal() {
+    setEditingTransaction(null);
     setIsModalOpen(true);
+  }
+
+  function openEditModal(transaction: ApiTransaction) {
+    setEditingTransaction(transaction);
+    setIsModalOpen(true);
+  }
+
+  function closeModal() {
+    setIsModalOpen(false);
+    setEditingTransaction(null);
   }
 
   return (
     <StyledTransactionsPage>
-      <TransactionsHeader onAddTransaction={openModal} />
+      <TransactionsHeader onAddTransaction={openAddModal} />
 
       <TransactionSummary
         income={summary.income}
         expenses={summary.expenses}
         net={summary.net}
+        currency={currency}
         isPending={isSummaryPending}
         error={summaryError}
       />
-
-      {summaryError && <p role="alert">Could not load summary totals.</p>}
 
       <section aria-label="Transaction history">
         <TransactionFilters />
 
         <TransactionsTable
           transactions={transactions}
+          currency={currency}
           isPending={areTransactionsPending}
           error={transactionsError}
+          onEdit={openEditModal}
+          onDelete={setDeletingTransaction}
         />
 
         <Pagination
@@ -99,7 +122,17 @@ export default function TransactionsList() {
       </section>
 
       {isModalOpen && (
-        <AddTransactionModal onClose={() => setIsModalOpen(false)} />
+        <AddTransactionModal
+          onClose={closeModal}
+          transaction={editingTransaction}
+        />
+      )}
+
+      {deletingTransaction && (
+        <DeleteTransactionDialog
+          transaction={deletingTransaction}
+          onClose={() => setDeletingTransaction(null)}
+        />
       )}
     </StyledTransactionsPage>
   );

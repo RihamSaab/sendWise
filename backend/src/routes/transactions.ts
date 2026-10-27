@@ -236,6 +236,51 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/monthly", async (_req, res) => {
+  try {
+    const result = await pool.query(`
+      WITH months AS (
+        SELECT generate_series(
+          date_trunc('month', CURRENT_DATE) - INTERVAL '5 months',
+          date_trunc('month', CURRENT_DATE),
+          INTERVAL '1 month'
+        )::date AS month
+      )
+      SELECT
+        TO_CHAR(m.month, 'YYYY-MM') AS month,
+        TO_CHAR(m.month, 'Mon') AS label,
+        COALESCE(
+          SUM(t.amount) FILTER (WHERE t.type = 'income'),
+          0
+        ) AS income,
+        COALESCE(
+          SUM(t.amount) FILTER (WHERE t.type = 'expense'),
+          0
+        ) AS expenses
+      FROM months m
+      LEFT JOIN transactions t
+        ON date_trunc('month', t.transaction_date) = m.month
+      GROUP BY m.month
+      ORDER BY m.month ASC
+    `);
+
+    res.json(
+      result.rows.map((row) => ({
+        month: row.month,
+        label: row.label,
+        income: Number(row.income),
+        expenses: Number(row.expenses),
+      })),
+    );
+  } catch (error) {
+    console.error("Failed to fetch monthly totals:", error);
+
+    res.status(500).json({
+      error: "Failed to fetch monthly totals.",
+    });
+  }
+});
+
 router.get("/category-spending", async (_req, res) => {
   try {
     const result = await pool.query(`
@@ -385,6 +430,145 @@ router.post("/", async (req, res) => {
     res.status(500).json({
       error: "Failed to create transaction.",
     });
+  }
+});
+
+router.put("/:id", async (req, res) => {
+  const id = Number(req.params.id);
+
+  if (!Number.isInteger(id) || id <= 0) {
+    res.status(400).json({ error: "A valid transaction id is required." });
+    return;
+  }
+
+  const { title, amount, type, category_id, transaction_date, notes } =
+    req.body;
+
+  if (typeof title !== "string" || !title.trim() || title.trim().length > 150) {
+    res.status(400).json({
+      error: "A valid title is required (maximum 150 characters).",
+    });
+    return;
+  }
+
+  if (
+    amount === undefined ||
+    amount === null ||
+    (typeof amount === "string" && !amount.trim()) ||
+    (typeof amount !== "string" && typeof amount !== "number") ||
+    !Number.isFinite(Number(amount)) ||
+    Number(amount) <= 0 ||
+    !/^\d+(\.\d{1,2})?$/.test(String(amount).trim())
+  ) {
+    res.status(400).json({
+      error: "Amount must be positive and have at most two decimal places.",
+    });
+    return;
+  }
+
+  if (type !== "income" && type !== "expense") {
+    res.status(400).json({ error: "Type must be income or expense." });
+    return;
+  }
+
+  if (!Number.isInteger(category_id) || category_id <= 0) {
+    res.status(400).json({ error: "A valid category_id is required." });
+    return;
+  }
+
+  if (
+    transaction_date !== undefined &&
+    (typeof transaction_date !== "string" ||
+      !/^\d{4}-\d{2}-\d{2}$/.test(transaction_date) ||
+      !isValidDate(transaction_date))
+  ) {
+    res.status(400).json({
+      error: "Transaction date must be a valid YYYY-MM-DD date.",
+    });
+    return;
+  }
+
+  if (notes !== undefined && notes !== null && typeof notes !== "string") {
+    res.status(400).json({ error: "Notes must be text." });
+    return;
+  }
+
+  try {
+    const result = await pool.query(
+      `UPDATE transactions
+       SET
+         title = $1,
+         amount = $2,
+         type = $3,
+         category_id = $4,
+         transaction_date = COALESCE($5::date, transaction_date),
+         notes = $6
+       WHERE id = $7
+       RETURNING
+         id,
+         title,
+         amount,
+         type,
+         category_id,
+         TO_CHAR(transaction_date, 'YYYY-MM-DD') AS transaction_date,
+         notes,
+         created_at`,
+      [
+        title.trim(),
+        String(amount).trim(),
+        type,
+        category_id,
+        transaction_date ?? null,
+        notes?.trim() || null,
+        id,
+      ],
+    );
+
+    if (result.rows.length === 0) {
+      res.status(404).json({ error: "Transaction not found." });
+      return;
+    }
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    if (
+      typeof error === "object" &&
+      error !== null &&
+      "code" in error &&
+      error.code === "23503"
+    ) {
+      res.status(400).json({ error: "The selected category does not exist." });
+      return;
+    }
+
+    console.error("Failed to update transaction:", error);
+    res.status(500).json({ error: "Failed to update transaction." });
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  const id = Number(req.params.id);
+
+  if (!Number.isInteger(id) || id <= 0) {
+    res.status(400).json({ error: "A valid transaction id is required." });
+    return;
+  }
+
+  try {
+    const result = await pool.query(
+      "DELETE FROM transactions WHERE id = $1 RETURNING id",
+      [id],
+    );
+
+    if (result.rows.length === 0) {
+      res.status(404).json({ error: "Transaction not found." });
+      return;
+    }
+
+    res.status(204).send();
+  } catch (error) {
+    console.error("Failed to delete transaction:", error);
+    res.status(500).json({ error: "Failed to delete transaction." });
   }
 });
 

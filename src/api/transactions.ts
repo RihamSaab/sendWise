@@ -3,14 +3,8 @@ import {
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
-import axios from "axios";
 
-const axiosInstance = axios.create({
-  baseURL: "http://localhost:4000/api",
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
+import { apiClient } from "./client";
 
 export type TransactionType = "income" | "expense";
 
@@ -70,6 +64,11 @@ export type TransactionSummary = {
 
 export type AppSettings = {
   currency: string;
+  starting_balance: string | number;
+  tracking_start_date: string;
+  savings_percentage: string | number;
+  savings_basis: "income" | "current_savings";
+  onboarding_completed: boolean;
 };
 
 export type CategorySpending = {
@@ -77,16 +76,47 @@ export type CategorySpending = {
   amount: number;
 };
 
+export type MonthlyTotal = {
+  month: string;
+  label: string;
+  income: number;
+  expenses: number;
+};
+
 export async function getCategorySpending(): Promise<Array<CategorySpending>> {
-  const response = await axiosInstance.get<Array<CategorySpending>>(
+  const response = await apiClient.get<Array<CategorySpending>>(
     "/transactions/category-spending",
   );
 
   return response.data;
 }
 
+export async function getMonthlyTotals(): Promise<Array<MonthlyTotal>> {
+  const response = await apiClient.get<Array<MonthlyTotal>>(
+    "/transactions/monthly",
+  );
+
+  return response.data;
+}
+
 export async function getSettings(): Promise<AppSettings> {
-  const response = await axiosInstance.get<AppSettings>("/settings");
+  const response = await apiClient.get<AppSettings>("/settings");
+
+  return response.data;
+}
+
+export type UpdateSettingsInput = {
+  currency: string;
+  starting_balance: number;
+  tracking_start_date: string;
+  savings_percentage: number;
+  savings_basis: "income" | "current_savings";
+};
+
+export async function updateSettings(
+  input: UpdateSettingsInput,
+): Promise<AppSettings> {
+  const response = await apiClient.put<AppSettings>("/settings", input);
 
   return response.data;
 }
@@ -95,7 +125,7 @@ export async function getTransactions(
   filters: TransactionFilters = {},
   pagination: TransactionPagination = { page: 1, pageSize: 10 },
 ): Promise<TransactionsResponse> {
-  const response = await axiosInstance.get<TransactionsResponse>(
+  const response = await apiClient.get<TransactionsResponse>(
     "/transactions",
     {
       params: {
@@ -110,7 +140,7 @@ export async function getTransactions(
 }
 
 export async function getTransactionSummary(): Promise<TransactionSummary> {
-  const response = await axiosInstance.get<TransactionSummary>(
+  const response = await apiClient.get<TransactionSummary>(
     "/transactions/summary",
   );
 
@@ -118,7 +148,7 @@ export async function getTransactionSummary(): Promise<TransactionSummary> {
 }
 
 export async function getCategories(): Promise<Array<ApiCategory>> {
-  const response = await axiosInstance.get<Array<ApiCategory>>("/categories");
+  const response = await apiClient.get<Array<ApiCategory>>("/categories");
 
   return response.data;
 }
@@ -126,12 +156,28 @@ export async function getCategories(): Promise<Array<ApiCategory>> {
 export async function createTransaction(
   input: CreateTransactionInput,
 ): Promise<ApiTransaction> {
-  const response = await axiosInstance.post<ApiTransaction>(
+  const response = await apiClient.post<ApiTransaction>(
     "/transactions",
     input,
   );
 
   return response.data;
+}
+
+export async function updateTransaction(
+  id: number,
+  input: CreateTransactionInput,
+): Promise<ApiTransaction> {
+  const response = await apiClient.put<ApiTransaction>(
+    `/transactions/${id}`,
+    input,
+  );
+
+  return response.data;
+}
+
+export async function deleteTransaction(id: number): Promise<void> {
+  await apiClient.delete(`/transactions/${id}`);
 }
 
 export const transactionQueries = {
@@ -169,7 +215,30 @@ export const transactionQueries = {
       queryKey: ["category-spending"] as const,
       queryFn: getCategorySpending,
     }),
+
+  monthly: () =>
+    queryOptions({
+      queryKey: ["transactions-monthly"] as const,
+      queryFn: getMonthlyTotals,
+    }),
 };
+
+function invalidateTransactionLists(
+  queryClient: ReturnType<typeof useQueryClient>,
+) {
+  return Promise.all([
+    queryClient.invalidateQueries({ queryKey: transactionQueries.all }),
+    queryClient.invalidateQueries({
+      queryKey: transactionQueries.summary().queryKey,
+    }),
+    queryClient.invalidateQueries({
+      queryKey: transactionQueries.categorySpending().queryKey,
+    }),
+    queryClient.invalidateQueries({
+      queryKey: transactionQueries.monthly().queryKey,
+    }),
+  ]);
+}
 
 export const useCreateTransaction = () => {
   const queryClient = useQueryClient();
@@ -177,15 +246,48 @@ export const useCreateTransaction = () => {
   return useMutation({
     mutationKey: ["createTransaction"],
     mutationFn: createTransaction,
+    onSuccess: () => invalidateTransactionLists(queryClient),
+  });
+};
 
+export const useUpdateTransaction = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ["updateTransaction"],
+    mutationFn: ({
+      id,
+      input,
+    }: {
+      id: number;
+      input: CreateTransactionInput;
+    }) => updateTransaction(id, input),
+    onSuccess: () => invalidateTransactionLists(queryClient),
+  });
+};
+
+export const useDeleteTransaction = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ["deleteTransaction"],
+    mutationFn: deleteTransaction,
+    onSuccess: () => invalidateTransactionLists(queryClient),
+  });
+};
+
+export const useUpdateSettings = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ["updateSettings"],
+    mutationFn: updateSettings,
     onSuccess: async () => {
       await Promise.all([
         queryClient.invalidateQueries({
-          queryKey: transactionQueries.all,
+          queryKey: transactionQueries.settings().queryKey,
         }),
-        queryClient.invalidateQueries({
-          queryKey: transactionQueries.summary().queryKey,
-        }),
+        queryClient.invalidateQueries({ queryKey: ["onboarding"] }),
       ]);
     },
   });
