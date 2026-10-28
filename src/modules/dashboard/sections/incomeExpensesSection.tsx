@@ -171,10 +171,12 @@ const StyledIncomeExpensesSection_Chart = styled.div`
   height: 340px;
   min-width: 0;
   padding: var(--spacing-lg) var(--spacing-md) var(--spacing-md);
-  border: var(--stroke) solid var(--color-border);
-  border-radius: var(--radius-lg);
-  background: var(--color-surface);
-  box-shadow: var(--elevation-1);
+  border: none;
+  border-radius: var(--radius-xl);
+  background: var(--gradient-surface);
+  box-shadow:
+    var(--specular-top),
+    var(--elevation-1);
 
   @media (max-width: 560px) {
     height: 300px;

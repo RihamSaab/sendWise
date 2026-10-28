@@ -114,9 +114,10 @@ export default function TransactionsTable({
 
 const StyledTransactionsPage_TableCard = styled.div`
   overflow: hidden;
-  border: var(--stroke) solid var(--color-border);
-  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  border: none;
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
   background: var(--color-surface);
+  box-shadow: var(--elevation-1);
 `;
 
 const StyledTransactionsPage_TableScroll = styled.div`

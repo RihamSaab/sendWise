@@ -26,19 +26,21 @@ export default function BalanceCard({
 const StyledBalanceCard = styled.article`
   min-width: 0;
   padding: var(--spacing-lg);
-  border: var(--stroke) solid var(--color-border);
-  border-radius: var(--radius-lg);
-  background: var(--color-surface);
-  box-shadow: var(--elevation-1);
+  border: none;
+  border-radius: var(--radius-xl);
+  background: var(--gradient-surface);
+  box-shadow:
+    var(--specular-top),
+    var(--elevation-1);
   transition:
-    transform 180ms ease,
-    box-shadow 180ms ease,
-    border-color 180ms ease;
+    transform var(--dur-base) var(--ease-silk),
+    box-shadow var(--dur-base) var(--ease-silk);
 
   &:hover {
-    transform: translateY(-2px);
-    border-color: var(--color-border-strong);
-    box-shadow: var(--elevation-2);
+    transform: translateY(-3px);
+    box-shadow:
+      var(--specular-top),
+      var(--elevation-3);
   }
 `;
 

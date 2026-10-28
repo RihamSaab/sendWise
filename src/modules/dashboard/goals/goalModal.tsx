@@ -221,10 +221,12 @@ const Panel = styled.section`
   max-height: calc(100dvh - 40px);
   overflow-y: auto;
   padding: var(--spacing-xl);
-  border: var(--stroke) solid var(--color-border);
-  border-radius: var(--radius-lg);
-  background: var(--color-surface);
-  box-shadow: var(--elevation-3);
+  border: none;
+  border-radius: var(--radius-xl);
+  background: var(--gradient-surface);
+  box-shadow:
+    var(--specular-top),
+    var(--elevation-3);
 
   @media (max-width: 480px) {
     padding: var(--spacing-lg);
@@ -373,22 +375,27 @@ const CancelButton = styled.button`
 const SubmitButton = styled.button`
   min-height: 42px;
   padding: 0 var(--spacing-lg);
-  border: var(--stroke) solid var(--color-primary);
-  border-radius: var(--radius-md);
-  background: var(--color-primary);
+  border: none;
+  border-radius: var(--radius-pill);
+  background: var(--gradient-primary);
+  box-shadow:
+    var(--specular-top-dark),
+    var(--elevation-1);
   color: var(--color-text-on-primary);
   font-size: var(--text-sm);
   font-weight: 600;
   cursor: pointer;
   transition:
-    background 150ms ease,
-    transform 150ms ease,
-    box-shadow 150ms ease;
+    background var(--dur-base) var(--ease-silk),
+    transform var(--dur-base) var(--ease-silk),
+    box-shadow var(--dur-base) var(--ease-silk);
 
   &:hover:not(:disabled) {
-    transform: translateY(-1px);
-    background: var(--color-primary-hover);
-    box-shadow: var(--elevation-2);
+    transform: translateY(-2px);
+    background: var(--gradient-primary-hover);
+    box-shadow:
+      var(--specular-top-dark),
+      var(--elevation-3);
   }
 
   &:disabled {

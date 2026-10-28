@@ -198,10 +198,12 @@ const StyledSpendingCategoriesSection_Card = styled.div`
   gap: var(--spacing-xl);
   min-width: 0;
   padding: var(--spacing-xl);
-  border: var(--stroke) solid var(--color-border);
-  border-radius: var(--radius-lg);
-  background: var(--color-surface);
-  box-shadow: var(--elevation-1);
+  border: none;
+  border-radius: var(--radius-xl);
+  background: var(--gradient-surface);
+  box-shadow:
+    var(--specular-top),
+    var(--elevation-1);
 
   @media (max-width: 760px) {
     grid-template-columns: minmax(0, 1fr);

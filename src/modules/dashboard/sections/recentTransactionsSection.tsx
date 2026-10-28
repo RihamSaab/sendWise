@@ -111,10 +111,12 @@ const StyledRecentTransactionsSection_ViewAll = styled(Link)`
 
 const StyledRecentTransactionsSection_Card = styled.div`
   padding: 0 var(--spacing-lg);
-  border: var(--stroke) solid var(--color-border);
-  border-radius: var(--radius-lg);
-  background: var(--color-surface);
-  box-shadow: var(--elevation-1);
+  border: none;
+  border-radius: var(--radius-xl);
+  background: var(--gradient-surface);
+  box-shadow:
+    var(--specular-top),
+    var(--elevation-1);
 
   @media (max-width: 560px) {
     padding: 0 var(--spacing-md);

@@ -76,10 +76,12 @@ const StyledTransactionsPage_Toolbar = styled.div`
   align-items: center;
   gap: var(--spacing-sm);
   padding: var(--spacing-md);
-  border: var(--stroke) solid var(--color-border);
-  border-bottom: none;
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  background: var(--color-surface);
+  border: none;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  background: var(--gradient-surface);
+  box-shadow:
+    var(--specular-top),
+    inset 0 -1px 0 var(--color-border);
 `;
 
 const StyledTransactionsPage_Search = styled.input`

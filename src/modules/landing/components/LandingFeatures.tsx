@@ -130,19 +130,21 @@ const FeatureCard = styled.article`
   flex-direction: column;
   align-items: flex-start;
   padding: ${theme.spacing.xl};
-  border: ${theme.stroke} solid ${theme.colors.border};
-  border-radius: ${theme.radius.lg};
-  background: ${theme.colors.surface};
-  box-shadow: ${theme.elevation.low};
+  border: none;
+  border-radius: ${theme.radius.xl};
+  background: ${theme.gradient.surface};
+  box-shadow:
+    ${theme.specular.top},
+    ${theme.elevation.low};
   transition:
-    transform 180ms ease,
-    border-color 180ms ease,
-    box-shadow 180ms ease;
+    transform ${theme.duration.base} ${theme.ease.silk},
+    box-shadow ${theme.duration.base} ${theme.ease.silk};
 
   &:hover {
-    transform: translateY(-2px);
-    border-color: ${theme.colors.primary};
-    box-shadow: ${theme.elevation.medium};
+    transform: translateY(-3px);
+    box-shadow:
+      ${theme.specular.top},
+      ${theme.elevation.high};
   }
 `;
 

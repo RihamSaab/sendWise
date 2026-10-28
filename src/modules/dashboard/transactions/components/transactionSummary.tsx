@@ -63,17 +63,21 @@ const StyledSummary = styled.div`
 
 const StyledSummary_Card = styled.article`
   padding: var(--spacing-lg);
-  border: var(--stroke) solid var(--color-border);
-  border-radius: var(--radius-lg);
-  background: var(--color-surface);
-  box-shadow: var(--elevation-1);
+  border: none;
+  border-radius: var(--radius-xl);
+  background: var(--gradient-surface);
+  box-shadow:
+    var(--specular-top),
+    var(--elevation-1);
   transition:
-    border-color 150ms ease,
-    box-shadow 150ms ease;
+    transform var(--dur-base) var(--ease-silk),
+    box-shadow var(--dur-base) var(--ease-silk);
 
   &:hover {
-    border-color: var(--color-border-strong);
-    box-shadow: var(--elevation-2);
+    transform: translateY(-2px);
+    box-shadow:
+      var(--specular-top),
+      var(--elevation-3);
   }
 `;
 

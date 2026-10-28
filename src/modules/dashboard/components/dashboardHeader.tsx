@@ -36,8 +36,8 @@ const Header = styled.header`
   gap: ${theme.spacing.md};
   min-height: 72px;
   padding: ${theme.spacing.lg} ${theme.spacing["2xl"]};
-  border-bottom: ${theme.stroke} solid ${theme.colors.border};
-  background: ${theme.colors.surface};
+  background: ${theme.gradient.surface};
+  box-shadow: 0 1px 0 ${theme.colors.border};
 
   @media (max-width: 768px) {
     padding: ${theme.spacing.md} ${theme.spacing.lg};

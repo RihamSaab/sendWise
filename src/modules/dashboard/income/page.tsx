@@ -252,22 +252,27 @@ const SubTitle = styled.p`
 const AddButton = styled.button`
   min-height: 42px;
   padding: 0 var(--spacing-lg);
-  border: var(--stroke) solid var(--color-primary);
-  border-radius: var(--radius-md);
-  background: var(--color-primary);
+  border: none;
+  border-radius: var(--radius-pill);
+  background: var(--gradient-primary);
+  box-shadow:
+    var(--specular-top-dark),
+    var(--elevation-1);
   color: var(--color-text-on-primary);
   font-size: var(--text-sm);
   font-weight: 600;
   cursor: pointer;
   transition:
-    background 150ms ease,
-    transform 150ms ease,
-    box-shadow 150ms ease;
+    background var(--dur-base) var(--ease-silk),
+    transform var(--dur-base) var(--ease-silk),
+    box-shadow var(--dur-base) var(--ease-silk);
 
   &:hover {
-    transform: translateY(-1px);
-    background: var(--color-primary-hover);
-    box-shadow: var(--elevation-2);
+    transform: translateY(-2px);
+    background: var(--gradient-primary-hover);
+    box-shadow:
+      var(--specular-top-dark),
+      var(--elevation-3);
   }
 `;
 
@@ -283,18 +288,22 @@ const Card = styled.article<{ $muted: boolean }>`
   align-items: center;
   gap: var(--spacing-md);
   padding: var(--spacing-md) var(--spacing-lg);
-  border: var(--stroke) solid var(--color-border);
-  border-radius: var(--radius-lg);
-  background: var(--color-surface);
-  box-shadow: var(--elevation-1);
+  border: none;
+  border-radius: var(--radius-xl);
+  background: var(--gradient-surface);
+  box-shadow:
+    var(--specular-top),
+    var(--elevation-1);
   opacity: ${({ $muted }) => ($muted ? 0.6 : 1)};
   transition:
     border-color 150ms ease,
     box-shadow 150ms ease;
 
   &:hover {
-    border-color: var(--color-border-strong);
-    box-shadow: var(--elevation-2);
+    transform: translateY(-2px);
+    box-shadow:
+      var(--specular-top),
+      var(--elevation-3);
   }
 
   @media (max-width: 640px) {

@@ -229,29 +229,37 @@ const PrimaryButton = styled.a`
   align-items: center;
   justify-content: center;
   gap: ${theme.spacing.sm};
-  min-height: 48px;
-  padding: 0 ${theme.spacing.lg};
-  border: ${theme.stroke} solid ${theme.colors.primary};
-  border-radius: ${theme.radius.md};
-  background: ${theme.colors.primary};
+  min-height: 52px;
+  padding: 0 ${theme.spacing.xl};
+  border: none;
+  border-radius: ${theme.radius.pill};
+  background: ${theme.gradient.primary};
+  box-shadow:
+    ${theme.specular.topDark},
+    ${theme.elevation.low};
   color: ${theme.colors.textOnPrimary};
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 600;
   text-decoration: none;
   transition:
-    background 180ms ease,
-    transform 180ms ease,
-    box-shadow 180ms ease;
+    background ${theme.duration.base} ${theme.ease.silk},
+    transform ${theme.duration.base} ${theme.ease.silk},
+    box-shadow ${theme.duration.base} ${theme.ease.silk};
 
   &:hover {
-    transform: translateY(-1px);
-    background: ${theme.colors.primaryHover};
-    box-shadow: ${theme.elevation.medium};
+    transform: translateY(-2px);
+    background: ${theme.gradient.primaryHover};
+    box-shadow:
+      ${theme.specular.topDark},
+      ${theme.elevation.high};
   }
 
   &:focus-visible {
-    outline: 2px solid ${theme.colors.amber};
-    outline-offset: 3px;
+    outline: none;
+    box-shadow:
+      ${theme.specular.topDark},
+      ${theme.elevation.high},
+      0 0 0 3px rgb(196 138 74 / 35%);
   }
 `;
 
@@ -268,22 +276,29 @@ const SecondaryButton = styled.a`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 48px;
-  padding: 0 ${theme.spacing.lg};
-  border: ${theme.stroke} solid ${theme.colors.border};
-  border-radius: ${theme.radius.md};
-  background: ${theme.colors.surface};
+  min-height: 52px;
+  padding: 0 ${theme.spacing.xl};
+  border: none;
+  border-radius: ${theme.radius.pill};
+  background: ${theme.gradient.surface};
+  box-shadow:
+    ${theme.specular.top},
+    ${theme.elevation.low};
   color: ${theme.colors.text};
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 600;
   text-decoration: none;
   transition:
-    border-color 180ms ease,
-    color 180ms ease;
+    color ${theme.duration.base} ${theme.ease.silk},
+    box-shadow ${theme.duration.base} ${theme.ease.silk},
+    transform ${theme.duration.base} ${theme.ease.silk};
 
   &:hover {
-    border-color: ${theme.colors.primary};
+    transform: translateY(-1px);
     color: ${theme.colors.primary};
+    box-shadow:
+      ${theme.specular.top},
+      ${theme.elevation.medium};
   }
 `;
 
@@ -337,10 +352,12 @@ const PreviewGlow = styled.div`
 const PreviewCard = styled.div`
   position: relative;
   padding: ${theme.spacing.lg};
-  border: ${theme.stroke} solid ${theme.colors.border};
+  border: none;
   border-radius: ${theme.radius.xl};
-  background: ${theme.colors.surface};
-  box-shadow: ${theme.elevation.high};
+  background: ${theme.gradient.surface};
+  box-shadow:
+    ${theme.specular.top},
+    ${theme.elevation.high};
 `;
 
 const PreviewHeader = styled.div`
@@ -425,9 +442,10 @@ const SummaryCard = styled.div`
   gap: ${theme.spacing.sm};
   min-width: 0;
   padding: ${theme.spacing.md};
-  border: ${theme.stroke} solid ${theme.colors.border};
+  border: none;
   border-radius: ${theme.radius.lg};
-  background: ${theme.colors.surfaceMuted};
+  background: ${theme.gradient.surfaceMuted};
+  box-shadow: ${theme.specular.top};
 `;
 
 const SummaryBody = styled.div`
@@ -570,11 +588,13 @@ const FloatingNote = styled.div`
   align-items: center;
   gap: ${theme.spacing.sm};
   padding: ${theme.spacing.md};
-  border: ${theme.stroke} solid ${theme.colors.border};
-  border-radius: ${theme.radius.lg};
-  background: ${theme.colors.surface};
-  box-shadow: ${theme.elevation.high};
-  animation: ${floatIn} 900ms 350ms ease both;
+  border: none;
+  border-radius: ${theme.radius.pill};
+  background: ${theme.gradient.surface};
+  box-shadow:
+    ${theme.specular.top},
+    ${theme.elevation.high};
+  animation: ${floatIn} 900ms 350ms ${theme.ease.silk} both;
 
   @media (max-width: 600px) {
     right: -5px;

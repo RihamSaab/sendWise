@@ -39,7 +39,7 @@ const StyledWelcomeSection = styled.section`
   min-height: 210px;
   padding: var(--spacing-xl) var(--spacing-2xl);
   overflow: hidden;
-  border: var(--stroke) solid var(--color-border);
+  border: none;
   border-radius: var(--radius-xl);
   background:
     radial-gradient(
@@ -47,8 +47,10 @@ const StyledWelcomeSection = styled.section`
       var(--color-primary-soft),
       transparent 50%
     ),
-    var(--color-surface);
-  box-shadow: var(--elevation-1);
+    var(--gradient-surface);
+  box-shadow:
+    var(--specular-top),
+    var(--elevation-2);
 
   @media (max-width: 640px) {
     grid-template-columns: minmax(0, 1fr);

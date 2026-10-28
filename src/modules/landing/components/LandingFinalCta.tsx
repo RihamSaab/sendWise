@@ -38,7 +38,10 @@ const FinalCta = styled.section`
   overflow: hidden;
   margin: ${theme.spacing.xl} ${theme.spacing["2xl"]};
   border-radius: ${theme.radius.xl};
-  background: ${theme.colors.primary};
+  background: ${theme.gradient.primary};
+  box-shadow:
+    ${theme.specular.topDark},
+    ${theme.elevation.high};
   color: ${theme.colors.textOnPrimary};
 
   @media (max-width: 700px) {
@@ -116,24 +119,34 @@ const CtaButton = styled(Link)`
   align-items: center;
   justify-content: center;
   gap: ${theme.spacing.sm};
-  padding: 12px 20px;
-  border-radius: ${theme.radius.md};
-  background: ${theme.colors.textOnPrimary};
+  padding: 14px 28px;
+  border-radius: ${theme.radius.pill};
+  background: ${theme.gradient.surface};
+  box-shadow:
+    ${theme.specular.top},
+    ${theme.elevation.medium};
   color: ${theme.colors.primary};
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 600;
   text-decoration: none;
   transition:
-    transform 180ms ease,
-    background 180ms ease;
+    transform ${theme.duration.base} ${theme.ease.silk},
+    background ${theme.duration.base} ${theme.ease.silk},
+    box-shadow ${theme.duration.base} ${theme.ease.silk};
 
   &:hover {
-    transform: translateY(-1px);
+    transform: translateY(-2px);
     background: ${theme.colors.primarySoft};
+    box-shadow:
+      ${theme.specular.top},
+      ${theme.elevation.high};
   }
 
   &:focus-visible {
-    outline: 2px solid ${theme.colors.amber};
-    outline-offset: 3px;
+    outline: none;
+    box-shadow:
+      ${theme.specular.top},
+      ${theme.elevation.high},
+      0 0 0 3px rgb(196 138 74 / 35%);
   }
 `;

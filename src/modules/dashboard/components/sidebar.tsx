@@ -114,16 +114,15 @@ const StyledSidebar = styled.aside`
   height: 100vh;
   padding: var(--spacing-xl) var(--spacing-md) var(--spacing-lg);
   flex-shrink: 0;
-  background: var(--color-surface);
-  border-right: var(--stroke) solid var(--color-border);
+  background: var(--gradient-surface);
+  box-shadow: 1px 0 0 var(--color-border);
 
   @media (max-width: 640px) {
     position: static;
     width: 100%;
     height: auto;
     padding: var(--spacing-md);
-    border-right: none;
-    border-bottom: var(--stroke) solid var(--color-border);
+    box-shadow: 0 1px 0 var(--color-border);
   }
 `;
 
@@ -146,7 +145,10 @@ const StyledSidebar_BrandMark = styled.span`
   flex-shrink: 0;
   place-items: center;
   border-radius: var(--radius-md);
-  background: var(--color-primary);
+  background: var(--gradient-primary);
+  box-shadow:
+    var(--specular-top-dark),
+    var(--elevation-1);
   color: var(--color-text-on-primary);
 `;
 
@@ -177,19 +179,26 @@ const StyledSidebar_NavLink = styled(Link)<{ $active: boolean }>`
   padding: 0 var(--spacing-sm) 0 var(--spacing-md);
   border-radius: var(--radius-md);
   background: ${({ $active }) =>
-    $active ? "var(--color-primary-soft)" : "transparent"};
+    $active ? "var(--gradient-surface-muted)" : "transparent"};
+  box-shadow: ${({ $active }) =>
+    $active
+      ? "var(--specular-top), inset 0 0 0 1px var(--color-primary-soft)"
+      : "none"};
   color: ${({ $active }) =>
     $active ? "var(--color-primary)" : "var(--color-text-secondary)"};
   font-size: var(--text-sm);
   font-weight: ${({ $active }) => ($active ? 600 : 500)};
   transition:
-    background 180ms ease,
-    color 180ms ease;
+    background var(--dur-base) var(--ease-silk),
+    color var(--dur-base) var(--ease-silk),
+    box-shadow var(--dur-base) var(--ease-silk),
+    transform var(--dur-fast) var(--ease-silk);
   white-space: nowrap;
 
   &:hover {
     background: var(--color-primary-soft);
     color: var(--color-primary);
+    transform: translateX(2px);
   }
 
   &:focus-visible {
@@ -200,6 +209,10 @@ const StyledSidebar_NavLink = styled(Link)<{ $active: boolean }>`
   @media (max-width: 640px) {
     gap: 8px;
     padding: 0 10px;
+
+    &:hover {
+      transform: none;
+    }
   }
 `;
 

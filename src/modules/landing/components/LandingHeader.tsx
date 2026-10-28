@@ -30,10 +30,13 @@ export default function LandingHeader() {
 }
 
 const Header = styled.header`
-  position: relative;
-  z-index: 5;
-  border-bottom: ${theme.stroke} solid ${theme.colors.border};
-  background: ${theme.colors.background};
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgb(247 246 240 / 85%);
+  backdrop-filter: saturate(160%) blur(16px);
+  -webkit-backdrop-filter: saturate(160%) blur(16px);
+  box-shadow: 0 1px 0 rgb(0 0 0 / 4%);
 `;
 
 const Navigation = styled.nav`
@@ -120,25 +123,35 @@ const HeaderButton = styled(Link)`
   display: inline-flex;
   align-items: center;
   gap: ${theme.spacing.sm};
-  padding: 10px 16px;
-  border: ${theme.stroke} solid ${theme.colors.primary};
-  border-radius: ${theme.radius.md};
-  background: ${theme.colors.primary};
+  padding: 10px 20px;
+  border: none;
+  border-radius: ${theme.radius.pill};
+  background: ${theme.gradient.primary};
+  box-shadow:
+    ${theme.specular.topDark},
+    ${theme.elevation.low};
   color: ${theme.colors.textOnPrimary};
   font-size: 0.85rem;
   font-weight: 600;
   text-decoration: none;
   transition:
-    background 180ms ease,
-    transform 180ms ease;
+    background ${theme.duration.base} ${theme.ease.silk},
+    transform ${theme.duration.base} ${theme.ease.silk},
+    box-shadow ${theme.duration.base} ${theme.ease.silk};
 
   &:hover {
     transform: translateY(-1px);
-    background: ${theme.colors.primaryHover};
+    background: ${theme.gradient.primaryHover};
+    box-shadow:
+      ${theme.specular.topDark},
+      ${theme.elevation.medium};
   }
 
   &:focus-visible {
-    outline: 2px solid ${theme.colors.amber};
-    outline-offset: 3px;
+    outline: none;
+    box-shadow:
+      ${theme.specular.topDark},
+      ${theme.elevation.medium},
+      0 0 0 3px rgb(196 138 74 / 35%);
   }
 `;
