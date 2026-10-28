@@ -256,15 +256,15 @@ const Container = styled.section`
 
 const Heading = styled.h1`
   margin: 0;
-  color: #244b3b;
+  color: var(--color-primary);
   font-size: clamp(1.75rem, 4vw, 2.25rem);
   font-weight: 600;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.035em;
 `;
 
 const Description = styled.p`
   margin: 12px 0 28px;
-  color: #6b756f;
+  color: var(--color-text-secondary);
   font-size: 0.95rem;
   line-height: 1.7;
 `;
@@ -272,7 +272,7 @@ const Description = styled.p`
 const OverviewGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  gap: var(--spacing-md);
 
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
@@ -280,42 +280,46 @@ const OverviewGrid = styled.div`
 `;
 
 const OverviewCard = styled.div`
-  padding: 20px;
-  border: 1px solid #dce7dc;
-  border-radius: 14px;
-  background: #f0f6ef;
+  padding: var(--spacing-lg);
+  border: var(--stroke) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-primary-soft);
 `;
 
 const OverviewLabel = styled.p`
   margin: 0;
-  color: #526c5c;
-  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 `;
 
 const OverviewAmount = styled.p`
   margin: 10px 0 6px;
-  color: #244b3b;
+  color: var(--color-primary);
+  font-family: var(--font-mono);
   font-size: clamp(1.3rem, 3vw, 1.75rem);
-  font-weight: 600;
+  font-weight: 500;
+  letter-spacing: -0.025em;
   overflow-wrap: anywhere;
 `;
 
 const OverviewNote = styled.p`
   margin: 0;
-  color: #6b756f;
-  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
   line-height: 1.5;
 `;
 
 const Section = styled.section`
-  margin-top: 20px;
-  padding: 22px;
-  border: 1px solid #e3e7df;
-  border-radius: 14px;
-  background: #fcfcf9;
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-lg);
+  border: var(--stroke) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-muted);
 
   @media (max-width: 560px) {
-    padding: 16px;
+    padding: var(--spacing-md);
   }
 `;
 
@@ -323,42 +327,46 @@ const SectionHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 18px;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
 `;
 
 const SectionTitle = styled.h2`
   margin: 0;
-  color: #244b3b;
-  font-size: 1.05rem;
+  color: var(--color-primary);
+  font-size: var(--text-md);
   font-weight: 600;
+  letter-spacing: -0.015em;
 `;
 
 const StepNumber = styled.span`
-  color: #a0afa2;
-  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
   font-weight: 600;
+  letter-spacing: 0.04em;
 `;
 
 const DetailRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 16px;
+  gap: var(--spacing-md);
   padding: 12px 0;
 
   & + & {
-    border-top: 1px solid #edf0e9;
+    border-top: var(--stroke) solid var(--color-border);
   }
 `;
 
 const DetailLabel = styled.span`
-  color: #6b756f;
+  color: var(--color-text-secondary);
   font-size: 0.875rem;
 `;
 
 const DetailValue = styled.span`
-  color: #273b31;
+  color: var(--color-text);
+  font-family: var(--font-mono);
   font-size: 0.875rem;
   font-weight: 500;
   text-align: right;
@@ -374,11 +382,11 @@ const Item = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: var(--spacing-md);
   padding: 14px 0;
 
   & + & {
-    border-top: 1px solid #edf0e9;
+    border-top: var(--stroke) solid var(--color-border);
   }
 `;
 
@@ -393,29 +401,30 @@ const ItemMain = styled.div`
 
 const ItemName = styled.p`
   margin: 0;
-  color: #273b31;
+  color: var(--color-text);
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
   overflow-wrap: anywhere;
 `;
 
 const ItemSubtitle = styled.p`
   margin: 5px 0 0;
-  color: #7a837c;
-  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
   line-height: 1.5;
 `;
 
 const ItemAmount = styled.span`
-  color: #244b3b;
+  color: var(--color-primary);
+  font-family: var(--font-mono);
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 500;
   text-align: right;
   overflow-wrap: anywhere;
 `;
 
 const GoalAmount = styled(ItemAmount)`
-  font-size: 0.85rem;
+  font-size: var(--text-sm);
 `;
 
 const GoalTrack = styled.div`
@@ -424,33 +433,33 @@ const GoalTrack = styled.div`
   margin-top: 10px;
   overflow: hidden;
   border-radius: 999px;
-  background: #e5ebe2;
+  background: var(--color-border);
 `;
 
 const GoalProgress = styled.div<{ $progress: number }>`
   width: ${({ $progress }) => $progress}%;
   height: 100%;
   border-radius: inherit;
-  background: #73967b;
+  background: var(--color-primary);
   transition: width 180ms ease;
 `;
 
 const Divider = styled.div`
   height: 1px;
   margin: 12px 0;
-  background: #e3e7df;
+  background: var(--color-border);
 `;
 
 const EmptyMessage = styled.p`
   margin: 0;
-  color: #7a837c;
+  color: var(--color-text-muted);
   font-size: 0.875rem;
   line-height: 1.6;
 `;
 
 const FooterNote = styled.p`
-  margin: 18px 0 0;
-  color: #7a837c;
-  font-size: 0.8rem;
+  margin: var(--spacing-md) 0 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
   line-height: 1.6;
 `;

@@ -65,20 +65,20 @@ const HowSection = styled.section`
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
-  gap: 64px;
+  gap: ${theme.spacing["3xl"]};
   width: 100%;
-  max-width: 1280px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 88px ${theme.spacing["2xl"]};
-  border-top: 1px solid ${theme.colors.border};
+  padding: ${theme.spacing["3xl"]} ${theme.spacing["2xl"]};
+  border-top: ${theme.stroke} solid ${theme.colors.border};
 
   @media (max-width: 850px) {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: ${theme.spacing["2xl"]};
   }
 
   @media (max-width: 700px) {
-    padding: 72px ${theme.spacing.lg};
+    padding: ${theme.spacing["3xl"]} ${theme.spacing.lg};
   }
 `;
 
@@ -89,8 +89,8 @@ const HowContent = styled.div`
 const SectionEyebrow = styled.p`
   margin: 0 0 ${theme.spacing.md};
   color: ${theme.colors.primary};
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: var(--text-xs);
+  font-weight: 600;
   letter-spacing: 0.14em;
 `;
 
@@ -98,9 +98,9 @@ const HowTitle = styled.h2`
   margin: 0;
   color: ${theme.colors.text};
   font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 650;
-  letter-spacing: -0.06em;
-  line-height: 1.15;
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 1.1;
 `;
 
 const HowTitleAccent = styled.span`
@@ -112,7 +112,7 @@ const HowDescription = styled.p`
   margin: ${theme.spacing.lg} 0 0;
   color: ${theme.colors.textSecondary};
   font-size: 0.95rem;
-  line-height: 1.8;
+  line-height: 1.75;
 `;
 
 const StepsList = styled.div`
@@ -126,7 +126,7 @@ const StepItem = styled.div`
   align-items: flex-start;
   gap: ${theme.spacing.lg};
   padding: ${theme.spacing.lg} 0;
-  border-bottom: 1px solid ${theme.colors.border};
+  border-bottom: ${theme.stroke} solid ${theme.colors.border};
 
   &:first-child {
     padding-top: 0;
@@ -144,10 +144,11 @@ const StepNumber = styled.span`
   height: 44px;
   place-items: center;
   border-radius: 50%;
-  background: ${theme.colors.sage};
+  background: ${theme.colors.primarySoft};
   color: ${theme.colors.primary};
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 600;
 `;
 
 const StepText = styled.div`
@@ -157,15 +158,15 @@ const StepText = styled.div`
 const StepTitle = styled.h3`
   margin: 0 0 ${theme.spacing.sm};
   color: ${theme.colors.text};
-  font-size: 1.05rem;
-  font-weight: 650;
+  font-size: var(--text-md);
+  font-weight: 600;
 `;
 
 const StepDescription = styled.p`
   margin: 0;
   color: ${theme.colors.textSecondary};
   font-size: 0.9rem;
-  line-height: 1.75;
+  line-height: 1.7;
 `;
 
 const StepArrow = styled.span`

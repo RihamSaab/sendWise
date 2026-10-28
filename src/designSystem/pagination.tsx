@@ -81,9 +81,9 @@ const StyledPagination_Container = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 16px 20px;
-  border-top: 1px solid var(--color-border);
-  background: var(--color-surface);
+  padding: 16px 0;
+  border-top: var(--stroke) solid var(--color-border);
+  background: transparent;
 
   @media (max-width: 640px) {
     align-items: flex-start;
@@ -93,8 +93,10 @@ const StyledPagination_Container = styled.div`
 
 const StyledPagination_Summary = styled.p`
   margin: 0;
-  color: var(--color-text-secondary);
-  font-size: 13px;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.02em;
 `;
 
 const StyledPagination_Controls = styled.div`
@@ -110,51 +112,58 @@ const StyledPagination_PageSize = styled.div`
   gap: 8px;
 
   label {
-    color: var(--color-text-secondary);
-    font-size: 12px;
+    color: var(--color-text-muted);
+    font-size: var(--text-xs);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
     white-space: nowrap;
   }
 
   select {
-    min-height: 34px;
+    min-height: 32px;
     padding: 0 8px;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
+    border: var(--stroke) solid var(--color-border);
+    border-radius: var(--radius-sm);
     background: var(--color-surface);
     color: var(--color-text);
     font: inherit;
-    font-size: 13px;
+    font-size: var(--text-sm);
   }
 `;
 
 const StyledPagination_Button = styled.button`
-  min-height: 34px;
-  padding: 0 12px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  background: var(--color-surface);
+  min-height: 32px;
+  padding: 0 14px;
+  border: var(--stroke) solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: transparent;
   color: var(--color-text);
   font: inherit;
-  font-size: 13px;
+  font-size: var(--text-sm);
   cursor: pointer;
+  transition:
+    border-color 140ms ease,
+    color 140ms ease;
 
   &:hover:not(:disabled) {
-    background: var(--color-background);
+    border-color: var(--color-text);
   }
 
   &:disabled {
     cursor: not-allowed;
-    opacity: 0.45;
+    opacity: 0.4;
   }
 
   &:focus-visible {
-    outline: 2px solid var(--color-primary);
+    outline: 1px solid var(--color-text);
     outline-offset: 2px;
   }
 `;
 
 const StyledPagination_PageInfo = styled.span`
-  color: var(--color-text);
-  font-size: 13px;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.02em;
   white-space: nowrap;
 `;

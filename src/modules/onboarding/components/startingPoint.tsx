@@ -152,30 +152,31 @@ export default function StartingPoint({
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--spacing-lg);
 `;
 
 const Field = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--spacing-sm);
 `;
 
 const Label = styled.label`
-  color: #273b31;
-  font-size: 0.9rem;
-  font-weight: 500;
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: -0.005em;
 `;
 
 const Input = styled.input`
   width: 100%;
-  min-height: 48px;
-  padding: 0 14px;
-  border: 1px solid #dce2dc;
-  border-radius: 10px;
+  min-height: 46px;
+  padding: 0 var(--spacing-md);
+  border: var(--stroke) solid var(--color-border);
+  border-radius: var(--radius-md);
   outline: none;
-  background: #ffffff;
-  color: #273b31;
+  background: var(--color-surface);
+  color: var(--color-text);
   font: inherit;
   box-sizing: border-box;
   transition:
@@ -183,38 +184,38 @@ const Input = styled.input`
     box-shadow 150ms ease;
 
   &:focus {
-    border-color: #244b3b;
+    border-color: var(--color-primary);
     box-shadow: 0 0 0 3px rgb(36 75 59 / 10%);
   }
 `;
 
 const Select = styled.select`
   width: 100%;
-  min-height: 48px;
-  padding: 0 14px;
-  border: 1px solid #dce2dc;
-  border-radius: 10px;
+  min-height: 46px;
+  padding: 0 var(--spacing-md);
+  border: var(--stroke) solid var(--color-border);
+  border-radius: var(--radius-md);
   outline: none;
-  background: #ffffff;
-  color: #273b31;
+  background: var(--color-surface);
+  color: var(--color-text);
   font: inherit;
 
   &:focus {
-    border-color: #244b3b;
+    border-color: var(--color-primary);
     box-shadow: 0 0 0 3px rgb(36 75 59 / 10%);
   }
 `;
 
 const HelpText = styled.p`
   margin: 0;
-  color: #818a83;
-  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
   line-height: 1.5;
 `;
 
 const ErrorText = styled.p`
   margin: 0;
-  color: #b42318;
-  font-size: 0.8rem;
+  color: var(--color-error);
+  font-size: var(--text-xs);
   line-height: 1.5;
 `;

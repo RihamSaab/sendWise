@@ -113,9 +113,9 @@ export default function OnboardingLayout({
 
 const Page = styled.div`
   min-height: 100vh;
-  padding: 0 24px 48px;
-  background: #f7f6f0;
-  color: #273b31;
+  padding: 0 var(--spacing-lg) var(--spacing-2xl);
+  background: var(--color-background);
+  color: var(--color-text);
 `;
 
 const Header = styled.header`
@@ -124,86 +124,91 @@ const Header = styled.header`
   justify-content: space-between;
   max-width: 1100px;
   margin: 0 auto;
-  padding: 26px 0;
-  border-bottom: 1px solid #e5e6df;
+  padding: var(--spacing-lg) 0;
+  border-bottom: var(--stroke) solid var(--color-border);
 `;
 
 const Brand = styled.div`
-  color: #244b3b;
-  font-size: 1.4rem;
+  color: var(--color-primary);
+  font-size: 1.3rem;
   font-weight: 700;
-  letter-spacing: -0.06em;
+  letter-spacing: -0.05em;
 
   span {
-    color: #819783;
+    color: var(--color-text);
   }
 `;
 
 const HeaderLabel = styled.span`
-  color: #778078;
-  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 
   @media (max-width: 480px) {
-    font-size: 0.75rem;
+    font-size: 10px;
   }
 `;
 
 const Main = styled.main`
   width: 100%;
   max-width: 760px;
-  margin: 48px auto 0;
+  margin: var(--spacing-2xl) auto 0;
 `;
 
 const ProgressSection = styled.section`
-  margin-bottom: 36px;
+  margin-bottom: var(--spacing-xl);
 `;
 
 const ProgressHeading = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 16px;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
 `;
 
 const ProgressTitle = styled.h2`
   margin: 0;
-  color: #244b3b;
-  font-size: 1.05rem;
+  color: var(--color-primary);
+  font-size: var(--text-md);
   font-weight: 600;
+  letter-spacing: -0.02em;
 `;
 
 const ProgressCount = styled.span`
-  color: #778078;
-  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.04em;
   white-space: nowrap;
 `;
 
 const ProgressTrack = styled.div`
-  height: 5px;
+  height: 4px;
   overflow: hidden;
   border-radius: 999px;
-  background: #e3e7df;
+  background: var(--color-border);
 `;
 
 const ProgressFill = styled.div<{ $progress: number }>`
   width: ${({ $progress }) => $progress}%;
   height: 100%;
   border-radius: inherit;
-  background: #244b3b;
-  transition: width 200ms ease;
+  background: var(--color-primary);
+  transition: width 250ms ease;
 `;
 
 const StepList = styled.ol`
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 8px;
-  margin: 22px 0 0;
+  gap: var(--spacing-sm);
+  margin: var(--spacing-lg) 0 0;
   padding: 0;
   list-style: none;
 
   @media (max-width: 560px) {
-    gap: 4px;
+    gap: var(--spacing-xs);
   }
 `;
 
@@ -211,9 +216,9 @@ const StepItem = styled.li<{ $isCurrent: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: var(--spacing-sm);
   text-align: center;
-  opacity: ${({ $isCurrent }) => ($isCurrent ? 1 : 0.75)};
+  opacity: ${({ $isCurrent }) => ($isCurrent ? 1 : 0.7)};
 `;
 
 const StepNumber = styled.span<{
@@ -224,58 +229,65 @@ const StepNumber = styled.span<{
   width: 30px;
   height: 30px;
   place-items: center;
-  border: 1px solid
+  border: var(--stroke) solid
     ${({ $isComplete, $isCurrent }) =>
-      $isComplete || $isCurrent ? "#244b3b" : "#d8ddd5"};
+      $isComplete || $isCurrent
+        ? "var(--color-primary)"
+        : "var(--color-border-strong)"};
   border-radius: 50%;
   background: ${({ $isComplete, $isCurrent }) =>
-    $isComplete || $isCurrent ? "#244b3b" : "transparent"};
+    $isComplete || $isCurrent ? "var(--color-primary)" : "transparent"};
   color: ${({ $isComplete, $isCurrent }) =>
-    $isComplete || $isCurrent ? "#ffffff" : "#778078"};
-  font-size: 0.8rem;
+    $isComplete || $isCurrent
+      ? "var(--color-text-on-primary)"
+      : "var(--color-text-muted)"};
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
   font-weight: 600;
 `;
 
 const StepLabel = styled.span<{ $isCurrent: boolean }>`
-  color: ${({ $isCurrent }) => ($isCurrent ? "#244b3b" : "#778078")};
-  font-size: 0.75rem;
+  color: ${({ $isCurrent }) =>
+    $isCurrent ? "var(--color-primary)" : "var(--color-text-muted)"};
+  font-size: var(--text-xs);
   font-weight: ${({ $isCurrent }) => ($isCurrent ? 600 : 400)};
 
   @media (max-width: 560px) {
-    font-size: 0.65rem;
+    font-size: 10px;
   }
 `;
 
 const Content = styled.div`
-  padding: 32px;
-  border: 1px solid #e7e8e0;
-  border-radius: 18px;
-  background: #ffffff;
-  box-shadow: 0 8px 30px rgb(39 59 49 / 4%);
+  padding: var(--spacing-xl);
+  border: var(--stroke) solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+  box-shadow: var(--elevation-2);
 
   @media (max-width: 560px) {
-    padding: 22px 18px;
+    padding: var(--spacing-lg) var(--spacing-md);
   }
 `;
 
 const Footer = styled.footer`
   display: flex;
   justify-content: space-between;
-  gap: 16px;
-  margin-top: 24px;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
 `;
 
 const Button = styled.button`
-  min-height: 46px;
-  padding: 0 24px;
-  border-radius: 10px;
+  min-height: 44px;
+  padding: 0 var(--spacing-lg);
+  border-radius: var(--radius-md);
   font: inherit;
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition:
     background 150ms ease,
-    border-color 150ms ease;
+    border-color 150ms ease,
+    transform 150ms ease;
 
   &:disabled {
     cursor: not-allowed;
@@ -283,34 +295,36 @@ const Button = styled.button`
   }
 
   &:focus-visible {
-    outline: 3px solid rgb(36 75 59 / 25%);
+    outline: 2px solid var(--color-amber);
     outline-offset: 2px;
   }
 `;
 
 const BackButton = styled(Button)`
-  border: 1px solid #dce2dc;
-  background: #ffffff;
-  color: #244b3b;
+  border: var(--stroke) solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-primary);
 
   &:hover:not(:disabled) {
-    background: #f3f5f0;
+    border-color: var(--color-primary);
   }
 `;
 
 const ContinueButton = styled(Button)`
-  border: 1px solid #244b3b;
-  background: #244b3b;
-  color: #ffffff;
+  border: var(--stroke) solid var(--color-primary);
+  background: var(--color-primary);
+  color: var(--color-text-on-primary);
 
   &:hover:not(:disabled) {
-    background: #193a2d;
+    transform: translateY(-1px);
+    background: var(--color-primary-hover);
+    box-shadow: var(--elevation-2);
   }
 `;
 
 const FooterNote = styled.p`
-  margin: 22px 0 0;
-  color: #858d86;
-  font-size: 0.75rem;
+  margin: var(--spacing-lg) 0 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
   text-align: center;
 `;

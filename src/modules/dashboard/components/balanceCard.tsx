@@ -25,34 +25,38 @@ export default function BalanceCard({
 
 const StyledBalanceCard = styled.article`
   min-width: 0;
-  padding: 24px;
-  border: 1px solid var(--color-border);
+  padding: var(--spacing-lg);
+  border: var(--stroke) solid var(--color-border);
   border-radius: var(--radius-lg);
   background: var(--color-surface);
-  box-shadow: 0 2px 8px rgb(37 41 35 / 3%);
+  box-shadow: var(--elevation-1);
   transition:
     transform 180ms ease,
-    box-shadow 180ms ease;
+    box-shadow 180ms ease,
+    border-color 180ms ease;
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgb(37 41 35 / 6%);
+    border-color: var(--color-border-strong);
+    box-shadow: var(--elevation-2);
   }
 `;
 
 const StyledBalanceCard_Title = styled.h3`
-  margin: 0 0 12px;
-  color: var(--color-text-secondary);
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.01em;
+  margin: 0 0 var(--spacing-sm);
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 `;
 
 const StyledBalanceCard_Amount = styled.p`
   margin: 0;
   color: var(--color-primary);
-  font-size: 28px;
-  font-weight: 600;
-  letter-spacing: -0.04em;
+  font-family: var(--font-mono);
+  font-size: var(--text-xl);
+  font-weight: 500;
+  letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;
 `;

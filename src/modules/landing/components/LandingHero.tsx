@@ -30,7 +30,8 @@ export default function LandingHero() {
     <Hero>
       <HeroContent>
         <Eyebrow>
-          <EyebrowDot />A clearer way to manage your money
+          <EyebrowDot />
+          A clearer way to manage your money
         </Eyebrow>
 
         <HeroTitle>
@@ -46,12 +47,11 @@ export default function LandingHero() {
         <HeroActions>
           <PrimaryButton href={ctaHref}>
             {ctaLabel}
-            <ButtonArrow aria-hidden="true">↗</ButtonArrow>
+            <ButtonArrow aria-hidden="true">→</ButtonArrow>
           </PrimaryButton>
 
           <SecondaryButton href="#how-it-works">
             See how it works
-            <span aria-hidden="true">↓</span>
           </SecondaryButton>
         </HeroActions>
 
@@ -72,46 +72,30 @@ export default function LandingHero() {
             </PreviewBrand>
             <PreviewStatus>
               <StatusDot />
-              Dashboard preview
+              Preview
             </PreviewStatus>
           </PreviewHeader>
 
           <PreviewGreeting>
-            <div>
-              <GreetingLabel>Your money at a glance</GreetingLabel>
-              <GreetingTitle>A clearer picture.</GreetingTitle>
-            </div>
-            <PreviewAvatar aria-hidden="true">✳</PreviewAvatar>
-          </PreviewGreeting>
-
-          <BalanceCard>
-            <BalanceTop>
-              <BalanceLabel>Available balance</BalanceLabel>
-              <BalanceIcon aria-hidden="true">↗</BalanceIcon>
-            </BalanceTop>
+            <GreetingLabel>Available balance</GreetingLabel>
             <BalanceAmount>$2,840.00</BalanceAmount>
-            <BalanceCaption>
-              An example of how your balance could appear
-            </BalanceCaption>
-          </BalanceCard>
+          </PreviewGreeting>
 
           <SummaryGrid>
             <SummaryCard>
-              <SummaryIcon $kind="income" aria-hidden="true">
-                ↙
-              </SummaryIcon>
-              <SummaryLabel>Income</SummaryLabel>
-              <SummaryAmount>$3,600</SummaryAmount>
-              <SummaryCaption>Illustrative</SummaryCaption>
+              <SummaryIcon $kind="income" aria-hidden="true">↙</SummaryIcon>
+              <SummaryBody>
+                <SummaryLabel>Income</SummaryLabel>
+                <SummaryAmount>$3,600</SummaryAmount>
+              </SummaryBody>
             </SummaryCard>
 
             <SummaryCard>
-              <SummaryIcon $kind="expense" aria-hidden="true">
-                ↗
-              </SummaryIcon>
-              <SummaryLabel>Expenses</SummaryLabel>
-              <SummaryAmount>$760</SummaryAmount>
-              <SummaryCaption>Illustrative</SummaryCaption>
+              <SummaryIcon $kind="expense" aria-hidden="true">↗</SummaryIcon>
+              <SummaryBody>
+                <SummaryLabel>Expenses</SummaryLabel>
+                <SummaryAmount>$760</SummaryAmount>
+              </SummaryBody>
             </SummaryCard>
           </SummaryGrid>
 
@@ -119,11 +103,9 @@ export default function LandingHero() {
             <ChartHeader>
               <div>
                 <ChartTitle>Spending overview</ChartTitle>
-                <ChartSubtitle>
-                  An example of a spending trend
-                </ChartSubtitle>
+                <ChartSubtitle>A sample 7-month trend</ChartSubtitle>
               </div>
-              <ChartBadge>Sample data</ChartBadge>
+              <ChartBadge>Sample</ChartBadge>
             </ChartHeader>
 
             <Chart>
@@ -141,13 +123,6 @@ export default function LandingHero() {
               ))}
             </Chart>
           </ChartCard>
-
-          <PreviewFooter>
-            <PreviewFooterIcon aria-hidden="true">✳</PreviewFooterIcon>
-            <span>
-              Your real dashboard reflects the information you enter.
-            </span>
-          </PreviewFooter>
         </PreviewCard>
 
         <FloatingNote>
@@ -163,13 +138,13 @@ export default function LandingHero() {
 }
 
 const floatIn = keyframes`
-  from { opacity: 0; transform: translateY(18px); }
+  from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
 `;
 
 const floatSoftly = keyframes`
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-7px); }
+  50% { transform: translateY(-6px); }
 `;
 
 const growBar = keyframes`
@@ -182,20 +157,15 @@ const Hero = styled.section`
   grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
   align-items: center;
   gap: clamp(32px, 5vw, 72px);
-  max-width: 1280px;
-  min-height: 650px;
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 76px ${theme.spacing["2xl"]} 92px;
+  padding: ${theme.spacing["4xl"]} ${theme.spacing["2xl"]};
 
   @media (max-width: 900px) {
     grid-template-columns: 1fr;
-    gap: 54px;
-    padding-top: 64px;
-  }
-
-  @media (max-width: 600px) {
-    gap: 44px;
-    padding: 48px ${theme.spacing.lg} 64px;
+    gap: 56px;
+    padding: ${theme.spacing["3xl"]} ${theme.spacing.lg};
   }
 `;
 
@@ -209,31 +179,28 @@ const Eyebrow = styled.div`
   gap: ${theme.spacing.sm};
   margin-bottom: ${theme.spacing.lg};
   color: ${theme.colors.primary};
-  font-size: 0.78rem;
-  font-weight: 650;
-  letter-spacing: 0.025em;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 `;
 
 const EyebrowDot = styled.span`
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: ${theme.colors.amber};
-  box-shadow: 0 0 0 4px ${theme.colors.sage};
+  box-shadow: 0 0 0 4px ${theme.colors.primarySoft};
 `;
 
 const HeroTitle = styled.h1`
   max-width: 600px;
   margin: 0;
   color: ${theme.colors.text};
-  font-size: clamp(3.2rem, 6vw, 5.35rem);
+  font-size: clamp(2.6rem, 5vw, 4.4rem);
   font-weight: 600;
-  letter-spacing: -0.075em;
-  line-height: 0.99;
-
-  @media (max-width: 600px) {
-    font-size: clamp(3rem, 12vw, 4rem);
-  }
+  letter-spacing: -0.055em;
+  line-height: 1.02;
 `;
 
 const HeroTitleAccent = styled.span`
@@ -242,18 +209,18 @@ const HeroTitleAccent = styled.span`
 `;
 
 const HeroDescription = styled.p`
-  max-width: 490px;
+  max-width: 480px;
   margin: ${theme.spacing.lg} 0 0;
   color: ${theme.colors.textSecondary};
-  font-size: 1.05rem;
-  line-height: 1.85;
+  font-size: 1rem;
+  line-height: 1.75;
 `;
 
 const HeroActions = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: ${theme.spacing.md};
+  gap: ${theme.spacing.sm};
   margin-top: ${theme.spacing.xl};
 `;
 
@@ -261,29 +228,29 @@ const PrimaryButton = styled.a`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: ${theme.spacing.md};
-  min-height: 52px;
+  gap: ${theme.spacing.sm};
+  min-height: 48px;
   padding: 0 ${theme.spacing.lg};
-  border: 1px solid ${theme.colors.primary};
+  border: ${theme.stroke} solid ${theme.colors.primary};
   border-radius: ${theme.radius.md};
   background: ${theme.colors.primary};
-  color: #ffffff;
+  color: ${theme.colors.textOnPrimary};
   font-size: 0.9rem;
   font-weight: 600;
   text-decoration: none;
   transition:
     background 180ms ease,
-    box-shadow 180ms ease,
-    transform 180ms ease;
+    transform 180ms ease,
+    box-shadow 180ms ease;
 
   &:hover {
-    transform: translateY(-2px);
+    transform: translateY(-1px);
     background: ${theme.colors.primaryHover};
-    box-shadow: 0 9px 22px rgb(36 75 59 / 15%);
+    box-shadow: ${theme.elevation.medium};
   }
 
   &:focus-visible {
-    outline: 3px solid ${theme.colors.amber};
+    outline: 2px solid ${theme.colors.amber};
     outline-offset: 3px;
   }
 `;
@@ -293,7 +260,7 @@ const ButtonArrow = styled.span`
   transition: transform 180ms ease;
 
   ${PrimaryButton}:hover & {
-    transform: translate(2px, -2px);
+    transform: translateX(2px);
   }
 `;
 
@@ -301,22 +268,22 @@ const SecondaryButton = styled.a`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: ${theme.spacing.sm};
-  min-height: 52px;
-  padding: 0 ${theme.spacing.md};
-  border: 1px solid transparent;
+  min-height: 48px;
+  padding: 0 ${theme.spacing.lg};
+  border: ${theme.stroke} solid ${theme.colors.border};
   border-radius: ${theme.radius.md};
+  background: ${theme.colors.surface};
   color: ${theme.colors.text};
   font-size: 0.9rem;
   font-weight: 600;
   text-decoration: none;
   transition:
-    background 180ms ease,
-    border-color 180ms ease;
+    border-color 180ms ease,
+    color 180ms ease;
 
   &:hover {
-    border-color: ${theme.colors.border};
-    background: ${theme.colors.surface};
+    border-color: ${theme.colors.primary};
+    color: ${theme.colors.primary};
   }
 `;
 
@@ -337,23 +304,23 @@ const TrustIcon = styled.span`
   height: 22px;
   place-items: center;
   border-radius: 50%;
-  background: ${theme.colors.sage};
+  background: ${theme.colors.primarySoft};
   color: ${theme.colors.primary};
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 700;
 `;
 
 const PreviewArea = styled.div`
   position: relative;
   width: 100%;
-  max-width: 570px;
+  max-width: 540px;
   margin: 0 auto;
   animation: ${floatIn} 800ms 120ms ease both;
 
   @media (prefers-reduced-motion: no-preference) {
     animation:
       ${floatIn} 800ms 120ms ease both,
-      ${floatSoftly} 6s 1s ease-in-out infinite;
+      ${floatSoftly} 7s 1s ease-in-out infinite;
   }
 `;
 
@@ -361,8 +328,8 @@ const PreviewGlow = styled.div`
   position: absolute;
   inset: 10% -8% 5%;
   border-radius: 50%;
-  background: ${theme.colors.sage};
-  filter: blur(55px);
+  background: ${theme.colors.primarySoft};
+  filter: blur(60px);
   opacity: 0.65;
   pointer-events: none;
 `;
@@ -370,26 +337,19 @@ const PreviewGlow = styled.div`
 const PreviewCard = styled.div`
   position: relative;
   padding: ${theme.spacing.lg};
-  border: 1px solid ${theme.colors.border};
-  border-radius: ${theme.radius.lg};
+  border: ${theme.stroke} solid ${theme.colors.border};
+  border-radius: ${theme.radius.xl};
   background: ${theme.colors.surface};
-  box-shadow:
-    0 28px 75px rgb(37 41 35 / 9%),
-    0 3px 12px rgb(37 41 35 / 3%);
-
-  @media (max-width: 480px) {
-    padding: ${theme.spacing.md};
-  }
+  box-shadow: ${theme.elevation.high};
 `;
 
 const PreviewHeader = styled.div`
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: ${theme.spacing.sm};
   padding-bottom: ${theme.spacing.md};
-  border-bottom: 1px solid ${theme.colors.border};
+  border-bottom: ${theme.stroke} solid ${theme.colors.border};
 `;
 
 const PreviewBrand = styled.div`
@@ -397,19 +357,19 @@ const PreviewBrand = styled.div`
   align-items: center;
   gap: ${theme.spacing.sm};
   color: ${theme.colors.text};
-  font-size: 0.83rem;
-  font-weight: 650;
+  font-size: var(--text-sm);
+  font-weight: 600;
 `;
 
 const PreviewBrandMark = styled.span`
   display: grid;
-  width: 29px;
-  height: 29px;
+  width: 28px;
+  height: 28px;
   place-items: center;
   border-radius: ${theme.radius.sm};
   background: ${theme.colors.primary};
-  color: #ffffff;
-  font-size: 0.95rem;
+  color: ${theme.colors.textOnPrimary};
+  font-size: 0.9rem;
   font-weight: 700;
 `;
 
@@ -417,8 +377,10 @@ const PreviewStatus = styled.span`
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: ${theme.colors.textSecondary};
-  font-size: 0.68rem;
+  color: ${theme.colors.textMuted};
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 `;
 
 const StatusDot = styled.span`
@@ -429,78 +391,25 @@ const StatusDot = styled.span`
 `;
 
 const PreviewGreeting = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: ${theme.spacing.md};
-  padding: ${theme.spacing.lg} 0;
+  padding: ${theme.spacing.lg} 0 ${theme.spacing.md};
+  border-bottom: ${theme.stroke} solid ${theme.colors.border};
 `;
 
 const GreetingLabel = styled.p`
-  margin: 0;
-  color: ${theme.colors.textSecondary};
-  font-size: 0.76rem;
-`;
-
-const GreetingTitle = styled.h2`
-  margin: 5px 0 0;
-  color: ${theme.colors.text};
-  font-size: 1.3rem;
-  font-weight: 600;
-  letter-spacing: -0.045em;
-`;
-
-const PreviewAvatar = styled.div`
-  display: grid;
-  width: 38px;
-  height: 38px;
-  place-items: center;
-  border-radius: 50%;
-  background: ${theme.colors.sage};
-  color: ${theme.colors.primary};
-  font-size: 1.1rem;
-`;
-
-const BalanceCard = styled.div`
-  padding: ${theme.spacing.lg};
-  border-radius: ${theme.radius.md};
-  background: ${theme.colors.primary};
-  color: #ffffff;
-`;
-
-const BalanceTop = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: ${theme.spacing.sm};
-`;
-
-const BalanceLabel = styled.span`
-  color: rgb(255 255 255 / 75%);
-  font-size: 0.78rem;
-`;
-
-const BalanceIcon = styled.span`
-  display: grid;
-  width: 29px;
-  height: 29px;
-  place-items: center;
-  border: 1px solid rgb(255 255 255 / 22%);
-  border-radius: ${theme.radius.sm};
-  font-size: 0.9rem;
+  margin: 0 0 6px;
+  color: ${theme.colors.textMuted};
+  font-size: var(--text-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 `;
 
 const BalanceAmount = styled.p`
-  margin: ${theme.spacing.sm} 0;
-  font-size: clamp(1.8rem, 4vw, 2.35rem);
-  font-weight: 600;
-  letter-spacing: -0.06em;
-`;
-
-const BalanceCaption = styled.p`
   margin: 0;
-  color: rgb(255 255 255 / 70%);
-  font-size: 0.68rem;
+  color: ${theme.colors.primary};
+  font-family: var(--font-mono);
+  font-size: clamp(1.9rem, 4vw, 2.4rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
 `;
 
 const SummaryGrid = styled.div`
@@ -511,56 +420,60 @@ const SummaryGrid = styled.div`
 `;
 
 const SummaryCard = styled.div`
-  display: grid;
-  grid-template-columns: auto 1fr;
+  display: flex;
   align-items: center;
-  gap: 5px ${theme.spacing.sm};
+  gap: ${theme.spacing.sm};
   min-width: 0;
   padding: ${theme.spacing.md};
-  border: 1px solid ${theme.colors.border};
-  border-radius: ${theme.radius.md};
+  border: ${theme.stroke} solid ${theme.colors.border};
+  border-radius: ${theme.radius.lg};
+  background: ${theme.colors.surfaceMuted};
+`;
+
+const SummaryBody = styled.div`
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
 `;
 
 const SummaryIcon = styled.span<{ $kind: "income" | "expense" }>`
   display: grid;
-  grid-row: span 2;
-  width: 30px;
-  height: 30px;
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
   place-items: center;
-  border-radius: ${theme.radius.sm};
+  border-radius: ${theme.radius.md};
   background: ${({ $kind }) =>
-    $kind === "income" ? theme.colors.sage : "#F8EDE3"};
+    $kind === "income" ? theme.colors.primarySoft : theme.colors.amberSoft};
   color: ${({ $kind }) =>
     $kind === "income" ? theme.colors.primary : theme.colors.amber};
   font-size: 1rem;
 `;
 
 const SummaryLabel = styled.span`
-  color: ${theme.colors.textSecondary};
-  font-size: 0.72rem;
+  color: ${theme.colors.textMuted};
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 `;
 
 const SummaryAmount = styled.span`
   overflow: hidden;
   color: ${theme.colors.text};
-  font-size: clamp(0.95rem, 2.3vw, 1.12rem);
-  font-weight: 650;
-  letter-spacing: -0.035em;
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
   text-overflow: ellipsis;
   white-space: nowrap;
-`;
-
-const SummaryCaption = styled.span`
-  grid-column: 2;
-  color: ${theme.colors.textSecondary};
-  font-size: 0.65rem;
 `;
 
 const ChartCard = styled.div`
   margin-top: ${theme.spacing.md};
   padding: ${theme.spacing.md};
-  border: 1px solid ${theme.colors.border};
-  border-radius: ${theme.radius.md};
+  border: ${theme.stroke} solid ${theme.colors.border};
+  border-radius: ${theme.radius.lg};
 `;
 
 const ChartHeader = styled.div`
@@ -573,24 +486,26 @@ const ChartHeader = styled.div`
 const ChartTitle = styled.h3`
   margin: 0;
   color: ${theme.colors.text};
-  font-size: 0.82rem;
-  font-weight: 650;
+  font-size: var(--text-sm);
+  font-weight: 600;
 `;
 
 const ChartSubtitle = styled.p`
-  margin: 5px 0 0;
-  color: ${theme.colors.textSecondary};
-  font-size: 0.67rem;
+  margin: 4px 0 0;
+  color: ${theme.colors.textMuted};
+  font-size: var(--text-xs);
 `;
 
 const ChartBadge = styled.span`
   flex: 0 0 auto;
-  padding: 5px 7px;
+  padding: 4px 8px;
   border-radius: ${theme.radius.sm};
-  background: ${theme.colors.sage};
+  background: ${theme.colors.primarySoft};
   color: ${theme.colors.primary};
-  font-size: 0.63rem;
+  font-size: var(--text-xs);
   font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 `;
 
 const Chart = styled.div`
@@ -598,7 +513,7 @@ const Chart = styled.div`
   grid-template-columns: repeat(7, minmax(0, 1fr));
   align-items: end;
   gap: ${theme.spacing.sm};
-  height: 115px;
+  height: 120px;
   margin-top: ${theme.spacing.md};
 `;
 
@@ -615,11 +530,11 @@ const ChartColumn = styled.div`
 const BarTrack = styled.div`
   display: flex;
   width: 100%;
-  max-width: 27px;
-  height: 90px;
+  max-width: 26px;
+  height: 92px;
   align-items: flex-end;
   overflow: hidden;
-  border-radius: 6px 6px 3px 3px;
+  border-radius: ${theme.radius.sm} ${theme.radius.sm} 2px 2px;
   background: ${theme.colors.background};
 `;
 
@@ -631,9 +546,9 @@ const Bar = styled.div<{
   width: 100%;
   height: ${({ $height }) => $height}%;
   transform-origin: bottom;
-  border-radius: 6px 6px 3px 3px;
+  border-radius: ${theme.radius.sm} ${theme.radius.sm} 2px 2px;
   background: ${({ $highlight }) =>
-    $highlight ? theme.colors.primary : theme.colors.sage};
+    $highlight ? theme.colors.primary : theme.colors.primarySoft};
 
   @media (prefers-reduced-motion: no-preference) {
     animation: ${growBar} 700ms ${({ $delay }) => $delay}ms ease both;
@@ -641,59 +556,40 @@ const Bar = styled.div<{
 `;
 
 const BarLabel = styled.span`
-  color: ${theme.colors.textSecondary};
-  font-size: 0.64rem;
-`;
-
-const PreviewFooter = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${theme.spacing.sm};
-  margin-top: ${theme.spacing.md};
-  color: ${theme.colors.textSecondary};
-  font-size: 0.69rem;
-  line-height: 1.5;
-`;
-
-const PreviewFooterIcon = styled.span`
-  display: grid;
-  flex: 0 0 auto;
-  width: 24px;
-  height: 24px;
-  place-items: center;
-  border-radius: 50%;
-  background: ${theme.colors.sage};
-  color: ${theme.colors.primary};
+  color: ${theme.colors.textMuted};
+  font-size: 0.65rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 `;
 
 const FloatingNote = styled.div`
   position: absolute;
   right: -24px;
-  bottom: 88px;
+  bottom: 72px;
   display: flex;
   align-items: center;
   gap: ${theme.spacing.sm};
   padding: ${theme.spacing.md};
-  border: 1px solid ${theme.colors.border};
-  border-radius: ${theme.radius.md};
+  border: ${theme.stroke} solid ${theme.colors.border};
+  border-radius: ${theme.radius.lg};
   background: ${theme.colors.surface};
-  box-shadow: 0 12px 35px rgb(37 41 35 / 10%);
+  box-shadow: ${theme.elevation.high};
   animation: ${floatIn} 900ms 350ms ease both;
 
   @media (max-width: 600px) {
     right: -5px;
-    bottom: 68px;
+    bottom: 56px;
     padding: ${theme.spacing.sm};
   }
 `;
 
 const FloatingIcon = styled.span`
   display: grid;
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   place-items: center;
   border-radius: ${theme.radius.sm};
-  background: ${theme.colors.sage};
+  background: ${theme.colors.primarySoft};
   color: ${theme.colors.primary};
   font-weight: 700;
 `;
@@ -701,12 +597,12 @@ const FloatingIcon = styled.span`
 const FloatingTitle = styled.p`
   margin: 0;
   color: ${theme.colors.text};
-  font-size: 0.77rem;
-  font-weight: 650;
+  font-size: var(--text-sm);
+  font-weight: 600;
 `;
 
 const FloatingDescription = styled.p`
   margin: 4px 0 0;
-  color: ${theme.colors.textSecondary};
-  font-size: 0.69rem;
+  color: ${theme.colors.textMuted};
+  font-size: var(--text-xs);
 `;

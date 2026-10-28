@@ -3,9 +3,10 @@
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { useQuery } from "@tanstack/react-query";
 import { transactionQueries } from "@/api/transactions";
+import { chartPalette } from "@/styles/chartPalette";
 import styled from "styled-components";
 
-const categoryColors = ["#244B3B", "#719782", "#D9A477", "#A7B9A7", "#D8D9CF"];
+const categoryColors = chartPalette.categories;
 
 const formatCurrency = (amount: number, currency: string) =>
   amount.toLocaleString("en-US", {
@@ -98,12 +99,13 @@ export default function SpendingCategoriesSection() {
                         pointerEvents: "none",
                       }}
                       contentStyle={{
-                        backgroundColor: "#FFFFFF",
-                        border: "1px solid var(--color-border)",
-                        borderRadius: "12px",
-                        boxShadow: "0 6px 20px rgb(37 41 35 / 8%)",
+                        backgroundColor: chartPalette.tooltipBg,
+                        border: `1px solid ${chartPalette.tooltipBorder}`,
+                        borderRadius: "8px",
+                        boxShadow: chartPalette.tooltipShadow,
                         padding: "10px 12px",
                         whiteSpace: "nowrap",
+                        fontFamily: "var(--font-mono)",
                       }}
                     />
                   </PieChart>
@@ -163,7 +165,7 @@ export default function SpendingCategoriesSection() {
 const StyledSpendingCategoriesSection = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: var(--spacing-md);
   min-width: 0;
 `;
 
@@ -171,13 +173,13 @@ const StyledSpendingCategoriesSection_Header = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: var(--spacing-md);
 `;
 
 const StyledSpendingCategoriesSection_Title = styled.h2`
   margin: 0;
   color: var(--color-text);
-  font-size: 18px;
+  font-size: var(--text-lg);
   font-weight: 600;
   letter-spacing: -0.02em;
 `;
@@ -185,7 +187,7 @@ const StyledSpendingCategoriesSection_Title = styled.h2`
 const StyledSpendingCategoriesSection_Description = styled.p`
   margin: 6px 0 0;
   color: var(--color-text-secondary);
-  font-size: 13px;
+  font-size: var(--text-sm);
   line-height: 1.6;
 `;
 
@@ -193,27 +195,27 @@ const StyledSpendingCategoriesSection_Card = styled.div`
   display: grid;
   grid-template-columns: minmax(220px, 0.9fr) minmax(0, 1.1fr);
   align-items: center;
-  gap: 32px;
+  gap: var(--spacing-xl);
   min-width: 0;
-  padding: 28px;
-  border: 1px solid var(--color-border);
+  padding: var(--spacing-xl);
+  border: var(--stroke) solid var(--color-border);
   border-radius: var(--radius-lg);
   background: var(--color-surface);
-  box-shadow: 0 2px 8px rgb(37 41 35 / 3%);
+  box-shadow: var(--elevation-1);
 
   @media (max-width: 760px) {
     grid-template-columns: minmax(0, 1fr);
-    gap: 20px;
-    padding: 20px;
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg);
   }
 `;
 
 const StyledSpendingCategoriesSection_Empty = styled.p`
   grid-column: 1 / -1;
   margin: 0;
-  padding: 32px 0;
-  color: var(--color-text-secondary);
-  font-size: 14px;
+  padding: var(--spacing-xl) 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
   text-align: center;
 `;
 
@@ -245,15 +247,18 @@ const StyledSpendingCategoriesSection_Center = styled.div`
 `;
 
 const StyledSpendingCategoriesSection_CenterLabel = styled.span`
-  color: var(--color-text-secondary);
-  font-size: 12px;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 `;
 
 const StyledSpendingCategoriesSection_CenterAmount = styled.span`
-  color: var(--color-text);
-  font-size: clamp(20px, 3vw, 25px);
-  font-weight: 650;
-  letter-spacing: -0.04em;
+  color: var(--color-primary);
+  font-family: var(--font-mono);
+  font-size: clamp(20px, 3vw, 24px);
+  font-weight: 500;
+  letter-spacing: -0.025em;
   font-variant-numeric: tabular-nums;
 `;
 
@@ -267,9 +272,9 @@ const StyledSpendingCategoriesSection_Item = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 16px 0;
-  border-bottom: 1px solid var(--color-border);
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) 0;
+  border-bottom: var(--stroke) solid var(--color-border);
 
   &:first-child {
     padding-top: 0;
@@ -301,7 +306,7 @@ const StyledSpendingCategoriesSection_Dot = styled.span<{
 const StyledSpendingCategoriesSection_ItemName = styled.span`
   overflow: hidden;
   color: var(--color-text);
-  font-size: 13px;
+  font-size: var(--text-sm);
   font-weight: 500;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -310,7 +315,8 @@ const StyledSpendingCategoriesSection_ItemName = styled.span`
 const StyledSpendingCategoriesSection_ItemAmount = styled.p`
   margin: 0;
   color: var(--color-text);
-  font-size: 13px;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
   font-weight: 600;
   text-align: right;
   font-variant-numeric: tabular-nums;
@@ -319,8 +325,9 @@ const StyledSpendingCategoriesSection_ItemAmount = styled.p`
 
 const StyledSpendingCategoriesSection_ItemPercentage = styled.p`
   margin: 4px 0 0;
-  color: var(--color-text-secondary);
-  font-size: 12px;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
   text-align: right;
   font-variant-numeric: tabular-nums;
 `;

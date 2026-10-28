@@ -21,7 +21,7 @@ export default function LandingHeader() {
           <SignInLink href="/dashboard">Dashboard</SignInLink>
 
           <HeaderButton href="/onboarding">
-            Get started <span aria-hidden="true">↗</span>
+            Get started <span aria-hidden="true">→</span>
           </HeaderButton>
         </HeaderActions>
       </Navigation>
@@ -32,7 +32,7 @@ export default function LandingHeader() {
 const Header = styled.header`
   position: relative;
   z-index: 5;
-  border-bottom: 1px solid ${theme.colors.border};
+  border-bottom: ${theme.stroke} solid ${theme.colors.border};
   background: ${theme.colors.background};
 `;
 
@@ -42,12 +42,12 @@ const Navigation = styled.nav`
   justify-content: space-between;
   gap: ${theme.spacing.lg};
   width: 100%;
-  max-width: 1280px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: ${theme.spacing.md} ${theme.spacing["2xl"]};
+  padding: 20px ${theme.spacing["2xl"]};
 
   @media (max-width: 700px) {
-    padding: ${theme.spacing.md} ${theme.spacing.lg};
+    padding: 18px ${theme.spacing.lg};
   }
 `;
 
@@ -55,9 +55,9 @@ const Brand = styled(Link)`
   display: inline-flex;
   align-items: center;
   color: ${theme.colors.primary};
-  font-size: 1.55rem;
-  font-weight: 750;
-  letter-spacing: -0.075em;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.055em;
   text-decoration: none;
 
   span {
@@ -86,6 +86,7 @@ const NavLinks = styled.div`
 const NavLink = styled.a`
   color: ${theme.colors.textSecondary};
   font-size: 0.875rem;
+  font-weight: 500;
   text-decoration: none;
   transition: color 160ms ease;
 
@@ -119,10 +120,11 @@ const HeaderButton = styled(Link)`
   display: inline-flex;
   align-items: center;
   gap: ${theme.spacing.sm};
-  padding: 11px 16px;
-  border-radius: ${theme.radius.sm};
+  padding: 10px 16px;
+  border: ${theme.stroke} solid ${theme.colors.primary};
+  border-radius: ${theme.radius.md};
   background: ${theme.colors.primary};
-  color: #ffffff;
+  color: ${theme.colors.textOnPrimary};
   font-size: 0.85rem;
   font-weight: 600;
   text-decoration: none;
@@ -136,7 +138,7 @@ const HeaderButton = styled(Link)`
   }
 
   &:focus-visible {
-    outline: 3px solid ${theme.colors.amber};
+    outline: 2px solid ${theme.colors.amber};
     outline-offset: 3px;
   }
 `;

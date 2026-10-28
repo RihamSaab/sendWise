@@ -112,30 +112,30 @@ const StyledSidebar = styled.aside`
   flex-direction: column;
   min-width: 250px;
   height: 100vh;
-  padding: 28px 18px 20px;
+  padding: var(--spacing-xl) var(--spacing-md) var(--spacing-lg);
   flex-shrink: 0;
   background: var(--color-surface);
-  border-right: 1px solid var(--color-border);
+  border-right: var(--stroke) solid var(--color-border);
 
   @media (max-width: 640px) {
     position: static;
     width: 100%;
     height: auto;
-    padding: 16px;
+    padding: var(--spacing-md);
     border-right: none;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: var(--stroke) solid var(--color-border);
   }
 `;
 
 const StyledSidebar_Brand = styled(Link)`
   display: flex;
   align-items: center;
-  gap: 11px;
+  gap: var(--spacing-sm);
   padding: 4px 10px;
-  margin-bottom: 44px;
+  margin-bottom: var(--spacing-2xl);
 
   @media (max-width: 640px) {
-    margin-bottom: 20px;
+    margin-bottom: var(--spacing-md);
   }
 `;
 
@@ -145,22 +145,22 @@ const StyledSidebar_BrandMark = styled.span`
   height: 36px;
   flex-shrink: 0;
   place-items: center;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   background: var(--color-primary);
-  color: #fff;
+  color: var(--color-text-on-primary);
 `;
 
 const StyledSidebar_BrandName = styled.span`
   color: var(--color-text);
-  font-size: 18px;
-  font-weight: 650;
-  letter-spacing: -0.045em;
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: -0.035em;
 `;
 
 const StyledSidebar_Navigation = styled.nav`
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 4px;
 
   @media (max-width: 640px) {
     flex-direction: row;
@@ -172,15 +172,15 @@ const StyledSidebar_Navigation = styled.nav`
 const StyledSidebar_NavLink = styled(Link)<{ $active: boolean }>`
   display: flex;
   align-items: center;
-  gap: 12px;
-  min-height: 44px;
-  padding: 0 12px;
-  border-radius: 11px;
+  gap: var(--spacing-sm);
+  min-height: 42px;
+  padding: 0 var(--spacing-sm) 0 var(--spacing-md);
+  border-radius: var(--radius-md);
   background: ${({ $active }) =>
-    $active ? "var(--color-sage)" : "transparent"};
+    $active ? "var(--color-primary-soft)" : "transparent"};
   color: ${({ $active }) =>
     $active ? "var(--color-primary)" : "var(--color-text-secondary)"};
-  font-size: 13px;
+  font-size: var(--text-sm);
   font-weight: ${({ $active }) => ($active ? 600 : 500)};
   transition:
     background 180ms ease,
@@ -188,7 +188,7 @@ const StyledSidebar_NavLink = styled(Link)<{ $active: boolean }>`
   white-space: nowrap;
 
   &:hover {
-    background: var(--color-sage);
+    background: var(--color-primary-soft);
     color: var(--color-primary);
   }
 
@@ -210,7 +210,7 @@ const StyledSidebar_NavIcon = styled.span<{
   place-items: center;
   flex-shrink: 0;
   color: ${({ $active }) =>
-    $active ? "var(--color-primary)" : "var(--color-text-secondary)"};
+    $active ? "var(--color-primary)" : "var(--color-text-muted)"};
 `;
 
 const StyledSidebar_NavLabel = styled.span`
@@ -221,9 +221,9 @@ const StyledSidebar_NavLabel = styled.span`
 const StyledSidebar_Bottom = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--spacing-md);
   margin-top: auto;
-  padding-top: 24px;
+  padding-top: var(--spacing-lg);
 
   @media (max-width: 640px) {
     display: none;
@@ -233,18 +233,18 @@ const StyledSidebar_Bottom = styled.div`
 const StyledSidebar_Profile = styled.div`
   display: flex;
   align-items: center;
-  gap: 11px;
-  padding: 16px 8px 4px;
-  border-top: 1px solid var(--color-border);
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) 8px 4px;
+  border-top: var(--stroke) solid var(--color-border);
 `;
 
 const StyledSidebar_Avatar = styled.div`
   display: grid;
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   flex-shrink: 0;
   place-items: center;
-  border: 1px solid var(--color-border);
+  border: var(--stroke) solid var(--color-border);
   border-radius: 50%;
   background: var(--color-background);
   color: var(--color-primary);
@@ -253,17 +253,17 @@ const StyledSidebar_Avatar = styled.div`
 const StyledSidebar_ProfileInfo = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
   min-width: 0;
 `;
 
 const StyledSidebar_ProfileName = styled.span`
   color: var(--color-text);
-  font-size: 13px;
+  font-size: var(--text-sm);
   font-weight: 600;
 `;
 
 const StyledSidebar_ProfileDescription = styled.span`
-  color: var(--color-text-secondary);
-  font-size: 11px;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
 `;

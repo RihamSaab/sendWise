@@ -19,19 +19,19 @@ export default function DashboardPage() {
 
 const StyledDashboard = styled.main`
   width: 100%;
-  max-width: 1440px;
+  max-width: 1200px;
   min-height: 100vh;
   margin: 0 auto;
-  padding: 40px;
+  padding: var(--spacing-2xl);
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: var(--spacing-xl);
 
   @media (max-width: 768px) {
-    padding: 24px;
+    padding: var(--spacing-lg);
   }
 
   @media (max-width: 480px) {
-    padding: 20px 16px;
+    padding: var(--spacing-md);
   }
 `;

@@ -209,9 +209,10 @@ const Overlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: var(--spacing-md);
   overflow-y: auto;
-  background: rgb(20 28 23 / 55%);
+  background: rgb(31 36 32 / 45%);
+  backdrop-filter: blur(2px);
 `;
 
 const Panel = styled.section`
@@ -219,14 +220,14 @@ const Panel = styled.section`
   max-width: 520px;
   max-height: calc(100dvh - 40px);
   overflow-y: auto;
-  padding: 28px;
-  border: 1px solid var(--color-border);
+  padding: var(--spacing-xl);
+  border: var(--stroke) solid var(--color-border);
   border-radius: var(--radius-lg);
   background: var(--color-surface);
-  box-shadow: 0 20px 60px rgb(0 0 0 / 15%);
+  box-shadow: var(--elevation-3);
 
   @media (max-width: 480px) {
-    padding: 20px;
+    padding: var(--spacing-lg);
   }
 `;
 
@@ -234,14 +235,14 @@ const Header = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 20px;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
 `;
 
 const Title = styled.h2`
   margin: 0;
   color: var(--color-text);
-  font-size: 20px;
+  font-size: var(--text-lg);
   font-weight: 600;
   letter-spacing: -0.025em;
 `;
@@ -249,7 +250,7 @@ const Title = styled.h2`
 const Description = styled.p`
   margin: 6px 0 0;
   color: var(--color-text-secondary);
-  font-size: 13px;
+  font-size: var(--text-sm);
 `;
 
 const CloseButton = styled.button`
@@ -258,14 +259,15 @@ const CloseButton = styled.button`
   width: 36px;
   height: 36px;
   place-items: center;
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
+  border: var(--stroke) solid var(--color-border);
+  border-radius: var(--radius-md);
   background: var(--color-surface);
-  font-size: 20px;
+  font-size: var(--text-lg);
   cursor: pointer;
+  transition: border-color 150ms ease;
 
   &:hover {
-    background: var(--color-background);
+    border-color: var(--color-primary);
   }
 
   &:disabled {
@@ -277,7 +279,7 @@ const CloseButton = styled.button`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--spacing-md);
 `;
 
 const Field = styled.div`
@@ -289,23 +291,24 @@ const Field = styled.div`
 
 const Label = styled.label`
   color: var(--color-text);
-  font-size: 13px;
-  font-weight: 550;
+  font-size: var(--text-sm);
+  font-weight: 600;
 `;
 
 const inputStyles = `
   width: 100%;
   min-width: 0;
   min-height: 42px;
-  padding: 0 12px;
+  padding: 0 var(--spacing-sm);
   box-sizing: border-box;
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
+  border: var(--stroke) solid var(--color-border);
+  border-radius: var(--radius-md);
   outline: none;
-  background: var(--color-background);
+  background: var(--color-surface);
   color: var(--color-text);
   font: inherit;
-  font-size: 14px;
+  font-size: var(--text-base);
+  transition: border-color 150ms ease, box-shadow 150ms ease;
 
   &:focus {
     border-color: var(--color-primary);
@@ -319,14 +322,14 @@ const Input = styled.input`
 
 const TextArea = styled.textarea`
   ${inputStyles}
-  padding: 10px 12px;
+  padding: var(--spacing-sm);
   resize: vertical;
 `;
 
 const TwoColumn = styled.div`
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  gap: var(--spacing-sm);
 
   @media (max-width: 420px) {
     grid-template-columns: minmax(0, 1fr);
@@ -336,28 +339,29 @@ const TwoColumn = styled.div`
 const ErrorText = styled.p`
   margin: 0;
   color: var(--color-error);
-  font-size: 12px;
+  font-size: var(--text-xs);
 `;
 
 const Actions = styled.div`
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
+  gap: var(--spacing-sm);
 `;
 
 const CancelButton = styled.button`
   min-height: 42px;
-  padding: 0 14px;
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
+  padding: 0 var(--spacing-md);
+  border: var(--stroke) solid var(--color-border);
+  border-radius: var(--radius-md);
   background: var(--color-surface);
   color: var(--color-text);
-  font-size: 13px;
-  font-weight: 500;
+  font-size: var(--text-sm);
+  font-weight: 600;
   cursor: pointer;
+  transition: border-color 150ms ease;
 
   &:hover:not(:disabled) {
-    background: var(--color-background);
+    border-color: var(--color-primary);
   }
 
   &:disabled {
@@ -368,14 +372,24 @@ const CancelButton = styled.button`
 
 const SubmitButton = styled.button`
   min-height: 42px;
-  padding: 0 18px;
-  border: none;
-  border-radius: 10px;
+  padding: 0 var(--spacing-lg);
+  border: var(--stroke) solid var(--color-primary);
+  border-radius: var(--radius-md);
   background: var(--color-primary);
-  color: #fff;
-  font-size: 13px;
+  color: var(--color-text-on-primary);
+  font-size: var(--text-sm);
   font-weight: 600;
   cursor: pointer;
+  transition:
+    background 150ms ease,
+    transform 150ms ease,
+    box-shadow 150ms ease;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    background: var(--color-primary-hover);
+    box-shadow: var(--elevation-2);
+  }
 
   &:disabled {
     opacity: 0.6;

@@ -40,30 +40,30 @@ const StyledTransactionsPage_Header = styled.header`
   flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 16px;
+  gap: var(--spacing-md);
 `;
 
 const StyledTransactionsPage_Eyebrow = styled.p`
   margin: 0 0 8px;
   color: var(--color-primary);
-  font-size: 11px;
-  font-weight: 650;
-  letter-spacing: 0.12em;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 `;
 
 const StyledTransactionsPage_Title = styled.h1`
   margin: 0;
   color: var(--color-text);
-  font-size: clamp(28px, 4vw, 36px);
+  font-size: clamp(28px, 4vw, 34px);
   font-weight: 600;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.035em;
 `;
 
 const StyledTransactionsPage_Description = styled.p`
   margin: 8px 0 0;
   color: var(--color-text-secondary);
-  font-size: 14px;
+  font-size: var(--text-base);
   line-height: 1.7;
 `;
 
@@ -71,24 +71,29 @@ const StyledTransactionsPage_AddButton = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: var(--spacing-xs);
   min-height: 42px;
-  padding: 0 18px;
-  border: none;
-  border-radius: 10px;
+  padding: 0 var(--spacing-lg);
+  border: var(--stroke) solid var(--color-primary);
+  border-radius: var(--radius-md);
   background: var(--color-primary);
-  color: white;
-  font-size: 13px;
+  color: var(--color-text-on-primary);
+  font-size: var(--text-sm);
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 160ms ease;
+  transition:
+    background 160ms ease,
+    transform 160ms ease,
+    box-shadow 160ms ease;
 
   &:hover {
-    opacity: 0.9;
+    transform: translateY(-1px);
+    background: var(--color-primary-hover);
+    box-shadow: var(--elevation-2);
   }
 
   &:focus-visible {
-    outline: 3px solid rgb(36 75 59 / 25%);
+    outline: 2px solid var(--color-amber);
     outline-offset: 2px;
   }
 `;

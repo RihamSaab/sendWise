@@ -74,9 +74,9 @@ const StyledTransactionsPage_Toolbar = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 12px;
-  padding: 18px;
-  border: 1px solid var(--color-border);
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  border: var(--stroke) solid var(--color-border);
   border-bottom: none;
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   background: var(--color-surface);
@@ -86,15 +86,19 @@ const StyledTransactionsPage_Search = styled.input`
   flex: 1;
   min-width: 180px;
   height: 42px;
-  padding: 0 14px;
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
+  padding: 0 var(--spacing-md);
+  border: var(--stroke) solid var(--color-border);
+  border-radius: var(--radius-md);
   outline: none;
-  background: var(--color-background);
+  background: var(--color-surface);
   color: var(--color-text);
+  font-size: var(--text-base);
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
 
   &::placeholder {
-    color: var(--color-text-secondary);
+    color: var(--color-text-muted);
   }
 
   &:focus {

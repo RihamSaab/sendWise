@@ -208,15 +208,15 @@ const LoadingMessage = styled.main`
   display: grid;
   min-height: 100vh;
   place-items: center;
-  padding: 24px;
-  background: #f7f6f0;
-  color: #244b3b;
+  padding: var(--spacing-lg);
+  background: var(--color-background);
+  color: var(--color-primary);
   text-align: center;
 `;
 
 const ErrorMessage = styled.p`
-  margin: 20px 0 0;
-  color: #b42318;
-  font-size: 0.875rem;
+  margin: var(--spacing-md) 0 0;
+  color: var(--color-error);
+  font-size: var(--text-sm);
   line-height: 1.5;
 `;

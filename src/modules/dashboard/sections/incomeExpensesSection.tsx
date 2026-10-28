@@ -15,6 +15,7 @@ import styled from "styled-components";
 
 import { transactionQueries } from "@/api/transactions";
 import { formatCurrency } from "@/shared/formatCurrency";
+import { chartPalette } from "@/styles/chartPalette";
 
 export default function IncomeExpensesSection() {
   const { data: monthly, isPending, isError } = useQuery(
@@ -55,7 +56,7 @@ export default function IncomeExpensesSection() {
               barGap={8}
             >
               <CartesianGrid
-                stroke="var(--color-border)"
+                stroke={chartPalette.grid}
                 strokeDasharray="3 3"
                 vertical={false}
               />
@@ -64,14 +65,14 @@ export default function IncomeExpensesSection() {
                 dataKey="label"
                 axisLine={false}
                 tickLine={false}
-                tick={{ fill: "var(--color-text-secondary)", fontSize: 12 }}
+                tick={{ fill: chartPalette.axis, fontSize: 11 }}
                 dy={10}
               />
 
               <YAxis
                 axisLine={false}
                 tickLine={false}
-                tick={{ fill: "var(--color-text-secondary)", fontSize: 12 }}
+                tick={{ fill: chartPalette.axis, fontSize: 11 }}
                 tickFormatter={(value: number) => `${value / 1000}k`}
                 width={48}
               />
@@ -79,18 +80,20 @@ export default function IncomeExpensesSection() {
               <Tooltip
                 formatter={(value) => formatCurrency(Number(value), currency)}
                 contentStyle={{
-                  backgroundColor: "#FFFFFF",
-                  border: "1px solid var(--color-border)",
-                  borderRadius: "12px",
-                  boxShadow: "0 6px 20px rgb(37 41 35 / 8%)",
+                  backgroundColor: chartPalette.tooltipBg,
+                  border: `1px solid ${chartPalette.tooltipBorder}`,
+                  borderRadius: "8px",
+                  boxShadow: chartPalette.tooltipShadow,
                   padding: "12px 14px",
+                  fontFamily: "var(--font-mono)",
                 }}
                 labelStyle={{
                   color: "var(--color-text)",
+                  fontFamily: "var(--font-sans)",
                   fontWeight: 600,
                   marginBottom: 6,
                 }}
-                cursor={{ fill: "rgba(36, 75, 59, 0.05)" }}
+                cursor={{ fill: chartPalette.cursor }}
               />
 
               <Legend
@@ -108,16 +111,16 @@ export default function IncomeExpensesSection() {
               <Bar
                 dataKey="income"
                 name="Income"
-                fill="#244B3B"
-                radius={[5, 5, 0, 0]}
+                fill={chartPalette.income}
+                radius={[4, 4, 0, 0]}
                 maxBarSize={24}
               />
 
               <Bar
                 dataKey="expenses"
                 name="Expenses"
-                fill="#D9A477"
-                radius={[5, 5, 0, 0]}
+                fill={chartPalette.expense}
+                radius={[4, 4, 0, 0]}
                 maxBarSize={24}
               />
             </BarChart>
@@ -135,7 +138,7 @@ export default function IncomeExpensesSection() {
 const StyledIncomeExpensesSection = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: var(--spacing-md);
   min-width: 0;
 `;
 
@@ -143,13 +146,13 @@ const StyledIncomeExpensesSection_Header = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: var(--spacing-md);
 `;
 
 const StyledIncomeExpensesSection_Title = styled.h2`
   margin: 0;
   color: var(--color-text);
-  font-size: 18px;
+  font-size: var(--text-lg);
   font-weight: 600;
   letter-spacing: -0.02em;
 `;
@@ -157,7 +160,7 @@ const StyledIncomeExpensesSection_Title = styled.h2`
 const StyledIncomeExpensesSection_Description = styled.p`
   margin: 6px 0 0;
   color: var(--color-text-secondary);
-  font-size: 13px;
+  font-size: var(--text-sm);
   line-height: 1.6;
 `;
 
@@ -167,21 +170,21 @@ const StyledIncomeExpensesSection_Chart = styled.div`
   width: 100%;
   height: 340px;
   min-width: 0;
-  padding: 24px 20px 16px;
-  border: 1px solid var(--color-border);
+  padding: var(--spacing-lg) var(--spacing-md) var(--spacing-md);
+  border: var(--stroke) solid var(--color-border);
   border-radius: var(--radius-lg);
   background: var(--color-surface);
-  box-shadow: 0 2px 8px rgb(37 41 35 / 3%);
+  box-shadow: var(--elevation-1);
 
   @media (max-width: 560px) {
     height: 300px;
-    padding: 20px 8px 12px;
+    padding: var(--spacing-md) var(--spacing-sm) 12px;
   }
 `;
 
 const StyledIncomeExpensesSection_Message = styled.p`
   margin: 0;
-  color: var(--color-text-secondary);
-  font-size: 14px;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
   text-align: center;
 `;

@@ -71,35 +71,35 @@ export default function LandingFeatures() {
 
 const FeatureSection = styled.section`
   width: 100%;
-  max-width: 1280px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 100px ${theme.spacing["2xl"]};
+  padding: ${theme.spacing["3xl"]} ${theme.spacing["2xl"]};
 
   @media (max-width: 700px) {
-    padding: 72px ${theme.spacing.lg};
+    padding: ${theme.spacing["3xl"]} ${theme.spacing.lg};
   }
 `;
 
 const SectionHeading = styled.div`
   max-width: 650px;
-  margin-bottom: 48px;
+  margin-bottom: ${theme.spacing["2xl"]};
 `;
 
 const SectionEyebrow = styled.p`
   margin: 0 0 ${theme.spacing.md};
   color: ${theme.colors.primary};
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: var(--text-xs);
+  font-weight: 600;
   letter-spacing: 0.14em;
 `;
 
 const SectionTitle = styled.h2`
   margin: 0;
   color: ${theme.colors.text};
-  font-size: clamp(2.2rem, 4.5vw, 3.5rem);
-  font-weight: 650;
-  letter-spacing: -0.065em;
-  line-height: 1.12;
+  font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 1.1;
 `;
 
 const SectionTitleAccent = styled.span`
@@ -111,7 +111,7 @@ const SectionDescription = styled.p`
   margin: ${theme.spacing.lg} 0 0;
   color: ${theme.colors.textSecondary};
   font-size: 1rem;
-  line-height: 1.8;
+  line-height: 1.75;
 `;
 
 const FeatureGrid = styled.div`
@@ -130,18 +130,19 @@ const FeatureCard = styled.article`
   flex-direction: column;
   align-items: flex-start;
   padding: ${theme.spacing.xl};
-  border: 1px solid ${theme.colors.border};
+  border: ${theme.stroke} solid ${theme.colors.border};
   border-radius: ${theme.radius.lg};
   background: ${theme.colors.surface};
+  box-shadow: ${theme.elevation.low};
   transition:
     transform 180ms ease,
     border-color 180ms ease,
     box-shadow 180ms ease;
 
   &:hover {
-    transform: translateY(-4px);
-    border-color: ${theme.colors.sage};
-    box-shadow: 0 12px 32px rgb(36 75 59 / 7%);
+    transform: translateY(-2px);
+    border-color: ${theme.colors.primary};
+    box-shadow: ${theme.elevation.medium};
   }
 `;
 
@@ -159,30 +160,32 @@ const FeatureIcon = styled.span`
   height: 44px;
   place-items: center;
   border-radius: ${theme.radius.md};
-  background: ${theme.colors.sage};
+  background: ${theme.colors.primarySoft};
   color: ${theme.colors.primary};
   font-size: 1.4rem;
 `;
 
 const FeatureNumber = styled.span`
-  color: ${theme.colors.textSecondary};
-  font-size: 0.8rem;
+  color: ${theme.colors.textMuted};
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
   font-weight: 600;
+  letter-spacing: 0.04em;
 `;
 
 const FeatureTitle = styled.h3`
   margin: 0 0 ${theme.spacing.sm};
   color: ${theme.colors.text};
-  font-size: 1.2rem;
-  font-weight: 650;
-  letter-spacing: -0.035em;
+  font-size: var(--text-lg);
+  font-weight: 600;
+  letter-spacing: -0.02em;
 `;
 
 const FeatureDescription = styled.p`
   margin: 0 0 ${theme.spacing.lg};
   color: ${theme.colors.textSecondary};
   font-size: 0.9rem;
-  line-height: 1.75;
+  line-height: 1.7;
 `;
 
 const FeatureLink = styled.a`
@@ -191,8 +194,8 @@ const FeatureLink = styled.a`
   gap: ${theme.spacing.sm};
   margin-top: auto;
   color: ${theme.colors.primary};
-  font-size: 0.85rem;
-  font-weight: 650;
+  font-size: var(--text-sm);
+  font-weight: 600;
   text-decoration: none;
 
   &:hover {

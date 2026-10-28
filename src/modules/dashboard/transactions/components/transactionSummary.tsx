@@ -54,7 +54,7 @@ export default function TransactionSummary({
 const StyledSummary = styled.div`
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
+  gap: var(--spacing-md);
 
   @media (max-width: 640px) {
     grid-template-columns: minmax(0, 1fr);
@@ -62,23 +62,36 @@ const StyledSummary = styled.div`
 `;
 
 const StyledSummary_Card = styled.article`
-  padding: 20px;
-  border: 1px solid var(--color-border);
+  padding: var(--spacing-lg);
+  border: var(--stroke) solid var(--color-border);
   border-radius: var(--radius-lg);
   background: var(--color-surface);
+  box-shadow: var(--elevation-1);
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+
+  &:hover {
+    border-color: var(--color-border-strong);
+    box-shadow: var(--elevation-2);
+  }
 `;
 
 const StyledSummary_Label = styled.p`
   margin: 0 0 10px;
-  color: var(--color-text-secondary);
-  font-size: 13px;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 `;
 
 const StyledSummary_Amount = styled.p`
   margin: 0;
-  color: var(--color-text);
-  font-size: 24px;
-  font-weight: 600;
-  letter-spacing: -0.035em;
+  color: var(--color-primary);
+  font-family: var(--font-mono);
+  font-size: var(--text-xl);
+  font-weight: 500;
+  letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;
 `;

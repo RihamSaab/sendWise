@@ -36,13 +36,13 @@ export default function LandingFinalCta() {
 const FinalCta = styled.section`
   position: relative;
   overflow: hidden;
-  margin: 32px ${theme.spacing["2xl"]};
-  border-radius: ${theme.radius.lg};
+  margin: ${theme.spacing.xl} ${theme.spacing["2xl"]};
+  border-radius: ${theme.radius.xl};
   background: ${theme.colors.primary};
-  color: #ffffff;
+  color: ${theme.colors.textOnPrimary};
 
   @media (max-width: 700px) {
-    margin: 24px ${theme.spacing.lg};
+    margin: ${theme.spacing.lg};
   }
 `;
 
@@ -57,7 +57,7 @@ const CtaCircle = styled.div`
   position: absolute;
   width: 320px;
   height: 320px;
-  border: 1px solid rgb(255 255 255 / 12%);
+  border: ${theme.stroke} solid rgb(255 255 255 / 12%);
   border-radius: 50%;
 
   &:first-child {
@@ -78,29 +78,29 @@ const CtaContent = styled.div`
   z-index: 1;
   max-width: 700px;
   margin: 0 auto;
-  padding: 72px ${theme.spacing.xl};
+  padding: ${theme.spacing["3xl"]} ${theme.spacing.xl};
   text-align: center;
 
   @media (max-width: 600px) {
-    padding: 56px ${theme.spacing.lg};
+    padding: ${theme.spacing["2xl"]} ${theme.spacing.lg};
   }
 `;
 
 const CtaEyebrow = styled.p`
   margin: 0 0 ${theme.spacing.md};
-  color: ${theme.colors.sage};
-  font-size: 0.75rem;
-  font-weight: 700;
+  color: ${theme.colors.primarySoft};
+  font-size: var(--text-xs);
+  font-weight: 600;
   letter-spacing: 0.14em;
 `;
 
 const CtaTitle = styled.h2`
   margin: 0;
-  color: #ffffff;
+  color: ${theme.colors.textOnPrimary};
   font-size: clamp(2.2rem, 5vw, 3.6rem);
-  font-weight: 650;
-  letter-spacing: -0.065em;
-  line-height: 1.12;
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 1.1;
 `;
 
 const CtaDescription = styled.p`
@@ -108,7 +108,7 @@ const CtaDescription = styled.p`
   margin: ${theme.spacing.lg} auto ${theme.spacing.xl};
   color: rgb(255 255 255 / 78%);
   font-size: 0.95rem;
-  line-height: 1.8;
+  line-height: 1.75;
 `;
 
 const CtaButton = styled(Link)`
@@ -116,24 +116,24 @@ const CtaButton = styled(Link)`
   align-items: center;
   justify-content: center;
   gap: ${theme.spacing.sm};
-  padding: 13px 20px;
-  border-radius: ${theme.radius.sm};
-  background: #ffffff;
+  padding: 12px 20px;
+  border-radius: ${theme.radius.md};
+  background: ${theme.colors.textOnPrimary};
   color: ${theme.colors.primary};
   font-size: 0.9rem;
-  font-weight: 650;
+  font-weight: 600;
   text-decoration: none;
   transition:
     transform 180ms ease,
     background 180ms ease;
 
   &:hover {
-    transform: translateY(-2px);
-    background: ${theme.colors.sage};
+    transform: translateY(-1px);
+    background: ${theme.colors.primarySoft};
   }
 
   &:focus-visible {
-    outline: 3px solid ${theme.colors.amber};
+    outline: 2px solid ${theme.colors.amber};
     outline-offset: 3px;
   }
 `;

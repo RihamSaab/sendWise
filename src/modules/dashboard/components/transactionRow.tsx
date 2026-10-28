@@ -57,9 +57,9 @@ export default function TransactionRow({ transaction }: TransactionRowProps) {
 const StyledTransactionRow = styled.article`
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 17px 0;
-  border-bottom: 1px solid var(--color-border);
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) 0;
+  border-bottom: var(--stroke) solid var(--color-border);
 
   &:last-child {
     border-bottom: none;
@@ -70,25 +70,28 @@ const StyledTransactionRow_Icon = styled.div<{
   $type: TransactionType;
 }>`
   display: grid;
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   flex-shrink: 0;
   place-items: center;
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   background: ${({ $type }) =>
-    $type === "income" ? "var(--color-sage)" : "var(--color-background)"};
+    $type === "income"
+      ? "var(--color-primary-soft)"
+      : "var(--color-surface-muted)"};
   color: ${({ $type }) =>
     $type === "income"
       ? "var(--color-primary)"
       : "var(--color-text-secondary)"};
-  font-size: 21px;
+  font-family: var(--font-mono);
+  font-size: var(--text-lg);
   font-weight: 500;
 `;
 
 const StyledTransactionRow_Details = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 4px;
   flex: 1;
   min-width: 0;
 `;
@@ -96,7 +99,7 @@ const StyledTransactionRow_Details = styled.div`
 const StyledTransactionRow_Name = styled.span`
   overflow: hidden;
   color: var(--color-text);
-  font-size: 13px;
+  font-size: var(--text-sm);
   font-weight: 600;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -105,9 +108,9 @@ const StyledTransactionRow_Name = styled.span`
 const StyledTransactionRow_Meta = styled.div`
   display: flex;
   align-items: center;
-  gap: 7px;
-  color: var(--color-text-secondary);
-  font-size: 12px;
+  gap: 6px;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
 `;
 
 const StyledTransactionRow_Category = styled.span`
@@ -122,7 +125,9 @@ const StyledTransactionRow_Amount = styled.span<{
   flex-shrink: 0;
   color: ${({ $type }) =>
     $type === "income" ? "var(--color-primary)" : "var(--color-text)"};
-  font-size: 13px;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
   font-weight: 600;
+  letter-spacing: -0.01em;
   font-variant-numeric: tabular-nums;
 `;

@@ -431,27 +431,28 @@ export default function Savings({ defaultValues, onSuccess }: SavingsProps) {
 }
 
 const Section = styled.section`
-  margin-top: 28px;
-  padding: 22px;
-  border: 1px solid #e3e7df;
-  border-radius: 14px;
-  background: #fcfcf9;
+  margin-top: var(--spacing-lg);
+  padding: var(--spacing-lg);
+  border: var(--stroke) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-muted);
 
   @media (max-width: 560px) {
-    padding: 16px;
+    padding: var(--spacing-md);
   }
 `;
 
 const SectionTitle = styled.h2`
-  margin: 0 0 16px;
-  color: #244b3b;
-  font-size: 1.05rem;
+  margin: 0 0 var(--spacing-md);
+  color: var(--color-primary);
+  font-size: var(--text-md);
   font-weight: 600;
+  letter-spacing: -0.015em;
 `;
 
 const SectionDescription = styled.p`
-  margin: -6px 0 18px;
-  color: #6b756f;
+  margin: -6px 0 var(--spacing-md);
+  color: var(--color-text-secondary);
   font-size: 0.875rem;
   line-height: 1.6;
 `;
@@ -460,8 +461,8 @@ const Field = styled.div`
   display: flex;
   min-width: 0;
   flex-direction: column;
-  gap: 8px;
-  margin-bottom: 18px;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
 
   &:last-child {
     margin-bottom: 0;
@@ -469,21 +470,21 @@ const Field = styled.div`
 `;
 
 const Label = styled.label`
-  color: #273b31;
-  font-size: 0.85rem;
-  font-weight: 500;
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  font-weight: 600;
 `;
 
 const PercentageRow = styled.div`
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--spacing-md);
 `;
 
 const Range = styled.input`
   flex: 1;
   min-width: 0;
-  accent-color: #244b3b;
+  accent-color: var(--color-primary);
   cursor: pointer;
 `;
 
@@ -491,45 +492,50 @@ const PercentageInput = styled.input`
   width: 76px;
   min-height: 42px;
   padding: 8px;
-  border: 1px solid #dce2dc;
-  border-radius: 9px;
-  background: white;
-  color: #244b3b;
+  border: var(--stroke) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-primary);
   font: inherit;
+  font-family: var(--font-mono);
   text-align: center;
 `;
 
 const PercentSign = styled.span`
   margin-left: -8px;
-  color: #526c5c;
+  color: var(--color-text-secondary);
 `;
 
 const Hint = styled.p`
   margin: 0;
-  color: #778078;
-  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
   line-height: 1.5;
 `;
 
 const ChoiceList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--spacing-sm);
 `;
 
 const Choice = styled.label<{ $selected: boolean }>`
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  padding: 16px;
-  border: 1px solid ${({ $selected }) => ($selected ? "#8ca995" : "#e3e7df")};
-  border-radius: 10px;
-  background: ${({ $selected }) => ($selected ? "#f0f6ef" : "#fff")};
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  border: var(--stroke) solid
+    ${({ $selected }) =>
+      $selected ? "var(--color-primary)" : "var(--color-border)"};
+  border-radius: var(--radius-md);
+  background: ${({ $selected }) =>
+    $selected ? "var(--color-primary-soft)" : "var(--color-surface)"};
   cursor: pointer;
+  transition: border-color 150ms ease;
 
   input {
     margin-top: 4px;
-    accent-color: #244b3b;
+    accent-color: var(--color-primary);
   }
 `;
 
@@ -540,13 +546,13 @@ const ChoiceText = styled.span`
 `;
 
 const ChoiceTitle = styled.span`
-  color: #273b31;
+  color: var(--color-text);
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
 `;
 
 const ChoiceDescription = styled.span`
-  color: #6b756f;
+  color: var(--color-text-secondary);
   font-size: 0.825rem;
   line-height: 1.5;
 `;
@@ -554,18 +560,19 @@ const ChoiceDescription = styled.span`
 const GoalList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: var(--spacing-md);
 `;
 
 const GoalCard = styled.article<{ $inactive: boolean }>`
-  padding: 20px;
-  border: 1px solid #e3e7df;
-  border-radius: 12px;
-  background: ${({ $inactive }) => ($inactive ? "#f0f0ec" : "#fff")};
-  opacity: ${({ $inactive }) => ($inactive ? 0.8 : 1)};
+  padding: var(--spacing-lg);
+  border: var(--stroke) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: ${({ $inactive }) =>
+    $inactive ? "var(--color-background)" : "var(--color-surface)"};
+  opacity: ${({ $inactive }) => ($inactive ? 0.75 : 1)};
 
   @media (max-width: 560px) {
-    padding: 16px;
+    padding: var(--spacing-md);
   }
 `;
 
@@ -573,36 +580,47 @@ const CardHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
 `;
 
 const CardTitle = styled.h3`
   margin: 0;
-  color: #244b3b;
-  font-size: 1rem;
+  color: var(--color-primary);
+  font-size: var(--text-md);
   font-weight: 600;
+  letter-spacing: -0.015em;
 `;
 
 const buttonStyles = `
-  padding: 7px 10px;
-  border-radius: 8px;
-  background: white;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
   font: inherit;
-  font-size: 0.8rem;
+  font-size: var(--text-xs);
+  font-weight: 500;
   cursor: pointer;
+  transition: border-color 150ms ease;
 `;
 
 const RemoveButton = styled.button`
   ${buttonStyles}
-  border: 1px solid #ead7d4;
-  color: #a23a32;
+  border: var(--stroke) solid var(--color-border);
+  color: var(--color-error);
+
+  &:hover {
+    border-color: var(--color-error);
+  }
 `;
 
 const RestoreButton = styled.button`
   ${buttonStyles}
-  border: 1px solid #b9c9bb;
-  color: #244b3b;
+  border: var(--stroke) solid var(--color-border);
+  color: var(--color-primary);
+
+  &:hover {
+    border-color: var(--color-primary);
+  }
 `;
 
 const inputStyles = `
@@ -611,16 +629,17 @@ const inputStyles = `
   min-height: 44px;
   padding: 10px 12px;
   box-sizing: border-box;
-  border: 1px solid #dce2dc;
-  border-radius: 9px;
+  border: var(--stroke) solid var(--color-border);
+  border-radius: var(--radius-md);
   outline: none;
-  background: white;
-  color: #273b31;
+  background: var(--color-surface);
+  color: var(--color-text);
   font: inherit;
   font-size: 0.9rem;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
 
   &:focus {
-    border-color: #244b3b;
+    border-color: var(--color-primary);
     box-shadow: 0 0 0 3px rgb(36 75 59 / 10%);
   }
 `;
@@ -637,7 +656,7 @@ const TextArea = styled.textarea`
 const TwoColumns = styled.div`
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  gap: var(--spacing-md);
 
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
@@ -649,22 +668,25 @@ const AddButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: var(--spacing-sm);
   width: 100%;
   min-height: 48px;
-  margin-top: 20px;
-  border: 1px dashed #b9c9bb;
-  border-radius: 10px;
-  background: #f7faf6;
-  color: #244b3b;
+  margin-top: var(--spacing-md);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-muted);
+  color: var(--color-primary);
   font: inherit;
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
+  transition:
+    border-color 150ms ease,
+    background 150ms ease;
 
   &:hover {
-    border-color: #244b3b;
-    background: #edf4ed;
+    border-color: var(--color-primary);
+    background: var(--color-primary-soft);
   }
 
   span {
@@ -673,46 +695,51 @@ const AddButton = styled.button`
 `;
 
 const ToggleButton = styled.button`
-  margin-top: 14px;
+  margin-top: var(--spacing-sm);
   padding: 8px 0;
   border: 0;
   background: transparent;
-  color: #526c5c;
+  color: var(--color-text-secondary);
   font: inherit;
-  font-size: 0.85rem;
+  font-size: var(--text-sm);
   cursor: pointer;
+
+  &:hover {
+    color: var(--color-primary);
+  }
 `;
 
 const EmptyState = styled.div`
-  padding: 24px 18px;
-  border: 1px dashed #dce2dc;
-  border-radius: 12px;
+  padding: var(--spacing-xl) var(--spacing-lg);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-lg);
   text-align: center;
 `;
 
 const EmptyTitle = styled.h3`
   margin: 0;
-  color: #244b3b;
-  font-size: 1rem;
+  color: var(--color-primary);
+  font-size: var(--text-md);
+  font-weight: 600;
 `;
 
 const EmptyDescription = styled.p`
-  margin: 8px 0 0;
-  color: #778078;
+  margin: var(--spacing-sm) 0 0;
+  color: var(--color-text-muted);
   font-size: 0.875rem;
   line-height: 1.6;
 `;
 
 const InactiveMessage = styled.p`
   margin: 0;
-  color: #6b756f;
+  color: var(--color-text-secondary);
   font-size: 0.875rem;
   line-height: 1.6;
 `;
 
 const ErrorMessage = styled.p`
-  margin: 8px 0 0;
-  color: #a23a32;
-  font-size: 0.85rem;
+  margin: var(--spacing-sm) 0 0;
+  color: var(--color-error);
+  font-size: var(--text-sm);
   line-height: 1.5;
 `;

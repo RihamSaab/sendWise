@@ -35,20 +35,20 @@ export default function OverviewSection() {
 const StyledOverviewSection = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: var(--spacing-md);
 `;
 
 const StyledOverviewSection_Heading = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: var(--spacing-md);
 `;
 
 const StyledOverviewSection_Title = styled.h2`
   margin: 0;
   color: var(--color-text);
-  font-size: 18px;
+  font-size: var(--text-lg);
   font-weight: 600;
   letter-spacing: -0.02em;
 `;
@@ -56,7 +56,7 @@ const StyledOverviewSection_Title = styled.h2`
 const StyledOverviewSection_Cards = styled.div`
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
+  gap: var(--spacing-md);
 
   @media (max-width: 900px) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -64,6 +64,6 @@ const StyledOverviewSection_Cards = styled.div`
 
   @media (max-width: 560px) {
     grid-template-columns: minmax(0, 1fr);
-    gap: 12px;
+    gap: var(--spacing-sm);
   }
 `;

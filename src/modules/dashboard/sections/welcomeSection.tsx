@@ -35,20 +35,25 @@ const StyledWelcomeSection = styled.section`
   display: grid;
   grid-template-columns: minmax(0, 1fr) 220px;
   align-items: center;
-  gap: 24px;
+  gap: var(--spacing-lg);
   min-height: 210px;
-  padding: 28px 36px;
+  padding: var(--spacing-xl) var(--spacing-2xl);
   overflow: hidden;
-  border: 1px solid var(--color-border);
-  border-radius: 20px;
+  border: var(--stroke) solid var(--color-border);
+  border-radius: var(--radius-xl);
   background:
-    radial-gradient(circle at 85% 50%, rgb(221 233 223 / 65%), transparent 45%),
+    radial-gradient(
+      circle at 85% 50%,
+      var(--color-primary-soft),
+      transparent 50%
+    ),
     var(--color-surface);
+  box-shadow: var(--elevation-1);
 
   @media (max-width: 640px) {
     grid-template-columns: minmax(0, 1fr);
-    gap: 8px;
-    padding: 24px;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-lg);
   }
 `;
 
@@ -59,28 +64,28 @@ const StyledWelcomeSection_Content = styled.div`
 `;
 
 const StyledWelcomeSection_Eyebrow = styled.p`
-  margin: 0 0 12px;
+  margin: 0 0 var(--spacing-sm);
   color: var(--color-primary);
-  font-size: 11px;
-  font-weight: 650;
-  letter-spacing: 0.12em;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.14em;
 `;
 
 const StyledWelcomeSection_Title = styled.h2`
   margin: 0 0 10px;
   color: var(--color-text);
-  font-size: clamp(24px, 3vw, 34px);
+  font-size: clamp(24px, 3vw, 32px);
   font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: -0.045em;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
 `;
 
 const StyledWelcomeSection_Description = styled.p`
   max-width: 420px;
   margin: 0;
   color: var(--color-text-secondary);
-  font-size: 14px;
-  line-height: 1.8;
+  font-size: var(--text-base);
+  line-height: 1.7;
 `;
 
 const StyledWelcomeSection_Illustration = styled.div`

@@ -270,17 +270,17 @@ export default function Income({ defaultValues, onSuccess }: IncomeProps) {
 const IncomeList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: var(--spacing-md);
 `;
 
 const IncomeCard = styled.article`
-  padding: 22px;
-  border: 1px solid #e3e7df;
-  border-radius: 14px;
-  background: #fcfcf9;
+  padding: var(--spacing-lg);
+  border: var(--stroke) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-muted);
 
   @media (max-width: 560px) {
-    padding: 16px;
+    padding: var(--spacing-md);
   }
 `;
 
@@ -288,29 +288,32 @@ const CardHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
 `;
 
 const CardTitle = styled.h2`
   margin: 0;
-  color: #244b3b;
-  font-size: 1rem;
+  color: var(--color-primary);
+  font-size: var(--text-md);
   font-weight: 600;
+  letter-spacing: -0.015em;
 `;
 
 const RemoveButton = styled.button`
-  padding: 7px 10px;
-  border: 1px solid #ead7d4;
-  border-radius: 8px;
-  background: #fff;
-  color: #a23a32;
+  padding: 6px 12px;
+  border: var(--stroke) solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-error);
   font: inherit;
-  font-size: 0.8rem;
+  font-size: var(--text-xs);
+  font-weight: 500;
   cursor: pointer;
+  transition: border-color 150ms ease;
 
   &:hover {
-    background: #fff6f4;
+    border-color: var(--color-error);
   }
 `;
 
@@ -318,8 +321,8 @@ const Field = styled.div`
   display: flex;
   min-width: 0;
   flex-direction: column;
-  gap: 8px;
-  margin-bottom: 18px;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
 
   &:last-child {
     margin-bottom: 0;
@@ -327,9 +330,9 @@ const Field = styled.div`
 `;
 
 const Label = styled.label`
-  color: #273b31;
-  font-size: 0.85rem;
-  font-weight: 500;
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  font-weight: 600;
 `;
 
 const inputStyles = `
@@ -338,16 +341,17 @@ const inputStyles = `
   min-height: 44px;
   padding: 10px 12px;
   box-sizing: border-box;
-  border: 1px solid #dce2dc;
-  border-radius: 9px;
+  border: var(--stroke) solid var(--color-border);
+  border-radius: var(--radius-md);
   outline: none;
-  background: #fff;
-  color: #273b31;
+  background: var(--color-surface);
+  color: var(--color-text);
   font: inherit;
   font-size: 0.9rem;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
 
   &:focus {
-    border-color: #244b3b;
+    border-color: var(--color-primary);
     box-shadow: 0 0 0 3px rgb(36 75 59 / 10%);
   }
 `;
@@ -368,7 +372,7 @@ const TextArea = styled.textarea`
 const TwoColumns = styled.div`
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  gap: var(--spacing-md);
 
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
@@ -380,51 +384,55 @@ const AddButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: var(--spacing-sm);
   width: 100%;
   min-height: 48px;
-  margin-top: 20px;
-  border: 1px dashed #b9c9bb;
-  border-radius: 10px;
-  background: #f7faf6;
-  color: #244b3b;
+  margin-top: var(--spacing-md);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-muted);
+  color: var(--color-primary);
   font: inherit;
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
+  transition:
+    border-color 150ms ease,
+    background 150ms ease;
 
   span {
     font-size: 1.2rem;
   }
 
   &:hover {
-    border-color: #244b3b;
-    background: #edf4ed;
+    border-color: var(--color-primary);
+    background: var(--color-primary-soft);
   }
 `;
 
 const EmptyState = styled.div`
-  padding: 28px 20px;
-  border: 1px dashed #dce2dc;
-  border-radius: 12px;
+  padding: var(--spacing-xl) var(--spacing-lg);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-lg);
   text-align: center;
 `;
 
 const EmptyTitle = styled.h2`
   margin: 0;
-  color: #244b3b;
-  font-size: 1rem;
+  color: var(--color-primary);
+  font-size: var(--text-md);
+  font-weight: 600;
 `;
 
 const EmptyDescription = styled.p`
-  margin: 8px 0 0;
-  color: #778078;
+  margin: var(--spacing-sm) 0 0;
+  color: var(--color-text-muted);
   font-size: 0.875rem;
   line-height: 1.6;
 `;
 
 const ErrorText = styled.p`
   margin: 6px 0 12px;
-  color: #a23a32;
-  font-size: 0.82rem;
+  color: var(--color-error);
+  font-size: var(--text-xs);
 `;

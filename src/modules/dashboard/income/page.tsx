@@ -203,18 +203,18 @@ export default function IncomePage() {
 const Page = styled.main`
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: var(--spacing-xl);
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 40px;
+  padding: var(--spacing-2xl);
 
   @media (max-width: 768px) {
-    padding: 24px;
+    padding: var(--spacing-lg);
   }
 
   @media (max-width: 480px) {
-    padding: 20px 16px;
+    padding: var(--spacing-md);
   }
 `;
 
@@ -223,68 +223,83 @@ const Header = styled.header`
   flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 16px;
+  gap: var(--spacing-md);
 `;
 
 const Eyebrow = styled.p`
   margin: 0 0 8px;
   color: var(--color-primary);
-  font-size: 11px;
-  font-weight: 650;
-  letter-spacing: 0.12em;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 `;
 
 const Title = styled.h1`
   margin: 0;
   color: var(--color-text);
-  font-size: clamp(26px, 4vw, 34px);
+  font-size: clamp(26px, 4vw, 32px);
   font-weight: 600;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.035em;
 `;
 
 const SubTitle = styled.p`
   margin: 8px 0 0;
   color: var(--color-text-secondary);
-  font-size: 14px;
+  font-size: var(--text-base);
 `;
 
 const AddButton = styled.button`
   min-height: 42px;
-  padding: 0 18px;
-  border: none;
-  border-radius: 10px;
+  padding: 0 var(--spacing-lg);
+  border: var(--stroke) solid var(--color-primary);
+  border-radius: var(--radius-md);
   background: var(--color-primary);
-  color: #fff;
-  font-size: 13px;
+  color: var(--color-text-on-primary);
+  font-size: var(--text-sm);
   font-weight: 600;
   cursor: pointer;
+  transition:
+    background 150ms ease,
+    transform 150ms ease,
+    box-shadow 150ms ease;
 
   &:hover {
-    opacity: 0.92;
+    transform: translateY(-1px);
+    background: var(--color-primary-hover);
+    box-shadow: var(--elevation-2);
   }
 `;
 
 const List = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--spacing-sm);
 `;
 
 const Card = styled.article<{ $muted: boolean }>`
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto auto;
   align-items: center;
-  gap: 20px;
-  padding: 18px 20px;
-  border: 1px solid var(--color-border);
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border: var(--stroke) solid var(--color-border);
   border-radius: var(--radius-lg);
   background: var(--color-surface);
+  box-shadow: var(--elevation-1);
   opacity: ${({ $muted }) => ($muted ? 0.6 : 1)};
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+
+  &:hover {
+    border-color: var(--color-border-strong);
+    box-shadow: var(--elevation-2);
+  }
 
   @media (max-width: 640px) {
     grid-template-columns: minmax(0, 1fr);
-    gap: 12px;
+    gap: var(--spacing-sm);
   }
 `;
 
@@ -295,56 +310,62 @@ const CardMain = styled.div`
 const CardName = styled.h3`
   margin: 0;
   color: var(--color-text);
-  font-size: 15px;
+  font-size: var(--text-md);
   font-weight: 600;
+  letter-spacing: -0.015em;
 `;
 
 const CardMeta = styled.p`
   margin: 4px 0 0;
-  color: var(--color-text-secondary);
-  font-size: 12px;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
 `;
 
 const CardNotes = styled.p`
   margin: 8px 0 0;
   color: var(--color-text-secondary);
-  font-size: 12px;
+  font-size: var(--text-xs);
   line-height: 1.6;
 `;
 
 const CardAmount = styled.p`
   margin: 0;
   color: var(--color-primary);
-  font-size: 16px;
+  font-family: var(--font-mono);
+  font-size: var(--text-md);
   font-weight: 600;
+  letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
 `;
 
 const CardActions = styled.div`
   display: flex;
-  gap: 8px;
+  gap: var(--spacing-xs);
 `;
 
 const RowButton = styled.button<{ $danger?: boolean }>`
   min-height: 34px;
-  padding: 0 12px;
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
+  padding: 0 var(--spacing-sm);
+  border: var(--stroke) solid var(--color-border);
+  border-radius: var(--radius-sm);
   background: var(--color-surface);
   color: ${({ $danger }) =>
     $danger ? "var(--color-error)" : "var(--color-text)"};
-  font-size: 12px;
+  font-size: var(--text-xs);
   font-weight: 500;
   cursor: pointer;
+  transition: border-color 150ms ease;
 
   &:hover {
-    background: var(--color-background);
+    border-color: ${({ $danger }) =>
+      $danger ? "var(--color-error)" : "var(--color-primary)"};
   }
 `;
 
 const EmptyCard = styled.div`
-  padding: 40px 24px;
-  border: 1px dashed var(--color-border);
+  padding: var(--spacing-2xl) var(--spacing-lg);
+  border: 1px dashed var(--color-border-strong);
   border-radius: var(--radius-lg);
   background: var(--color-surface);
   text-align: center;
@@ -352,15 +373,15 @@ const EmptyCard = styled.div`
 
 const EmptyTitle = styled.h2`
   margin: 0;
-  color: var(--color-text);
-  font-size: 16px;
+  color: var(--color-primary);
+  font-size: var(--text-md);
   font-weight: 600;
 `;
 
 const EmptyText = styled.p`
   margin: 8px 0 0;
-  color: var(--color-text-secondary);
-  font-size: 13px;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
 `;
 
 const Message = styled.p`

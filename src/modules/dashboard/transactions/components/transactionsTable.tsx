@@ -114,7 +114,7 @@ export default function TransactionsTable({
 
 const StyledTransactionsPage_TableCard = styled.div`
   overflow: hidden;
-  border: 1px solid var(--color-border);
+  border: var(--stroke) solid var(--color-border);
   border-radius: 0 0 var(--radius-lg) var(--radius-lg);
   background: var(--color-surface);
 `;
@@ -129,21 +129,26 @@ const StyledTransactionsPage_Table = styled.table`
   text-align: left;
 
   th {
-    padding: 14px 20px;
-    background: var(--color-background);
-    color: var(--color-text-secondary);
-    font-size: 11px;
+    padding: 14px var(--spacing-md);
+    background: var(--color-surface-muted);
+    color: var(--color-text-muted);
+    font-size: var(--text-xs);
     font-weight: 600;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     white-space: nowrap;
+    border-bottom: var(--stroke) solid var(--color-border);
   }
 
   td {
-    padding: 16px 20px;
-    border-top: 1px solid var(--color-border);
+    padding: var(--spacing-md);
+    border-top: var(--stroke) solid var(--color-border);
     color: var(--color-text);
-    font-size: 13px;
+    font-size: var(--text-sm);
+  }
+
+  tbody tr:first-child td {
+    border-top: none;
   }
 
   @media (max-width: 720px) {
@@ -157,8 +162,8 @@ const StyledTransactionsPage_TransactionName = styled.div`
 
 const StyledTransactionsPage_TransactionMeta = styled.div`
   margin-top: 4px;
-  color: var(--color-text-secondary);
-  font-size: 12px;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
 `;
 
 const StyledTransactionsPage_Amount = styled.span<{
@@ -166,15 +171,17 @@ const StyledTransactionsPage_Amount = styled.span<{
 }>`
   color: ${({ $income }) =>
     $income ? "var(--color-primary)" : "var(--color-text)"};
+  font-family: var(--font-mono);
   font-weight: 600;
+  letter-spacing: -0.01em;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 `;
 
 const StyledTransactionsPage_Empty = styled.p`
-  padding: 36px 20px;
+  padding: var(--spacing-xl) var(--spacing-md);
   margin: 0;
-  color: var(--color-text-secondary);
+  color: var(--color-text-muted);
   text-align: center;
 `;
 
@@ -204,18 +211,20 @@ const StyledTransactionsPage_ActionsCell = styled.td`
 
 const StyledTransactionsPage_RowButton = styled.button<{ $danger?: boolean }>`
   min-height: 32px;
-  padding: 0 10px;
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
+  padding: 0 var(--spacing-sm);
+  border: var(--stroke) solid var(--color-border);
+  border-radius: var(--radius-sm);
   background: var(--color-surface);
   color: ${({ $danger }) =>
     $danger ? "var(--color-error)" : "var(--color-text)"};
-  font-size: 12px;
+  font-size: var(--text-xs);
   font-weight: 500;
   cursor: pointer;
+  transition: border-color 150ms ease;
 
   &:hover {
-    background: var(--color-background);
+    border-color: ${({ $danger }) =>
+      $danger ? "var(--color-error)" : "var(--color-primary)"};
   }
 
   &:focus-visible {

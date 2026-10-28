@@ -27,15 +27,15 @@ const Container = styled.section`
 
 const Heading = styled.h1`
   margin: 0;
-  color: #244b3b;
+  color: var(--color-primary);
   font-size: clamp(1.75rem, 4vw, 2.25rem);
   font-weight: 600;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.035em;
 `;
 
 const Description = styled.p`
   margin: 12px 0 28px;
-  color: #6b756f;
+  color: var(--color-text-secondary);
   font-size: 0.95rem;
   line-height: 1.7;
 `;

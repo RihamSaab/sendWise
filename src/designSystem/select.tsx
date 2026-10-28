@@ -68,40 +68,40 @@ const StyledSelect_Trigger = styled.button`
   justify-content: space-between;
   gap: 12px;
   min-width: 145px;
-  height: 42px;
+  height: 40px;
   padding: 0 12px;
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
+  border: var(--stroke) solid var(--color-border);
+  border-radius: var(--radius-sm);
   background: var(--color-surface);
   color: var(--color-text);
   font: inherit;
-  font-size: 14px;
+  font-size: var(--text-sm);
   text-align: left;
   cursor: pointer;
   outline: none;
+  transition: border-color 140ms ease;
 
   &::after {
     content: "";
-    width: 7px;
-    height: 7px;
+    width: 6px;
+    height: 6px;
     flex-shrink: 0;
-    border-right: 1.5px solid currentColor;
-    border-bottom: 1.5px solid currentColor;
+    border-right: 1px solid currentColor;
+    border-bottom: 1px solid currentColor;
     transform: rotate(45deg) translateY(-2px);
   }
 
   &:hover {
-    border-color: var(--color-primary);
+    border-color: var(--color-border-strong);
   }
 
   &:focus-visible,
   &[data-state="open"] {
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgb(34 100 70 / 10%);
+    border-color: var(--color-text);
   }
 
   &[data-placeholder] {
-    color: var(--color-text);
+    color: var(--color-text-muted);
   }
 
   &:disabled {
@@ -115,11 +115,11 @@ const StyledSelect_Content = styled.div`
   min-width: var(--radix-select-trigger-width);
   max-height: var(--radix-select-content-available-height);
   overflow-y: auto;
-  padding: 5px;
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
+  padding: 4px;
+  border: var(--stroke) solid var(--color-border);
+  border-radius: var(--radius-sm);
   background: var(--color-surface);
-  box-shadow: 0 10px 30px rgb(0 0 0 / 12%);
+  box-shadow: 0 8px 24px rgb(35 35 39 / 8%);
   animation: select-enter 120ms ease-out;
 
   @keyframes select-enter {
@@ -138,23 +138,23 @@ const StyledSelect_Content = styled.div`
 const StyledSelect_Item = styled.div`
   display: flex;
   align-items: center;
-  min-height: 38px;
-  padding: 8px 10px;
-  border-radius: 7px;
+  min-height: 34px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
   color: var(--color-text);
-  font-size: 14px;
+  font-size: var(--text-sm);
   cursor: pointer;
   outline: none;
   user-select: none;
 
   &[data-highlighted] {
-    background: var(--color-background);
-    color: var(--color-primary);
+    background: var(--color-surface-muted);
+    color: var(--color-text);
   }
 
   &[data-state="checked"] {
-    color: var(--color-primary);
-    font-weight: 600;
+    color: var(--color-text);
+    font-weight: 500;
   }
 
   &[data-disabled] {

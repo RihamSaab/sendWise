@@ -26,10 +26,8 @@ export default function LandingPage() {
 
 const Page = styled.div`
   min-height: 100vh;
-  overflow: hidden;
-  background: #f7f6f0;
-  color: #252923;
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background);
+  color: var(--color-text);
 `;
 
 const Main = styled.main`

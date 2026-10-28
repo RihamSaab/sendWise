@@ -62,7 +62,7 @@ export default function RecentTransactionsSection() {
 const StyledRecentTransactionsSection = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: var(--spacing-md);
   min-width: 0;
 `;
 
@@ -70,13 +70,13 @@ const StyledRecentTransactionsSection_Header = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: var(--spacing-md);
 `;
 
 const StyledRecentTransactionsSection_Title = styled.h2`
   margin: 0;
   color: var(--color-text);
-  font-size: 18px;
+  font-size: var(--text-lg);
   font-weight: 600;
   letter-spacing: -0.02em;
 `;
@@ -84,17 +84,17 @@ const StyledRecentTransactionsSection_Title = styled.h2`
 const StyledRecentTransactionsSection_Description = styled.p`
   margin: 6px 0 0;
   color: var(--color-text-secondary);
-  font-size: 13px;
+  font-size: var(--text-sm);
   line-height: 1.6;
 `;
 
 const StyledRecentTransactionsSection_ViewAll = styled(Link)`
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--spacing-sm);
   flex-shrink: 0;
   color: var(--color-primary);
-  font-size: 13px;
+  font-size: var(--text-sm);
   font-weight: 600;
   transition: gap 160ms ease;
 
@@ -110,13 +110,13 @@ const StyledRecentTransactionsSection_ViewAll = styled(Link)`
 `;
 
 const StyledRecentTransactionsSection_Card = styled.div`
-  padding: 0 24px;
-  border: 1px solid var(--color-border);
+  padding: 0 var(--spacing-lg);
+  border: var(--stroke) solid var(--color-border);
   border-radius: var(--radius-lg);
   background: var(--color-surface);
-  box-shadow: 0 2px 8px rgb(37 41 35 / 3%);
+  box-shadow: var(--elevation-1);
 
   @media (max-width: 560px) {
-    padding: 0 16px;
+    padding: 0 var(--spacing-md);
   }
 `;

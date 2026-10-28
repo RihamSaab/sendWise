@@ -430,10 +430,11 @@ const StyledTransactionsPage_ModalOverlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: var(--spacing-md);
   overflow-y: auto;
   overscroll-behavior: contain;
-  background: rgb(20 28 23 / 55%);
+  background: rgb(31 36 32 / 45%);
+  backdrop-filter: blur(2px);
 `;
 
 const StyledTransactionsPage_Modal = styled.section`
@@ -442,14 +443,14 @@ const StyledTransactionsPage_Modal = styled.section`
   max-height: calc(100dvh - 40px);
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 28px;
-  border: 1px solid var(--color-border);
+  padding: var(--spacing-xl);
+  border: var(--stroke) solid var(--color-border);
   border-radius: var(--radius-lg);
   background: var(--color-surface);
-  box-shadow: 0 20px 60px rgb(0 0 0 / 15%);
+  box-shadow: var(--elevation-3);
 
   @media (max-width: 480px) {
-    padding: 20px;
+    padding: var(--spacing-lg);
   }
 `;
 
@@ -457,22 +458,22 @@ const StyledTransactionsPage_ModalHeader = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 12px;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
 `;
 
 const StyledTransactionsPage_ModalTitle = styled.h2`
   margin: 0;
   color: var(--color-text);
-  font-size: 22px;
+  font-size: var(--text-xl);
   font-weight: 600;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.03em;
 `;
 
 const StyledTransactionsPage_ModalDescription = styled.p`
   margin: 6px 0 0;
   color: var(--color-text-secondary);
-  font-size: 13px;
+  font-size: var(--text-sm);
   line-height: 1.6;
 `;
 
@@ -482,15 +483,16 @@ const StyledTransactionsPage_CloseButton = styled.button`
   width: 36px;
   height: 36px;
   place-items: center;
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
+  border: var(--stroke) solid var(--color-border);
+  border-radius: var(--radius-md);
   background: var(--color-surface);
   color: var(--color-text);
-  font-size: 20px;
+  font-size: var(--text-lg);
   cursor: pointer;
+  transition: border-color 150ms ease;
 
   &:hover {
-    background: var(--color-background);
+    border-color: var(--color-primary);
   }
 
   &:disabled {
@@ -500,9 +502,9 @@ const StyledTransactionsPage_CloseButton = styled.button`
 `;
 
 const StyledTransactionsPage_RequiredNote = styled.p`
-  margin: 0 0 20px;
-  color: var(--color-text-secondary);
-  font-size: 12px;
+  margin: 0 0 var(--spacing-md);
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
 `;
 
 const StyledTransactionsPage_Required = styled.span`
@@ -511,15 +513,15 @@ const StyledTransactionsPage_Required = styled.span`
 
 const StyledTransactionsPage_Optional = styled.span`
   margin-left: 4px;
-  color: var(--color-text-secondary);
-  font-size: 12px;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
   font-weight: 400;
 `;
 
 const StyledTransactionsPage_Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: var(--spacing-md);
 `;
 
 const StyledTransactionsPage_FormField = styled.div`
@@ -531,8 +533,8 @@ const StyledTransactionsPage_FormField = styled.div`
 
 const StyledTransactionsPage_FormLabel = styled.label`
   color: var(--color-text);
-  font-size: 13px;
-  font-weight: 550;
+  font-size: var(--text-sm);
+  font-weight: 600;
 `;
 
 const StyledTransactionsPage_FormInput = styled.input<{
@@ -541,16 +543,19 @@ const StyledTransactionsPage_FormInput = styled.input<{
   width: 100%;
   min-width: 0;
   height: 44px;
-  padding: 0 12px;
-  border: 1px solid
+  padding: 0 var(--spacing-sm);
+  border: var(--stroke) solid
     ${({ $hasError }) =>
       $hasError ? "var(--color-error)" : "var(--color-border)"};
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   outline: none;
-  background: var(--color-background);
+  background: var(--color-surface);
   color: var(--color-text);
   font: inherit;
-  font-size: 14px;
+  font-size: var(--text-base);
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
 
   &:focus {
     border-color: ${({ $hasError }) =>
@@ -563,16 +568,19 @@ const StyledTransactionsPage_FormTextarea = styled.textarea`
   width: 100%;
   height: 96px;
   min-height: 96px;
-  padding: 12px;
+  padding: var(--spacing-sm);
   resize: none;
   overflow-y: auto;
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
+  border: var(--stroke) solid var(--color-border);
+  border-radius: var(--radius-md);
   outline: none;
-  background: var(--color-background);
+  background: var(--color-surface);
   color: var(--color-text);
   font: inherit;
-  font-size: 14px;
+  font-size: var(--text-base);
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
 
   &:focus {
     border-color: var(--color-primary);
@@ -583,7 +591,7 @@ const StyledTransactionsPage_FormTextarea = styled.textarea`
 const StyledTransactionsPage_FormRow = styled.div`
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  gap: var(--spacing-sm);
 
   @media (max-width: 420px) {
     grid-template-columns: minmax(0, 1fr);
@@ -593,35 +601,36 @@ const StyledTransactionsPage_FormRow = styled.div`
 const StyledTransactionsPage_FormError = styled.p`
   margin: 0;
   color: var(--color-error);
-  font-size: 12px;
+  font-size: var(--text-xs);
   line-height: 1.5;
 `;
 
 const StyledTransactionsPage_HelperText = styled.span`
-  color: var(--color-text-secondary);
-  font-size: 12px;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
 `;
 
 const StyledTransactionsPage_FormActions = styled.div`
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
+  gap: var(--spacing-sm);
   margin-top: 6px;
 `;
 
 const StyledTransactionsPage_SecondaryButton = styled.button`
   min-height: 42px;
-  padding: 0 16px;
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
+  padding: 0 var(--spacing-md);
+  border: var(--stroke) solid var(--color-border);
+  border-radius: var(--radius-md);
   background: var(--color-surface);
   color: var(--color-text);
-  font-size: 13px;
-  font-weight: 550;
+  font-size: var(--text-sm);
+  font-weight: 600;
   cursor: pointer;
+  transition: border-color 150ms ease;
 
   &:hover {
-    background: var(--color-background);
+    border-color: var(--color-primary);
   }
 
   &:disabled {
@@ -632,14 +641,24 @@ const StyledTransactionsPage_SecondaryButton = styled.button`
 
 const StyledTransactionsPage_SubmitButton = styled.button`
   min-height: 42px;
-  padding: 0 18px;
-  border: none;
-  border-radius: 10px;
+  padding: 0 var(--spacing-lg);
+  border: var(--stroke) solid var(--color-primary);
+  border-radius: var(--radius-md);
   background: var(--color-primary);
-  color: white;
-  font-size: 13px;
+  color: var(--color-text-on-primary);
+  font-size: var(--text-sm);
   font-weight: 600;
   cursor: pointer;
+  transition:
+    background 150ms ease,
+    transform 150ms ease,
+    box-shadow 150ms ease;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    background: var(--color-primary-hover);
+    box-shadow: var(--elevation-2);
+  }
 
   &:disabled {
     opacity: 0.6;

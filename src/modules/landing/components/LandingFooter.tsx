@@ -24,7 +24,7 @@ export default function LandingFooter() {
 
 const Footer = styled.footer`
   width: 100%;
-  border-top: 1px solid ${theme.colors.border};
+  border-top: ${theme.stroke} solid ${theme.colors.border};
 `;
 
 const FooterInner = styled.div`
@@ -33,7 +33,7 @@ const FooterInner = styled.div`
   justify-content: space-between;
   flex-wrap: wrap;
   gap: ${theme.spacing.md};
-  max-width: 1280px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: ${theme.spacing.xl} ${theme.spacing["2xl"]};
 
@@ -48,9 +48,9 @@ const FooterBrand = styled(Link)`
   display: inline-flex;
   align-items: center;
   color: ${theme.colors.primary};
-  font-size: 1.25rem;
-  font-weight: 750;
-  letter-spacing: -0.075em;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.05em;
   text-decoration: none;
 
   span {
@@ -69,11 +69,11 @@ const BrandDot = styled.span`
 const FooterText = styled.p`
   margin: 0;
   color: ${theme.colors.textSecondary};
-  font-size: 0.85rem;
+  font-size: var(--text-sm);
 `;
 
 const FooterCopyright = styled.p`
   margin: 0;
-  color: ${theme.colors.textSecondary};
-  font-size: 0.8rem;
+  color: ${theme.colors.textMuted};
+  font-size: var(--text-xs);
 `;

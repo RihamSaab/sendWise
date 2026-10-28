@@ -249,47 +249,49 @@ const Header = styled.header`
 const Eyebrow = styled.p`
   margin: 0 0 8px;
   color: var(--color-primary);
-  font-size: 11px;
-  font-weight: 650;
-  letter-spacing: 0.12em;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 `;
 
 const Title = styled.h1`
   margin: 0;
   color: var(--color-text);
-  font-size: clamp(26px, 4vw, 34px);
+  font-size: clamp(26px, 4vw, 32px);
   font-weight: 600;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.035em;
 `;
 
 const SubTitle = styled.p`
   margin: 8px 0 0;
   color: var(--color-text-secondary);
-  font-size: 14px;
+  font-size: var(--text-base);
 `;
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: var(--spacing-md);
 `;
 
 const SectionCard = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding: 24px;
-  border: 1px solid var(--color-border);
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+  border: var(--stroke) solid var(--color-border);
   border-radius: var(--radius-lg);
   background: var(--color-surface);
+  box-shadow: var(--elevation-1);
 `;
 
 const SectionTitle = styled.h2`
   margin: 0;
-  color: var(--color-text);
-  font-size: 15px;
+  color: var(--color-primary);
+  font-size: var(--text-md);
   font-weight: 600;
+  letter-spacing: -0.015em;
 `;
 
 const Field = styled.div`
@@ -301,23 +303,24 @@ const Field = styled.div`
 
 const Label = styled.label`
   color: var(--color-text);
-  font-size: 13px;
-  font-weight: 550;
+  font-size: var(--text-sm);
+  font-weight: 600;
 `;
 
 const inputStyles = `
   width: 100%;
   min-width: 0;
   min-height: 42px;
-  padding: 0 12px;
+  padding: 0 var(--spacing-sm);
   box-sizing: border-box;
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
+  border: var(--stroke) solid var(--color-border);
+  border-radius: var(--radius-md);
   outline: none;
-  background: var(--color-background);
+  background: var(--color-surface);
   color: var(--color-text);
   font: inherit;
-  font-size: 14px;
+  font-size: var(--text-base);
+  transition: border-color 150ms ease, box-shadow 150ms ease;
 
   &:focus {
     border-color: var(--color-primary);
@@ -335,14 +338,14 @@ const Select = styled.select`
 
 const Help = styled.p`
   margin: 2px 0 0;
-  color: var(--color-text-secondary);
-  font-size: 12px;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
 `;
 
 const TwoColumn = styled.div`
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  gap: var(--spacing-sm);
 
   @media (max-width: 420px) {
     grid-template-columns: minmax(0, 1fr);
@@ -356,14 +359,24 @@ const Actions = styled.div`
 
 const SubmitButton = styled.button`
   min-height: 44px;
-  padding: 0 20px;
-  border: none;
-  border-radius: 10px;
+  padding: 0 var(--spacing-lg);
+  border: var(--stroke) solid var(--color-primary);
+  border-radius: var(--radius-md);
   background: var(--color-primary);
-  color: #fff;
-  font-size: 13px;
+  color: var(--color-text-on-primary);
+  font-size: var(--text-sm);
   font-weight: 600;
   cursor: pointer;
+  transition:
+    background 150ms ease,
+    transform 150ms ease,
+    box-shadow 150ms ease;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    background: var(--color-primary-hover);
+    box-shadow: var(--elevation-2);
+  }
 
   &:disabled {
     opacity: 0.6;
@@ -374,13 +387,13 @@ const SubmitButton = styled.button`
 const ErrorText = styled.p`
   margin: 0;
   color: var(--color-error);
-  font-size: 13px;
+  font-size: var(--text-sm);
 `;
 
 const SuccessText = styled.p`
   margin: 0;
   color: var(--color-primary);
-  font-size: 13px;
+  font-size: var(--text-sm);
   font-weight: 500;
 `;
 
