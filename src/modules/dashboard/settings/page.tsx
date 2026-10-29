@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import styled from "styled-components";
 
@@ -15,6 +15,12 @@ import { clearBackendPlan } from "@/api/auth";
 import { localStore } from "@/api/localStore";
 import { useCurrentUser } from "@/api/useAuth";
 import ConfirmDialog from "@/designSystem/confirmDialog";
+import Select from "@/designSystem/select";
+
+const savingsBasisOptions = [
+  { value: "income", label: "Income" },
+  { value: "current_savings", label: "Current savings" },
+];
 
 type SettingsFormValues = {
   currency: string;
@@ -69,6 +75,7 @@ export default function SettingsPage() {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm<SettingsFormValues>({
     defaultValues: {
@@ -142,16 +149,18 @@ export default function SettingsPage() {
 
           <Field>
             <Label htmlFor="settings-currency">Main currency</Label>
-            <Select
-              id="settings-currency"
-              {...register("currency", { required: true })}
-            >
-              {currencies.map((currency) => (
-                <option key={currency.value} value={currency.value}>
-                  {currency.label}
-                </option>
-              ))}
-            </Select>
+            <Controller
+              name="currency"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  ariaLabel="Main currency"
+                  value={field.value}
+                  options={currencies}
+                  onValueChange={field.onChange}
+                />
+              )}
+            />
             <Help>
               Changing the currency does not convert historical amounts.
             </Help>
@@ -221,13 +230,20 @@ export default function SettingsPage() {
 
             <Field>
               <Label htmlFor="settings-savings-basis">Calculate from</Label>
-              <Select
-                id="settings-savings-basis"
-                {...register("savings_basis")}
-              >
-                <option value="income">Income</option>
-                <option value="current_savings">Current savings</option>
-              </Select>
+              <Controller
+                name="savings_basis"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    ariaLabel="Savings calculation basis"
+                    value={field.value}
+                    options={savingsBasisOptions}
+                    onValueChange={(value) =>
+                      field.onChange(value as "income" | "current_savings")
+                    }
+                  />
+                )}
+              />
             </Field>
           </TwoColumn>
         </SectionCard>
@@ -404,10 +420,6 @@ const inputStyles = `
 `;
 
 const Input = styled.input`
-  ${inputStyles}
-`;
-
-const Select = styled.select`
   ${inputStyles}
 `;
 

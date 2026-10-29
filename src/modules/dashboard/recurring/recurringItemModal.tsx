@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect } from "react";
-import { useForm, useWatch } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import styled from "styled-components";
 
 import type { IncomeFrequency } from "@/api/incomeSources";
+import SelectField from "@/designSystem/select";
 
 export type RecurringItemFormValues = {
   name: string;
@@ -149,13 +150,20 @@ export default function RecurringItemModal({
 
             <Field>
               <Label htmlFor="item-frequency">Frequency *</Label>
-              <Select id="item-frequency" {...register("frequency")}>
-                {frequencies.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </Select>
+              <Controller
+                name="frequency"
+                control={control}
+                render={({ field }) => (
+                  <SelectField
+                    ariaLabel="Frequency"
+                    value={field.value}
+                    options={frequencies}
+                    onValueChange={(value) =>
+                      field.onChange(value as IncomeFrequency)
+                    }
+                  />
+                )}
+              />
             </Field>
           </TwoColumn>
 
@@ -330,10 +338,6 @@ const inputStyles = `
 `;
 
 const Input = styled.input`
-  ${inputStyles}
-`;
-
-const Select = styled.select`
   ${inputStyles}
 `;
 

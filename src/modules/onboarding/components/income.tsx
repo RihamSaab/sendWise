@@ -1,10 +1,22 @@
 "use client";
 
-import { useFieldArray, useForm } from "react-hook-form";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import styled from "styled-components";
-import { saveIncomeSources, type IncomeSource } from "@/api/onboarding";
+import {
+  saveIncomeSources,
+  type IncomeFrequency,
+  type IncomeSource,
+} from "@/api/onboarding";
 import OnboardingStep from "@/shared/onboardingStep";
+import SelectField from "@/designSystem/select";
+
+const frequencyOptions: Array<{ value: IncomeFrequency; label: string }> = [
+  { value: "weekly", label: "Weekly" },
+  { value: "monthly", label: "Monthly" },
+  { value: "yearly", label: "Yearly" },
+  { value: "one_time", label: "One-time" },
+];
 
 export type IncomeDraft = IncomeSource & {
   draftId: string;
@@ -18,13 +30,6 @@ type IncomeProps = {
   defaultValues: IncomeFormValues;
   onSuccess: () => void;
 };
-
-const frequencies = [
-  { value: "weekly", label: "Weekly" },
-  { value: "monthly", label: "Monthly" },
-  { value: "yearly", label: "Yearly" },
-  { value: "one_time", label: "One-time" },
-] as const;
 
 function createIncomeDraft(): IncomeDraft {
   return {
@@ -181,16 +186,20 @@ export default function Income({ defaultValues, onSuccess }: IncomeProps) {
                     <Label htmlFor={`income-frequency-${field.draftId}`}>
                       Frequency
                     </Label>
-                    <Select
-                      id={`income-frequency-${field.draftId}`}
-                      {...register(`incomeSources.${index}.frequency`)}
-                    >
-                      {frequencies.map((frequency) => (
-                        <option key={frequency.value} value={frequency.value}>
-                          {frequency.label}
-                        </option>
-                      ))}
-                    </Select>
+                    <Controller
+                      name={`incomeSources.${index}.frequency`}
+                      control={control}
+                      render={({ field: f }) => (
+                        <SelectField
+                          ariaLabel="Frequency"
+                          value={f.value}
+                          options={frequencyOptions}
+                          onValueChange={(value) =>
+                            f.onChange(value as IncomeFrequency)
+                          }
+                        />
+                      )}
+                    />
                   </Field>
                 </TwoColumns>
 
@@ -357,10 +366,6 @@ const inputStyles = `
 `;
 
 const Input = styled.input`
-  ${inputStyles}
-`;
-
-const Select = styled.select`
   ${inputStyles}
 `;
 

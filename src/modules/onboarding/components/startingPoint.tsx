@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import styled from "styled-components";
 import { saveStartingPoint } from "@/api/onboarding";
 import OnboardingStep from "@/shared/onboardingStep";
+import Select from "@/designSystem/select";
 
 export type StartingPointValues = {
   currency: string;
@@ -34,6 +35,7 @@ export default function StartingPoint({
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm<StartingPointValues>({
     defaultValues,
@@ -78,13 +80,18 @@ export default function StartingPoint({
         <Field>
           <Label htmlFor="currency">Main currency</Label>
 
-          <Select id="currency" {...register("currency", { required: true })}>
-            {currencies.map((currency) => (
-              <option key={currency.value} value={currency.value}>
-                {currency.label}
-              </option>
-            ))}
-          </Select>
+          <Controller
+            name="currency"
+            control={control}
+            render={({ field }) => (
+              <Select
+                ariaLabel="Main currency"
+                value={field.value}
+                options={currencies}
+                onValueChange={field.onChange}
+              />
+            )}
+          />
 
           <HelpText>
             Your transactions and summaries will use this currency.
@@ -189,22 +196,6 @@ const Input = styled.input`
   }
 `;
 
-const Select = styled.select`
-  width: 100%;
-  min-height: 46px;
-  padding: 0 var(--spacing-md);
-  border: var(--stroke) solid var(--color-border);
-  border-radius: var(--radius-md);
-  outline: none;
-  background: var(--color-surface);
-  color: var(--color-text);
-  font: inherit;
-
-  &:focus {
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgb(36 75 59 / 10%);
-  }
-`;
 
 const HelpText = styled.p`
   margin: 0;

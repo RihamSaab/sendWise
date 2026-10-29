@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { useFieldArray, useForm, useWatch } from "react-hook-form";
+import { Controller, useFieldArray, useForm, useWatch } from "react-hook-form";
+import SelectField from "@/designSystem/select";
+import type { IncomeFrequency } from "@/api/onboarding";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import styled from "styled-components";
 import { saveFixedExpenses, type FixedExpense } from "@/api/onboarding";
@@ -20,12 +22,12 @@ type FixedExpensesProps = {
   onSuccess: () => void;
 };
 
-const frequencies = [
+const frequencyOptions: Array<{ value: IncomeFrequency; label: string }> = [
   { value: "weekly", label: "Weekly" },
   { value: "monthly", label: "Monthly" },
   { value: "yearly", label: "Yearly" },
   { value: "one_time", label: "One-time" },
-] as const;
+];
 
 function createExpenseDraft(): FixedExpenseDraft {
   return {
@@ -218,19 +220,20 @@ export default function FixedExpenses({
                         <Label htmlFor={`expense-frequency-${field.draftId}`}>
                           Frequency
                         </Label>
-                        <Select
-                          id={`expense-frequency-${field.draftId}`}
-                          {...register(`fixedExpenses.${index}.frequency`)}
-                        >
-                          {frequencies.map((frequency) => (
-                            <option
-                              key={frequency.value}
-                              value={frequency.value}
-                            >
-                              {frequency.label}
-                            </option>
-                          ))}
-                        </Select>
+                        <Controller
+                          name={`fixedExpenses.${index}.frequency`}
+                          control={control}
+                          render={({ field: f }) => (
+                            <SelectField
+                              ariaLabel="Frequency"
+                              value={f.value}
+                              options={frequencyOptions}
+                              onValueChange={(value) =>
+                                f.onChange(value as IncomeFrequency)
+                              }
+                            />
+                          )}
+                        />
                       </Field>
                     </TwoColumns>
 
@@ -429,10 +432,6 @@ const inputStyles = `
 `;
 
 const Input = styled.input`
-  ${inputStyles}
-`;
-
-const Select = styled.select`
   ${inputStyles}
 `;
 
