@@ -4,7 +4,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 
-import { apiClient } from "./client";
+import { localStore, type LocalIncomeSource } from "./localStore";
 
 export type IncomeFrequency = "weekly" | "monthly" | "yearly" | "one_time";
 
@@ -29,34 +29,38 @@ export type IncomeSourceInput = {
   is_active: boolean;
 };
 
+function toApi(row: LocalIncomeSource): IncomeSource {
+  return {
+    id: row.id,
+    name: row.name,
+    amount: row.amount,
+    frequency: row.frequency,
+    start_date: row.start_date,
+    end_date: row.end_date,
+    notes: row.notes,
+    is_active: row.is_active,
+  };
+}
+
 export async function getIncomeSources(): Promise<Array<IncomeSource>> {
-  const response = await apiClient.get<Array<IncomeSource>>("/income-sources");
-  return response.data;
+  return localStore.getIncomeSources().map(toApi);
 }
 
 export async function createIncomeSource(
   input: IncomeSourceInput,
 ): Promise<IncomeSource> {
-  const response = await apiClient.post<IncomeSource>(
-    "/income-sources",
-    input,
-  );
-  return response.data;
+  return toApi(localStore.addIncomeSource(input));
 }
 
 export async function updateIncomeSource(
   id: number,
   input: IncomeSourceInput,
 ): Promise<IncomeSource> {
-  const response = await apiClient.put<IncomeSource>(
-    `/income-sources/${id}`,
-    input,
-  );
-  return response.data;
+  return toApi(localStore.updateIncomeSource(id, input));
 }
 
 export async function deleteIncomeSource(id: number): Promise<void> {
-  await apiClient.delete(`/income-sources/${id}`);
+  localStore.deleteIncomeSource(id);
 }
 
 export const incomeQueries = {
@@ -72,7 +76,12 @@ export const incomeQueries = {
 function invalidateIncome(
   queryClient: ReturnType<typeof useQueryClient>,
 ) {
-  return queryClient.invalidateQueries({ queryKey: incomeQueries.all });
+  return Promise.all([
+    queryClient.invalidateQueries({ queryKey: incomeQueries.all }),
+    queryClient.invalidateQueries({ queryKey: ["transaction-summary"] }),
+    queryClient.invalidateQueries({ queryKey: ["transactions-monthly"] }),
+    queryClient.invalidateQueries({ queryKey: ["category-spending"] }),
+  ]);
 }
 
 export const useCreateIncomeSource = () => {

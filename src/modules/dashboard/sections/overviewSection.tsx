@@ -24,9 +24,9 @@ export default function OverviewSection() {
       </StyledOverviewSection_Heading>
 
       <StyledOverviewSection_Cards>
-        <BalanceCard title="Total Balance" amount={balance} currency={currency} />
-        <BalanceCard title="Income" amount={income} currency={currency} />
-        <BalanceCard title="Expenses" amount={expenses} currency={currency} />
+        <BalanceCard title="Projected balance" amount={balance} currency={currency} />
+        <BalanceCard title="Monthly income" amount={income} currency={currency} />
+        <BalanceCard title="Monthly expenses" amount={expenses} currency={currency} />
       </StyledOverviewSection_Cards>
     </StyledOverviewSection>
   );

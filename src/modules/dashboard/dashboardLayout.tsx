@@ -4,6 +4,7 @@ import styled from "styled-components";
 import LandingFooter from "@/modules/landing/components/LandingFooter";
 import DashboardHeader from "./components/dashboardHeader";
 import Sidebar from "./components/sidebar";
+import UnsavedPlanBanner from "./components/unsavedPlanBanner";
 
 type DashboardLayoutProps = {
   children: ReactNode;
@@ -16,6 +17,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
       <StyledDashboardLayout_Content>
         <DashboardHeader />
+        <UnsavedPlanBanner />
         <StyledDashboardLayout_Main>{children}</StyledDashboardLayout_Main>
         <LandingFooter />
       </StyledDashboardLayout_Content>

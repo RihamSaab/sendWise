@@ -5,21 +5,21 @@ import theme from "@/styles/theme";
 const steps = [
   {
     number: "01",
-    title: "Set up your finances",
+    title: "Build your plan — no account needed",
     description:
-      "Start with your balance, currency, income, and regular expenses.",
+      "Enter your balance, income, expenses, and goals. Your plan starts the moment you type.",
   },
   {
     number: "02",
-    title: "Track your activity",
+    title: "Use your dashboard right away",
     description:
-      "Record your transactions and keep your financial activity organized.",
+      "Track transactions and watch your balance, categories, and trends update as you go.",
   },
   {
     number: "03",
-    title: "See the bigger picture",
+    title: "Sign in when you want to save",
     description:
-      "Review your balance, spending categories, and income versus expenses.",
+      "Your plan lives in your browser until you sign in. Create an account anytime to save it and access it from any device.",
   },
 ];
 

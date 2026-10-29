@@ -4,7 +4,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 
-import { apiClient } from "./client";
+import { localStore, type LocalFixedExpense } from "./localStore";
 import type { IncomeFrequency } from "./incomeSources";
 
 export type FixedExpense = {
@@ -28,34 +28,38 @@ export type FixedExpenseInput = {
   is_active: boolean;
 };
 
+function toApi(row: LocalFixedExpense): FixedExpense {
+  return {
+    id: row.id,
+    name: row.name,
+    amount: row.amount,
+    frequency: row.frequency,
+    start_date: row.start_date,
+    end_date: row.end_date,
+    notes: row.notes,
+    is_active: row.is_active,
+  };
+}
+
 export async function getFixedExpenses(): Promise<Array<FixedExpense>> {
-  const response = await apiClient.get<Array<FixedExpense>>("/fixed-expenses");
-  return response.data;
+  return localStore.getFixedExpenses().map(toApi);
 }
 
 export async function createFixedExpense(
   input: FixedExpenseInput,
 ): Promise<FixedExpense> {
-  const response = await apiClient.post<FixedExpense>(
-    "/fixed-expenses",
-    input,
-  );
-  return response.data;
+  return toApi(localStore.addFixedExpense(input));
 }
 
 export async function updateFixedExpense(
   id: number,
   input: FixedExpenseInput,
 ): Promise<FixedExpense> {
-  const response = await apiClient.put<FixedExpense>(
-    `/fixed-expenses/${id}`,
-    input,
-  );
-  return response.data;
+  return toApi(localStore.updateFixedExpense(id, input));
 }
 
 export async function deleteFixedExpense(id: number): Promise<void> {
-  await apiClient.delete(`/fixed-expenses/${id}`);
+  localStore.deleteFixedExpense(id);
 }
 
 export const fixedExpenseQueries = {
@@ -69,7 +73,12 @@ export const fixedExpenseQueries = {
 };
 
 function invalidate(queryClient: ReturnType<typeof useQueryClient>) {
-  return queryClient.invalidateQueries({ queryKey: fixedExpenseQueries.all });
+  return Promise.all([
+    queryClient.invalidateQueries({ queryKey: fixedExpenseQueries.all }),
+    queryClient.invalidateQueries({ queryKey: ["transaction-summary"] }),
+    queryClient.invalidateQueries({ queryKey: ["transactions-monthly"] }),
+    queryClient.invalidateQueries({ queryKey: ["category-spending"] }),
+  ]);
 }
 
 export const useCreateFixedExpense = () => {

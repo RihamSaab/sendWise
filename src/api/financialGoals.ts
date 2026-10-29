@@ -4,7 +4,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 
-import { apiClient } from "./client";
+import { localStore, type LocalFinancialGoal } from "./localStore";
 
 export type FinancialGoal = {
   id: number;
@@ -25,36 +25,37 @@ export type FinancialGoalInput = {
   is_active: boolean;
 };
 
+function toApi(row: LocalFinancialGoal): FinancialGoal {
+  return {
+    id: row.id,
+    name: row.name,
+    target_amount: row.target_amount,
+    current_amount: row.current_amount,
+    target_date: row.target_date,
+    notes: row.notes,
+    is_active: row.is_active,
+  };
+}
+
 export async function getFinancialGoals(): Promise<Array<FinancialGoal>> {
-  const response = await apiClient.get<Array<FinancialGoal>>(
-    "/financial-goals",
-  );
-  return response.data;
+  return localStore.getFinancialGoals().map(toApi);
 }
 
 export async function createFinancialGoal(
   input: FinancialGoalInput,
 ): Promise<FinancialGoal> {
-  const response = await apiClient.post<FinancialGoal>(
-    "/financial-goals",
-    input,
-  );
-  return response.data;
+  return toApi(localStore.addFinancialGoal(input));
 }
 
 export async function updateFinancialGoal(
   id: number,
   input: FinancialGoalInput,
 ): Promise<FinancialGoal> {
-  const response = await apiClient.put<FinancialGoal>(
-    `/financial-goals/${id}`,
-    input,
-  );
-  return response.data;
+  return toApi(localStore.updateFinancialGoal(id, input));
 }
 
 export async function deleteFinancialGoal(id: number): Promise<void> {
-  await apiClient.delete(`/financial-goals/${id}`);
+  localStore.deleteFinancialGoal(id);
 }
 
 export const goalQueries = {

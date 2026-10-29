@@ -1,6 +1,10 @@
-import { apiClient } from "./client";
-
-// Types
+import {
+  localStore,
+  type LocalFinancialGoal,
+  type LocalFixedExpense,
+  type LocalIncomeSource,
+  type LocalSettings,
+} from "./localStore";
 
 export type IncomeFrequency = "weekly" | "monthly" | "yearly" | "one_time";
 
@@ -78,76 +82,231 @@ export type SaveSavingsInput = {
   financialGoals: Array<FinancialGoal>;
 };
 
-// Read saved onboarding data
-
-export async function getOnboardingData(): Promise<OnboardingData> {
-  const response = await apiClient.get<OnboardingData>(
-    "/settings/onboarding",
-  );
-
-  return response.data;
+function toOnboardingSettings(settings: LocalSettings): OnboardingSettings {
+  return {
+    id: settings.id,
+    currency: settings.currency,
+    starting_balance: settings.starting_balance,
+    tracking_start_date: settings.tracking_start_date,
+    savings_percentage: settings.savings_percentage,
+    savings_basis: settings.savings_basis,
+    onboarding_step: settings.onboarding_step,
+    onboarding_completed: settings.onboarding_completed,
+  };
 }
 
-// Step 1: Starting point
+function fromLocalIncome(row: LocalIncomeSource): IncomeSource {
+  return {
+    id: row.id,
+    name: row.name,
+    amount: row.amount,
+    frequency: row.frequency,
+    start_date: row.start_date,
+    end_date: row.end_date,
+    notes: row.notes,
+    is_active: row.is_active,
+  };
+}
+
+function fromLocalExpense(row: LocalFixedExpense): FixedExpense {
+  return {
+    id: row.id,
+    name: row.name,
+    amount: row.amount,
+    frequency: row.frequency,
+    start_date: row.start_date,
+    end_date: row.end_date,
+    notes: row.notes,
+    is_active: row.is_active,
+  };
+}
+
+function fromLocalGoal(row: LocalFinancialGoal): FinancialGoal {
+  return {
+    id: row.id,
+    name: row.name,
+    target_amount: row.target_amount,
+    current_amount: row.current_amount,
+    target_date: row.target_date,
+    notes: row.notes,
+    is_active: row.is_active,
+  };
+}
+
+export async function getOnboardingData(): Promise<OnboardingData> {
+  return {
+    settings: toOnboardingSettings(localStore.getSettings()),
+    incomeSources: localStore.getIncomeSources().map(fromLocalIncome),
+    fixedExpenses: localStore.getFixedExpenses().map(fromLocalExpense),
+    financialGoals: localStore.getFinancialGoals().map(fromLocalGoal),
+  };
+}
 
 export async function saveStartingPoint(
   input: StartingPointInput,
 ): Promise<OnboardingSettings> {
-  const response = await apiClient.put<OnboardingSettings>(
-    "/settings/onboarding/starting-point",
-    input,
-  );
-
-  return response.data;
+  const next = localStore.patchSettings({
+    currency: input.currency,
+    starting_balance: input.starting_balance,
+    tracking_start_date: input.tracking_start_date,
+    onboarding_step: Math.max(2, localStore.getSettings().onboarding_step),
+  });
+  return toOnboardingSettings(next);
 }
 
-// Step 2: Income sources
+function reconcileList<
+  T extends { id?: number; is_active: boolean },
+  L extends { id: number },
+>(
+  incoming: Array<T>,
+  existing: Array<L>,
+  buildNew: (item: T) => Omit<L, "id">,
+  mergeExisting: (existing: L, item: T) => L,
+): Array<L> {
+  const incomingIds = new Set<number>();
+  const updated: Array<L> = [];
+
+  incoming.forEach((item) => {
+    if (item.id !== undefined) {
+      incomingIds.add(item.id);
+      const existingRow = existing.find((row) => row.id === item.id);
+      if (existingRow) {
+        updated.push(mergeExisting(existingRow, item));
+      }
+    } else {
+      const row = { ...buildNew(item), id: nextIdSync() } as L;
+      updated.push(row);
+    }
+  });
+
+  existing.forEach((row) => {
+    if (!incomingIds.has(row.id) && !updated.some((item) => item.id === row.id)) {
+      updated.push({ ...row, is_active: false } as L);
+    }
+  });
+
+  return updated;
+}
+
+let localIdCounter = Date.now();
+function nextIdSync(): number {
+  localIdCounter += 1;
+  return localIdCounter;
+}
 
 export async function saveIncomeSources(
   input: SaveIncomeInput,
 ): Promise<unknown> {
-  const response = await apiClient.put(
-    "/settings/onboarding/income",
-    input,
+  const existing = localStore.getIncomeSources();
+  const next = reconcileList<IncomeSource, LocalIncomeSource>(
+    input.incomeSources,
+    existing,
+    (item) => ({
+      name: item.name,
+      amount: item.amount,
+      frequency: item.frequency,
+      start_date: item.start_date,
+      end_date: item.end_date,
+      notes: item.notes,
+      is_active: item.is_active,
+    }),
+    (row, item) => ({
+      ...row,
+      name: item.name,
+      amount: item.amount,
+      frequency: item.frequency,
+      start_date: item.start_date,
+      end_date: item.end_date,
+      notes: item.notes,
+      is_active: item.is_active,
+    }),
   );
 
-  return response.data;
+  localStore.setIncomeSources(next);
+  localStore.patchSettings({
+    onboarding_step: Math.max(3, localStore.getSettings().onboarding_step),
+  });
+  return { ok: true };
 }
-
-// Step 3: Fixed expenses
 
 export async function saveFixedExpenses(
   input: SaveFixedExpensesInput,
 ): Promise<unknown> {
-  const response = await apiClient.put(
-    "/settings/onboarding/fixed-expenses",
-    input,
+  const existing = localStore.getFixedExpenses();
+  const next = reconcileList<FixedExpense, LocalFixedExpense>(
+    input.fixedExpenses,
+    existing,
+    (item) => ({
+      name: item.name,
+      amount: item.amount,
+      frequency: item.frequency,
+      start_date: item.start_date,
+      end_date: item.end_date,
+      notes: item.notes,
+      is_active: item.is_active,
+    }),
+    (row, item) => ({
+      ...row,
+      name: item.name,
+      amount: item.amount,
+      frequency: item.frequency,
+      start_date: item.start_date,
+      end_date: item.end_date,
+      notes: item.notes,
+      is_active: item.is_active,
+    }),
   );
 
-  return response.data;
+  localStore.setFixedExpenses(next);
+  localStore.patchSettings({
+    onboarding_step: Math.max(4, localStore.getSettings().onboarding_step),
+  });
+  return { ok: true };
 }
-
-// Step 4: Savings and goals
 
 export async function saveSavings(input: SaveSavingsInput): Promise<unknown> {
-  const response = await apiClient.put(
-    "/settings/onboarding/savings",
-    input,
+  const existing = localStore.getFinancialGoals();
+  const next = reconcileList<FinancialGoal, LocalFinancialGoal>(
+    input.financialGoals,
+    existing,
+    (item) => ({
+      name: item.name,
+      target_amount: item.target_amount,
+      current_amount: item.current_amount,
+      target_date: item.target_date,
+      notes: item.notes,
+      is_active: item.is_active,
+    }),
+    (row, item) => ({
+      ...row,
+      name: item.name,
+      target_amount: item.target_amount,
+      current_amount: item.current_amount,
+      target_date: item.target_date,
+      notes: item.notes,
+      is_active: item.is_active,
+    }),
   );
 
-  return response.data;
+  localStore.setFinancialGoals(next);
+  localStore.patchSettings({
+    savings_percentage: input.savings_percentage,
+    savings_basis: input.savings_basis,
+    onboarding_step: Math.max(5, localStore.getSettings().onboarding_step),
+  });
+  return { ok: true };
 }
-
-// Step 5: Finish onboarding
 
 export async function completeOnboarding(): Promise<{
   onboarding_step: number;
   onboarding_completed: boolean;
 }> {
-  const response = await apiClient.put<{
-    onboarding_step: number;
-    onboarding_completed: boolean;
-  }>("/settings/onboarding/complete");
-
-  return response.data;
+  const next = localStore.patchSettings({
+    onboarding_step: 5,
+    onboarding_completed: true,
+  });
+  return {
+    onboarding_step: next.onboarding_step,
+    onboarding_completed: next.onboarding_completed,
+  };
 }

@@ -34,7 +34,7 @@ export default function IncomeExpensesSection() {
           </StyledIncomeExpensesSection_Title>
 
           <StyledIncomeExpensesSection_Description>
-            Track how your money flows each month.
+            Your plan + recorded transactions, by month.
           </StyledIncomeExpensesSection_Description>
         </div>
       </StyledIncomeExpensesSection_Header>

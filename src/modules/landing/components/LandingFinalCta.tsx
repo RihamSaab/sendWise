@@ -12,21 +12,22 @@ export default function LandingFinalCta() {
       </CtaDecoration>
 
       <CtaContent>
-        <CtaEyebrow>YOUR NEXT CHAPTER STARTS HERE</CtaEyebrow>
+        <CtaEyebrow>NO ACCOUNT NEEDED TO START</CtaEyebrow>
 
         <CtaTitle>
-          Make your money
+          Try the plan now.
           <br />
-          easier to understand.
+          Sign in when you&apos;re ready.
         </CtaTitle>
 
         <CtaDescription>
-          Take control of your finances with a clearer, simpler way to track
-          your money.
+          Build your financial plan in minutes and use the dashboard right
+          away. Create an account anytime to save your plan and access it
+          from any device.
         </CtaDescription>
 
         <CtaButton href="/onboarding">
-          Get started for free <span aria-hidden="true">↗</span>
+          Start building my plan <span aria-hidden="true">→</span>
         </CtaButton>
       </CtaContent>
     </FinalCta>

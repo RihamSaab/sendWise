@@ -31,7 +31,7 @@ export default function LandingHero() {
       <HeroContent>
         <Eyebrow>
           <EyebrowDot />
-          A clearer way to manage your money
+          No sign-in needed to start
         </Eyebrow>
 
         <HeroTitle>
@@ -40,8 +40,9 @@ export default function LandingHero() {
         </HeroTitle>
 
         <HeroDescription>
-          Understand your finances, plan for what matters, and make more
-          informed decisions about your money — all in one place.
+          Build your financial plan in minutes — enter your income, expenses,
+          and goals, and see your dashboard right away. Sign in later only
+          when you want to save your plan.
         </HeroDescription>
 
         <HeroActions>
@@ -55,10 +56,16 @@ export default function LandingHero() {
           </SecondaryButton>
         </HeroActions>
 
-        <TrustNote>
-          <TrustIcon aria-hidden="true">✓</TrustIcon>
-          <span>Your finances, organized around your own goals.</span>
-        </TrustNote>
+        <TrustRow>
+          <TrustItem>
+            <TrustIcon aria-hidden="true">✓</TrustIcon>
+            <span>Try it free — no account required</span>
+          </TrustItem>
+          <TrustItem>
+            <TrustIcon aria-hidden="true">✓</TrustIcon>
+            <span>Your data stays on your device until you sign in</span>
+          </TrustItem>
+        </TrustRow>
       </HeroContent>
 
       <PreviewArea aria-label="Illustrative SpendWise dashboard preview">
@@ -302,11 +309,17 @@ const SecondaryButton = styled.a`
   }
 `;
 
-const TrustNote = styled.div`
+const TrustRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: ${theme.spacing.md} ${theme.spacing.lg};
+  margin-top: ${theme.spacing.xl};
+`;
+
+const TrustItem = styled.div`
   display: flex;
   align-items: center;
   gap: ${theme.spacing.sm};
-  margin-top: ${theme.spacing.xl};
   color: ${theme.colors.textSecondary};
   font-size: 0.8rem;
   line-height: 1.6;
