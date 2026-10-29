@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import { pool } from "./database.js";
 import transactionsRouter from "./routes/transactions.js";
@@ -8,14 +9,27 @@ import settingsRouter from "./routes/settings.js";
 import incomeSourcesRouter from "./routes/incomeSources.js";
 import fixedExpensesRouter from "./routes/fixedExpenses.js";
 import financialGoalsRouter from "./routes/financialGoals.js";
+import authRouter from "./routes/auth.js";
+import syncRouter from "./routes/sync.js";
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-app.use(cors());
-app.use(express.json());
+const frontendOrigin =
+  process.env.FRONTEND_ORIGIN ?? "http://localhost:3000";
+
+app.use(
+  cors({
+    origin: frontendOrigin,
+    credentials: true,
+  }),
+);
+app.use(express.json({ limit: "1mb" }));
+app.use(cookieParser());
+app.use("/api/auth", authRouter);
+app.use("/api/sync", syncRouter);
 app.use("/api/transactions", transactionsRouter);
 app.use("/api/categories", categoriesRouter);
 app.use("/api/settings", settingsRouter);

@@ -1,9 +1,14 @@
+"use client";
+
 import Link from "next/link";
 import styled from "styled-components";
 
+import { useCurrentUser } from "@/api/useAuth";
 import theme from "@/styles/theme";
 
 export default function LandingHeader() {
+  const { data: user } = useCurrentUser();
+
   return (
     <Header>
       <Navigation aria-label="Main navigation">
@@ -18,11 +23,18 @@ export default function LandingHeader() {
         </NavLinks>
 
         <HeaderActions>
-          <SignInLink href="/dashboard">Dashboard</SignInLink>
-
-          <HeaderButton href="/onboarding">
-            Get started <span aria-hidden="true">→</span>
-          </HeaderButton>
+          {user ? (
+            <HeaderButton href="/dashboard">
+              Open dashboard <span aria-hidden="true">→</span>
+            </HeaderButton>
+          ) : (
+            <>
+              <SignInLink href="/login">Sign in</SignInLink>
+              <HeaderButton href="/onboarding">
+                Get started <span aria-hidden="true">→</span>
+              </HeaderButton>
+            </>
+          )}
         </HeaderActions>
       </Navigation>
     </Header>

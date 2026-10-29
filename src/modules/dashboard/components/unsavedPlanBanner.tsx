@@ -3,6 +3,8 @@
 import { useState } from "react";
 import styled from "styled-components";
 
+import { useCurrentUser } from "@/api/useAuth";
+
 const DISMISS_KEY = "spendwise:unsavedBanner:dismissed";
 
 function wasDismissedThisSession(): boolean {
@@ -15,7 +17,10 @@ export default function UnsavedPlanBanner() {
     wasDismissedThisSession(),
   );
 
+  const { data: user } = useCurrentUser();
+
   if (dismissed) return null;
+  if (user) return null;
 
   function handleDismiss() {
     if (typeof window !== "undefined") {

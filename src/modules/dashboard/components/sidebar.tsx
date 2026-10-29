@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
   ArrowLeftRight,
@@ -10,10 +10,13 @@ import {
   Receipt,
   Target,
   UserRound,
+  LogOut,
 } from "lucide-react";
 
 import Link from "next/link";
 import styled from "styled-components";
+
+import { useCurrentUser, useLogout } from "@/api/useAuth";
 
 const navigationItems = [
   {
@@ -50,6 +53,14 @@ const navigationItems = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const { data: user } = useCurrentUser();
+  const logout = useLogout();
+
+  async function handleLogout() {
+    await logout.mutateAsync();
+    router.replace("/");
+  }
 
   return (
     <StyledSidebar>
@@ -93,12 +104,29 @@ export default function Sidebar() {
           </StyledSidebar_Avatar>
 
           <StyledSidebar_ProfileInfo>
-            <StyledSidebar_ProfileName>My Account</StyledSidebar_ProfileName>
+            <StyledSidebar_ProfileName>
+              {user ? user.email : "Guest"}
+            </StyledSidebar_ProfileName>
 
             <StyledSidebar_ProfileDescription>
-              Personal workspace
+              {user ? "Signed in" : "Plan saved on this device"}
             </StyledSidebar_ProfileDescription>
           </StyledSidebar_ProfileInfo>
+
+          {user ? (
+            <StyledSidebar_LogoutButton
+              type="button"
+              onClick={handleLogout}
+              disabled={logout.isPending}
+              aria-label="Sign out"
+            >
+              <LogOut size={16} strokeWidth={1.8} />
+            </StyledSidebar_LogoutButton>
+          ) : (
+            <StyledSidebar_SignInLink href="/login">
+              Sign in
+            </StyledSidebar_SignInLink>
+          )}
         </StyledSidebar_Profile>
       </StyledSidebar_Bottom>
     </StyledSidebar>
@@ -249,6 +277,7 @@ const StyledSidebar_Profile = styled.div`
   gap: var(--spacing-sm);
   padding: var(--spacing-md) 8px 4px;
   border-top: var(--stroke) solid var(--color-border);
+  min-width: 0;
 `;
 
 const StyledSidebar_Avatar = styled.div`
@@ -268,15 +297,69 @@ const StyledSidebar_ProfileInfo = styled.div`
   flex-direction: column;
   gap: 2px;
   min-width: 0;
+  flex: 1;
 `;
 
 const StyledSidebar_ProfileName = styled.span`
   color: var(--color-text);
   font-size: var(--text-sm);
   font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const StyledSidebar_ProfileDescription = styled.span`
   color: var(--color-text-muted);
   font-size: var(--text-xs);
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+const StyledSidebar_LogoutButton = styled.button`
+  display: grid;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition:
+    background var(--dur-base) var(--ease-silk),
+    color var(--dur-base) var(--ease-silk);
+
+  &:hover:not(:disabled) {
+    background: var(--color-border-soft);
+    color: var(--color-primary);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+`;
+
+const StyledSidebar_SignInLink = styled(Link)`
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--gradient-primary);
+  box-shadow: var(--specular-top-dark), var(--elevation-1);
+  color: var(--color-text-on-primary);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition:
+    transform var(--dur-base) var(--ease-silk),
+    box-shadow var(--dur-base) var(--ease-silk);
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--specular-top-dark), var(--elevation-2);
+  }
 `;
