@@ -93,3 +93,17 @@ export async function uploadPlanToBackend(): Promise<void> {
     throw new Error(unwrapError(error, "Could not save your plan."));
   }
 }
+
+export async function clearBackendPlan(): Promise<void> {
+  try {
+    await authClient.post("/sync/upload", {
+      settings: null,
+      transactions: [],
+      incomeSources: [],
+      fixedExpenses: [],
+      financialGoals: [],
+    });
+  } catch (error) {
+    throw new Error(unwrapError(error, "Could not reset your plan."));
+  }
+}

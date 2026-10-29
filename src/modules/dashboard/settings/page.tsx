@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import styled from "styled-components";
 
 import {
@@ -10,6 +11,10 @@ import {
   useUpdateSettings,
   type UpdateSettingsInput,
 } from "@/api/transactions";
+import { clearBackendPlan } from "@/api/auth";
+import { localStore } from "@/api/localStore";
+import { useCurrentUser } from "@/api/useAuth";
+import ConfirmDialog from "@/designSystem/confirmDialog";
 
 type SettingsFormValues = {
   currency: string;
@@ -27,11 +32,38 @@ const currencies = [
 
 export default function SettingsPage() {
   const [savedAt, setSavedAt] = useState<number | null>(null);
+  const [isResetOpen, setIsResetOpen] = useState(false);
+  const [isResetting, setIsResetting] = useState(false);
+  const [resetError, setResetError] = useState<string | null>(null);
+
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const { data: user } = useCurrentUser();
 
   const { data: settings, isPending, isError } = useQuery(
     transactionQueries.settings(),
   );
   const updateMutation = useUpdateSettings();
+
+  async function handleReset() {
+    setIsResetting(true);
+    setResetError(null);
+    try {
+      if (user) {
+        await clearBackendPlan();
+      }
+      localStore.reset();
+      queryClient.removeQueries();
+      router.replace("/onboarding");
+    } catch (error) {
+      setResetError(
+        error instanceof Error
+          ? error.message
+          : "Could not reset your plan.",
+      );
+      setIsResetting(false);
+    }
+  }
 
   const {
     register,
@@ -218,6 +250,47 @@ export default function SettingsPage() {
           </SubmitButton>
         </Actions>
       </Form>
+
+      <DangerCard>
+        <DangerContent>
+          <DangerTitle>Start a new plan</DangerTitle>
+          <DangerText>
+            Clears your balance, income, expenses, goals, and transactions,
+            then takes you back to onboarding so you can re-enter your data
+            {user ? " on this device and in your account" : ""}.
+          </DangerText>
+        </DangerContent>
+
+        <DangerButton
+          type="button"
+          onClick={() => setIsResetOpen(true)}
+          disabled={isResetting}
+        >
+          Start a new plan
+        </DangerButton>
+      </DangerCard>
+
+      {isResetOpen && (
+        <ConfirmDialog
+          title="Start a new plan?"
+          description={
+            user
+              ? "This permanently deletes your current plan on this device and in your account, then takes you back to onboarding."
+              : "This clears your current plan on this device and takes you back to onboarding."
+          }
+          confirmLabel="Yes, start over"
+          cancelLabel="Keep my plan"
+          isPending={isResetting}
+          errorMessage={resetError}
+          onConfirm={handleReset}
+          onCancel={() => {
+            if (!isResetting) {
+              setIsResetOpen(false);
+              setResetError(null);
+            }
+          }}
+        />
+      )}
     </Page>
   );
 }
@@ -407,4 +480,72 @@ const SuccessText = styled.p`
 const Message = styled.p`
   margin: 0;
   color: var(--color-text-secondary);
+`;
+
+const DangerCard = styled.section`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  padding: var(--spacing-xl);
+  border-radius: var(--radius-xl);
+  background: var(--gradient-surface);
+  box-shadow:
+    var(--specular-top),
+    var(--elevation-1),
+    inset 0 0 0 1px rgb(176 69 69 / 15%);
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--spacing-lg);
+  }
+`;
+
+const DangerContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+`;
+
+const DangerTitle = styled.h2`
+  margin: 0;
+  color: var(--color-error);
+  font-size: var(--text-md);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+`;
+
+const DangerText = styled.p`
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  line-height: 1.55;
+`;
+
+const DangerButton = styled.button`
+  min-height: 42px;
+  padding: 0 var(--spacing-lg);
+  border: var(--stroke) solid var(--color-error);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  color: var(--color-error);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    background var(--dur-base) var(--ease-silk),
+    color var(--dur-base) var(--ease-silk);
+
+  &:hover:not(:disabled) {
+    background: var(--color-error);
+    color: var(--color-text-on-primary);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 `;
