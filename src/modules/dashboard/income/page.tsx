@@ -113,7 +113,13 @@ export default function IncomePage() {
       ) : sources.length === 0 ? (
         <EmptyCard>
           <EmptyTitle>No income sources yet</EmptyTitle>
-          <EmptyText>Add your first income to see it here.</EmptyText>
+          <EmptyText>
+            Add your salary, freelance income, or any other regular money
+            coming in.
+          </EmptyText>
+          <EmptyAddButton type="button" onClick={() => setIsCreating(true)}>
+            + Add an income source
+          </EmptyAddButton>
         </EmptyCard>
       ) : (
         <List>
@@ -391,6 +397,35 @@ const EmptyText = styled.p`
   margin: 8px 0 0;
   color: var(--color-text-muted);
   font-size: var(--text-sm);
+`;
+
+const EmptyAddButton = styled.button`
+  margin-top: var(--spacing-lg);
+  min-height: 42px;
+  padding: 0 var(--spacing-lg);
+  border: none;
+  border-radius: var(--radius-pill);
+  background: var(--gradient-primary);
+  box-shadow:
+    var(--specular-top-dark),
+    var(--elevation-1);
+  color: var(--color-text-on-primary);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background var(--dur-base) var(--ease-silk),
+    transform var(--dur-base) var(--ease-silk),
+    box-shadow var(--dur-base) var(--ease-silk);
+
+  &:hover {
+    transform: translateY(-2px);
+    background: var(--gradient-primary-hover);
+    box-shadow:
+      var(--specular-top-dark),
+      var(--elevation-3);
+  }
 `;
 
 const Message = styled.p`

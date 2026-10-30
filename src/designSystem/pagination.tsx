@@ -30,7 +30,7 @@ export default function Pagination({
   return (
     <StyledPagination_Container>
       <StyledPagination_Summary>
-        Showing {startItem}–{endItem} of {totalItems}
+        Showing {startItem} to {endItem} of {totalItems}
       </StyledPagination_Summary>
 
       <StyledPagination_Controls>

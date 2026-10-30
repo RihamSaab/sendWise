@@ -109,6 +109,7 @@ export default function TransactionsList() {
           error={transactionsError}
           onEdit={openEditModal}
           onDelete={setDeletingTransaction}
+          onAdd={openAddModal}
         />
 
         <Pagination

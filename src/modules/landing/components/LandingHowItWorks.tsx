@@ -5,7 +5,7 @@ import theme from "@/styles/theme";
 const steps = [
   {
     number: "01",
-    title: "Build your plan — no account needed",
+    title: "Build your plan, no account needed",
     description:
       "Enter your balance, income, expenses, and goals. Your plan starts the moment you type.",
   },

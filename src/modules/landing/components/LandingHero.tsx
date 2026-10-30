@@ -40,7 +40,7 @@ export default function LandingHero() {
         </HeroTitle>
 
         <HeroDescription>
-          Build your financial plan in minutes — enter your income, expenses,
+          Build your financial plan in minutes. Enter your income, expenses,
           and goals, and see your dashboard right away. Sign in later only
           when you want to save your plan.
         </HeroDescription>
@@ -59,7 +59,7 @@ export default function LandingHero() {
         <TrustRow>
           <TrustItem>
             <TrustIcon aria-hidden="true">✓</TrustIcon>
-            <span>Try it free — no account required</span>
+            <span>Try it free, no account required</span>
           </TrustItem>
           <TrustItem>
             <TrustIcon aria-hidden="true">✓</TrustIcon>

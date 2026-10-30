@@ -12,6 +12,7 @@ type TransactionsTableProps = {
   error: Error | null;
   onEdit: (transaction: ApiTransaction) => void;
   onDelete: (transaction: ApiTransaction) => void;
+  onAdd?: () => void;
 };
 
 export default function TransactionsTable({
@@ -21,6 +22,7 @@ export default function TransactionsTable({
   error,
   onEdit,
   onDelete,
+  onAdd,
 }: TransactionsTableProps) {
   return (
     <StyledTransactionsPage_TableCard>
@@ -89,23 +91,37 @@ export default function TransactionsTable({
         </StyledTransactionsPage_Table>
 
         {isPending && (
-          <StyledTransactionsPage_Empty>
-            Loading transactions...
-          </StyledTransactionsPage_Empty>
+          <StyledTransactionsPage_EmptyState>
+            <StyledTransactionsPage_EmptyText>
+              Loading transactions...
+            </StyledTransactionsPage_EmptyText>
+          </StyledTransactionsPage_EmptyState>
         )}
 
         {!isPending && error && (
-          <StyledTransactionsPage_Empty>
-            {error instanceof Error
-              ? error.message
-              : "Failed to load transactions."}
-          </StyledTransactionsPage_Empty>
+          <StyledTransactionsPage_EmptyState>
+            <StyledTransactionsPage_EmptyText>
+              {error instanceof Error
+                ? error.message
+                : "Failed to load transactions."}
+            </StyledTransactionsPage_EmptyText>
+          </StyledTransactionsPage_EmptyState>
         )}
 
         {!isPending && !error && transactions.length === 0 && (
-          <StyledTransactionsPage_Empty>
-            No transactions found.
-          </StyledTransactionsPage_Empty>
+          <StyledTransactionsPage_EmptyState>
+            <StyledTransactionsPage_EmptyText>
+              No transactions found.
+            </StyledTransactionsPage_EmptyText>
+            {onAdd && (
+              <StyledTransactionsPage_EmptyAdd
+                type="button"
+                onClick={onAdd}
+              >
+                + Add transaction
+              </StyledTransactionsPage_EmptyAdd>
+            )}
+          </StyledTransactionsPage_EmptyState>
         )}
       </StyledTransactionsPage_TableScroll>
     </StyledTransactionsPage_TableCard>
@@ -179,11 +195,46 @@ const StyledTransactionsPage_Amount = styled.span<{
   white-space: nowrap;
 `;
 
-const StyledTransactionsPage_Empty = styled.p`
-  padding: var(--spacing-xl) var(--spacing-md);
+const StyledTransactionsPage_EmptyState = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-2xl) var(--spacing-md);
+`;
+
+const StyledTransactionsPage_EmptyText = styled.p`
   margin: 0;
   color: var(--color-text-muted);
   text-align: center;
+`;
+
+const StyledTransactionsPage_EmptyAdd = styled.button`
+  min-height: 42px;
+  padding: 0 var(--spacing-lg);
+  border: none;
+  border-radius: var(--radius-pill);
+  background: var(--gradient-primary);
+  box-shadow:
+    var(--specular-top-dark),
+    var(--elevation-1);
+  color: var(--color-text-on-primary);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background var(--dur-base) var(--ease-silk),
+    transform var(--dur-base) var(--ease-silk),
+    box-shadow var(--dur-base) var(--ease-silk);
+
+  &:hover {
+    transform: translateY(-2px);
+    background: var(--gradient-primary-hover);
+    box-shadow:
+      var(--specular-top-dark),
+      var(--elevation-3);
+  }
 `;
 
 const StyledTransactionsPage_ActionsHeader = styled.th`
